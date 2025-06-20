@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "765256533393",
+    "project_id": "blsvisaappoinmentbook",
+    "storage_bucket": "blsvisaappoinmentbook.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765256533393:android:5a50e77dfebae7b9a98630",
+        "android_client_info": {
+          "package_name": "com.blsvisaappoinmentbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765256533393-d8rt9v1mge73c4j2f3bpe18rn6l6mqc5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blsvisaappoinmentbook",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "765256533393-0af07neh5vmp4tmq4kftpkoup3vsm2gf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFSEtQc7lQsCTbTEsnBDuN8DnUWdzDqf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765256533393-0af07neh5vmp4tmq4kftpkoup3vsm2gf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

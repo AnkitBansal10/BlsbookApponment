@@ -1,0 +1,682 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C80B921A6F3F58F76C31292 /* libPods-Blsvisaappoinmentbook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Blsvisaappoinmentbook.a */; };
+		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		6B105DF0099D48BDA273B903 /* Geist-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53906BD740F347D19868E940 /* Geist-Black.ttf */; };
+		0AB4DAAD5687467BAE35F98C /* Geist-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 224836DB666046ACBE195C1D /* Geist-Bold.ttf */; };
+		25C2E392BADB4B808A5C6260 /* Geist-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E574ADAC5A148CB8F12DEF0 /* Geist-ExtraBold.ttf */; };
+		A1BE8C139F134E22B56CA39E /* Geist-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EDDEEA810954BDAA69208D7 /* Geist-ExtraLight.ttf */; };
+		0853C7059B664668BC2345FC /* Geist-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DA273DBE1904D1EBBFEE5B1 /* Geist-Light.ttf */; };
+		ED27DE33279F4D7BA9818D43 /* Geist-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE0A3999D375495C8E36638A /* Geist-Medium.ttf */; };
+		00FAE1C085ED415388E105B6 /* Geist-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5B1538388254D46997CAE1A /* Geist-Regular.ttf */; };
+		A9661462DD104EF0A3EE07F5 /* Geist-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23417D924A714A5DA4D1A4DD /* Geist-SemiBold.ttf */; };
+		383C2A58EE8F4C12BEA22ABD /* Geist-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 295138303CF043C181091E4D /* Geist-Thin.ttf */; };
+		8C80E098015F4C309EA74BAF /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56561A15766A41ACABF6010F /* OpenSans-Bold.ttf */; };
+		CBEBB5F71AD84EB8AD63DB8E /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17DDC54F6B2046728756C852 /* OpenSans-ExtraBold.ttf */; };
+		838C19E85AF34739BDA4E179 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD3BD877DB9741F4AB944BAD /* OpenSans-Light.ttf */; };
+		7D36DE30B52C4626BAB6C2B0 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98972CD3B62E471FAD321A94 /* OpenSans-Medium.ttf */; };
+		7113DA9FE3A94094883ACA96 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A3EB41B89B547418C791C80 /* OpenSans-Regular.ttf */; };
+		6588DC276B2A4722B48EE8AE /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD10CD2DE6924A2699F0FA9C /* OpenSans-SemiBold.ttf */; };
+		0EC92B49929C45B8ACBA1063 /* OpenSans_Condensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3151A150D5844694A19EB5EA /* OpenSans_Condensed-Bold.ttf */; };
+		D484761A96B349CEB725551C /* OpenSans_Condensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D77AA2438A6F4558B5E8A6E6 /* OpenSans_Condensed-ExtraBold.ttf */; };
+		6CF9321CE7DB49F083BBB0AE /* OpenSans_Condensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A7F97359E0242ABA5B00020 /* OpenSans_Condensed-Light.ttf */; };
+		A7212C08E70A4BCDA8E2B138 /* OpenSans_Condensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D575FFAA90844E71AC939D19 /* OpenSans_Condensed-Medium.ttf */; };
+		87C49C29862B4B689E3C7584 /* OpenSans_Condensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E9DD3C36BBC401DACFB99C4 /* OpenSans_Condensed-Regular.ttf */; };
+		A43D27E02D874F36994A0930 /* OpenSans_Condensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 749286E79E46402BBF2DC019 /* OpenSans_Condensed-SemiBold.ttf */; };
+		0198590BAF8B4049A85C07D0 /* OpenSans_SemiCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73EF4E5495EF4ABB9327AD61 /* OpenSans_SemiCondensed-Bold.ttf */; };
+		ED063A513B6347BC963D431E /* OpenSans_SemiCondensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27CA2E7748CB484E934F2B8A /* OpenSans_SemiCondensed-ExtraBold.ttf */; };
+		F6D99081B6454A2E9F1EA417 /* OpenSans_SemiCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5436CC8A618949CA94AA9640 /* OpenSans_SemiCondensed-Light.ttf */; };
+		A300DB8E14DC448688135AA1 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A36633F9CB14E62A117C464 /* Poppins-Black.ttf */; };
+		1816E782D28C4178B43C3947 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BE70306FC564B0CBB33B084 /* Poppins-BlackItalic.ttf */; };
+		F33611B9AC4B4A7E8CCE3490 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B45028FAD77C486FAC52A2BC /* Poppins-Bold.ttf */; };
+		35315FDDF042495EBFCD9FFE /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 768A7146A95F4FE1B43E375E /* Poppins-BoldItalic.ttf */; };
+		9EED979455F0465498CEB222 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C9434D8FDEE420AA4DDD50B /* Poppins-ExtraBold.ttf */; };
+		E74ACCC32DE2428E99C66BE7 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AF3DB4190FD46E98C977DE4 /* Poppins-ExtraBoldItalic.ttf */; };
+		7B7BEE9DBB674C9081063158 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5163D4AD40C42FBBEFBCDE5 /* Poppins-ExtraLight.ttf */; };
+		49862F1E3DE94542AF1E55B3 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5739A0E02D90411491B57E66 /* Poppins-ExtraLightItalic.ttf */; };
+		F19654B9C1E34DE1A9F8E13C /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43E8F053E324409A8DA45185 /* Poppins-Italic.ttf */; };
+		F5CC54D7921C450C89D2CDA7 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C347C72DE08144F5B01CE401 /* Poppins-Light.ttf */; };
+		3E01A0076D504C0386AFA55D /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 661C09E4F4D144C3A6CAF4B5 /* Poppins-LightItalic.ttf */; };
+		5C6A20E747CF4602B7B7B295 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC76294F11FE41A2BE812303 /* Poppins-Medium.ttf */; };
+		30B338A9ECFF454CB784E57E /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6A1B83888654974925DA8E1 /* Poppins-MediumItalic.ttf */; };
+		54F06CA52B454994884CF637 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 269888ED39374010A8D645C2 /* Poppins-Regular.ttf */; };
+		1DC67436F3D9435FB5703646 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E05854A543DD4FA6B5482EEB /* Poppins-SemiBold.ttf */; };
+		F416F9FA434C48FCA827621F /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1C33BF56104C46FCA8B37944 /* Poppins-SemiBoldItalic.ttf */; };
+		B9270F3599054CD48E0939ED /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C142D72C1CB04B1C9D063D43 /* Poppins-Thin.ttf */; };
+		98E91D4B8A0B475BA86B6B3F /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6026F9B9D4FB49D383042254 /* Poppins-ThinItalic.ttf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = Blsvisaappoinmentbook;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Blsvisaappoinmentbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blsvisaappoinmentbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Blsvisaappoinmentbook/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Blsvisaappoinmentbook/Info.plist; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Blsvisaappoinmentbook/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3B4392A12AC88292D35C810B /* Pods-Blsvisaappoinmentbook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blsvisaappoinmentbook.debug.xcconfig"; path = "Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-Blsvisaappoinmentbook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blsvisaappoinmentbook.release.xcconfig"; path = "Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook.release.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-Blsvisaappoinmentbook.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Blsvisaappoinmentbook.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Blsvisaappoinmentbook/AppDelegate.swift; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Blsvisaappoinmentbook/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		53906BD740F347D19868E940 /* Geist-Black.ttf */ = {isa = PBXFileReference; name = "Geist-Black.ttf"; path = "../src/assets/fonts/Geist-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		224836DB666046ACBE195C1D /* Geist-Bold.ttf */ = {isa = PBXFileReference; name = "Geist-Bold.ttf"; path = "../src/assets/fonts/Geist-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2E574ADAC5A148CB8F12DEF0 /* Geist-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Geist-ExtraBold.ttf"; path = "../src/assets/fonts/Geist-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7EDDEEA810954BDAA69208D7 /* Geist-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Geist-ExtraLight.ttf"; path = "../src/assets/fonts/Geist-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5DA273DBE1904D1EBBFEE5B1 /* Geist-Light.ttf */ = {isa = PBXFileReference; name = "Geist-Light.ttf"; path = "../src/assets/fonts/Geist-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EE0A3999D375495C8E36638A /* Geist-Medium.ttf */ = {isa = PBXFileReference; name = "Geist-Medium.ttf"; path = "../src/assets/fonts/Geist-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A5B1538388254D46997CAE1A /* Geist-Regular.ttf */ = {isa = PBXFileReference; name = "Geist-Regular.ttf"; path = "../src/assets/fonts/Geist-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		23417D924A714A5DA4D1A4DD /* Geist-SemiBold.ttf */ = {isa = PBXFileReference; name = "Geist-SemiBold.ttf"; path = "../src/assets/fonts/Geist-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		295138303CF043C181091E4D /* Geist-Thin.ttf */ = {isa = PBXFileReference; name = "Geist-Thin.ttf"; path = "../src/assets/fonts/Geist-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		56561A15766A41ACABF6010F /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		17DDC54F6B2046728756C852 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AD3BD877DB9741F4AB944BAD /* OpenSans-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		98972CD3B62E471FAD321A94 /* OpenSans-Medium.ttf */ = {isa = PBXFileReference; name = "OpenSans-Medium.ttf"; path = "../src/assets/fonts/OpenSans-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6A3EB41B89B547418C791C80 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DD10CD2DE6924A2699F0FA9C /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; name = "OpenSans-SemiBold.ttf"; path = "../src/assets/fonts/OpenSans-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3151A150D5844694A19EB5EA /* OpenSans_Condensed-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-Bold.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D77AA2438A6F4558B5E8A6E6 /* OpenSans_Condensed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8A7F97359E0242ABA5B00020 /* OpenSans_Condensed-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-Light.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D575FFAA90844E71AC939D19 /* OpenSans_Condensed-Medium.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-Medium.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2E9DD3C36BBC401DACFB99C4 /* OpenSans_Condensed-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-Regular.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		749286E79E46402BBF2DC019 /* OpenSans_Condensed-SemiBold.ttf */ = {isa = PBXFileReference; name = "OpenSans_Condensed-SemiBold.ttf"; path = "../src/assets/fonts/OpenSans_Condensed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		73EF4E5495EF4ABB9327AD61 /* OpenSans_SemiCondensed-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans_SemiCondensed-Bold.ttf"; path = "../src/assets/fonts/OpenSans_SemiCondensed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		27CA2E7748CB484E934F2B8A /* OpenSans_SemiCondensed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "OpenSans_SemiCondensed-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans_SemiCondensed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5436CC8A618949CA94AA9640 /* OpenSans_SemiCondensed-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans_SemiCondensed-Light.ttf"; path = "../src/assets/fonts/OpenSans_SemiCondensed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A36633F9CB14E62A117C464 /* Poppins-Black.ttf */ = {isa = PBXFileReference; name = "Poppins-Black.ttf"; path = "../src/assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5BE70306FC564B0CBB33B084 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-BlackItalic.ttf"; path = "../src/assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B45028FAD77C486FAC52A2BC /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../src/assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		768A7146A95F4FE1B43E375E /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-BoldItalic.ttf"; path = "../src/assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4C9434D8FDEE420AA4DDD50B /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBold.ttf"; path = "../src/assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7AF3DB4190FD46E98C977DE4 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C5163D4AD40C42FBBEFBCDE5 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraLight.ttf"; path = "../src/assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5739A0E02D90411491B57E66 /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		43E8F053E324409A8DA45185 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; name = "Poppins-Italic.ttf"; path = "../src/assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C347C72DE08144F5B01CE401 /* Poppins-Light.ttf */ = {isa = PBXFileReference; name = "Poppins-Light.ttf"; path = "../src/assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		661C09E4F4D144C3A6CAF4B5 /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-LightItalic.ttf"; path = "../src/assets/fonts/Poppins-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BC76294F11FE41A2BE812303 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; name = "Poppins-Medium.ttf"; path = "../src/assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D6A1B83888654974925DA8E1 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-MediumItalic.ttf"; path = "../src/assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		269888ED39374010A8D645C2 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../src/assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E05854A543DD4FA6B5482EEB /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1C33BF56104C46FCA8B37944 /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C142D72C1CB04B1C9D063D43 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; name = "Poppins-Thin.ttf"; path = "../src/assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6026F9B9D4FB49D383042254 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ThinItalic.ttf"; path = "../src/assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C80B921A6F3F58F76C31292 /* libPods-Blsvisaappoinmentbook.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00E356F01AD99517003FC87E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				00E356F11AD99517003FC87E /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		13B07FAE1A68108700A75B9A /* Blsvisaappoinmentbook */ = {
+			isa = PBXGroup;
+			children = (
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
+				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+			);
+			name = Blsvisaappoinmentbook;
+			sourceTree = "<group>";
+		};
+		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-Blsvisaappoinmentbook.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		83CBB9F61A601CBA00E9B192 = {
+			isa = PBXGroup;
+			children = (
+				13B07FAE1A68108700A75B9A /* Blsvisaappoinmentbook */,
+				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				83CBBA001A601CBA00E9B192 /* Products */,
+				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				2790B0FE9A6D42C0BB781500 /* Resources */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		83CBBA001A601CBA00E9B192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B07F961A680F5B00A75B9A /* Blsvisaappoinmentbook.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3B4392A12AC88292D35C810B /* Pods-Blsvisaappoinmentbook.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-Blsvisaappoinmentbook.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		2790B0FE9A6D42C0BB781500 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				53906BD740F347D19868E940 /* Geist-Black.ttf */,
+				224836DB666046ACBE195C1D /* Geist-Bold.ttf */,
+				2E574ADAC5A148CB8F12DEF0 /* Geist-ExtraBold.ttf */,
+				7EDDEEA810954BDAA69208D7 /* Geist-ExtraLight.ttf */,
+				5DA273DBE1904D1EBBFEE5B1 /* Geist-Light.ttf */,
+				EE0A3999D375495C8E36638A /* Geist-Medium.ttf */,
+				A5B1538388254D46997CAE1A /* Geist-Regular.ttf */,
+				23417D924A714A5DA4D1A4DD /* Geist-SemiBold.ttf */,
+				295138303CF043C181091E4D /* Geist-Thin.ttf */,
+				56561A15766A41ACABF6010F /* OpenSans-Bold.ttf */,
+				17DDC54F6B2046728756C852 /* OpenSans-ExtraBold.ttf */,
+				AD3BD877DB9741F4AB944BAD /* OpenSans-Light.ttf */,
+				98972CD3B62E471FAD321A94 /* OpenSans-Medium.ttf */,
+				6A3EB41B89B547418C791C80 /* OpenSans-Regular.ttf */,
+				DD10CD2DE6924A2699F0FA9C /* OpenSans-SemiBold.ttf */,
+				3151A150D5844694A19EB5EA /* OpenSans_Condensed-Bold.ttf */,
+				D77AA2438A6F4558B5E8A6E6 /* OpenSans_Condensed-ExtraBold.ttf */,
+				8A7F97359E0242ABA5B00020 /* OpenSans_Condensed-Light.ttf */,
+				D575FFAA90844E71AC939D19 /* OpenSans_Condensed-Medium.ttf */,
+				2E9DD3C36BBC401DACFB99C4 /* OpenSans_Condensed-Regular.ttf */,
+				749286E79E46402BBF2DC019 /* OpenSans_Condensed-SemiBold.ttf */,
+				73EF4E5495EF4ABB9327AD61 /* OpenSans_SemiCondensed-Bold.ttf */,
+				27CA2E7748CB484E934F2B8A /* OpenSans_SemiCondensed-ExtraBold.ttf */,
+				5436CC8A618949CA94AA9640 /* OpenSans_SemiCondensed-Light.ttf */,
+				2A36633F9CB14E62A117C464 /* Poppins-Black.ttf */,
+				5BE70306FC564B0CBB33B084 /* Poppins-BlackItalic.ttf */,
+				B45028FAD77C486FAC52A2BC /* Poppins-Bold.ttf */,
+				768A7146A95F4FE1B43E375E /* Poppins-BoldItalic.ttf */,
+				4C9434D8FDEE420AA4DDD50B /* Poppins-ExtraBold.ttf */,
+				7AF3DB4190FD46E98C977DE4 /* Poppins-ExtraBoldItalic.ttf */,
+				C5163D4AD40C42FBBEFBCDE5 /* Poppins-ExtraLight.ttf */,
+				5739A0E02D90411491B57E66 /* Poppins-ExtraLightItalic.ttf */,
+				43E8F053E324409A8DA45185 /* Poppins-Italic.ttf */,
+				C347C72DE08144F5B01CE401 /* Poppins-Light.ttf */,
+				661C09E4F4D144C3A6CAF4B5 /* Poppins-LightItalic.ttf */,
+				BC76294F11FE41A2BE812303 /* Poppins-Medium.ttf */,
+				D6A1B83888654974925DA8E1 /* Poppins-MediumItalic.ttf */,
+				269888ED39374010A8D645C2 /* Poppins-Regular.ttf */,
+				E05854A543DD4FA6B5482EEB /* Poppins-SemiBold.ttf */,
+				1C33BF56104C46FCA8B37944 /* Poppins-SemiBoldItalic.ttf */,
+				C142D72C1CB04B1C9D063D43 /* Poppins-Thin.ttf */,
+				6026F9B9D4FB49D383042254 /* Poppins-ThinItalic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		13B07F861A680F5B00A75B9A /* Blsvisaappoinmentbook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Blsvisaappoinmentbook" */;
+			buildPhases = (
+				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				13B07F871A680F5B00A75B9A /* Sources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
+				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Blsvisaappoinmentbook;
+			productName = Blsvisaappoinmentbook;
+			productReference = 13B07F961A680F5B00A75B9A /* Blsvisaappoinmentbook.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83CBB9F71A601CBA00E9B192 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Blsvisaappoinmentbook" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83CBB9F61A601CBA00E9B192;
+			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13B07F861A680F5B00A75B9A /* Blsvisaappoinmentbook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00E356EC1AD99517003FC87E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				6B105DF0099D48BDA273B903 /* Geist-Black.ttf in Resources */,
+				0AB4DAAD5687467BAE35F98C /* Geist-Bold.ttf in Resources */,
+				25C2E392BADB4B808A5C6260 /* Geist-ExtraBold.ttf in Resources */,
+				A1BE8C139F134E22B56CA39E /* Geist-ExtraLight.ttf in Resources */,
+				0853C7059B664668BC2345FC /* Geist-Light.ttf in Resources */,
+				ED27DE33279F4D7BA9818D43 /* Geist-Medium.ttf in Resources */,
+				00FAE1C085ED415388E105B6 /* Geist-Regular.ttf in Resources */,
+				A9661462DD104EF0A3EE07F5 /* Geist-SemiBold.ttf in Resources */,
+				383C2A58EE8F4C12BEA22ABD /* Geist-Thin.ttf in Resources */,
+				8C80E098015F4C309EA74BAF /* OpenSans-Bold.ttf in Resources */,
+				CBEBB5F71AD84EB8AD63DB8E /* OpenSans-ExtraBold.ttf in Resources */,
+				838C19E85AF34739BDA4E179 /* OpenSans-Light.ttf in Resources */,
+				7D36DE30B52C4626BAB6C2B0 /* OpenSans-Medium.ttf in Resources */,
+				7113DA9FE3A94094883ACA96 /* OpenSans-Regular.ttf in Resources */,
+				6588DC276B2A4722B48EE8AE /* OpenSans-SemiBold.ttf in Resources */,
+				0EC92B49929C45B8ACBA1063 /* OpenSans_Condensed-Bold.ttf in Resources */,
+				D484761A96B349CEB725551C /* OpenSans_Condensed-ExtraBold.ttf in Resources */,
+				6CF9321CE7DB49F083BBB0AE /* OpenSans_Condensed-Light.ttf in Resources */,
+				A7212C08E70A4BCDA8E2B138 /* OpenSans_Condensed-Medium.ttf in Resources */,
+				87C49C29862B4B689E3C7584 /* OpenSans_Condensed-Regular.ttf in Resources */,
+				A43D27E02D874F36994A0930 /* OpenSans_Condensed-SemiBold.ttf in Resources */,
+				0198590BAF8B4049A85C07D0 /* OpenSans_SemiCondensed-Bold.ttf in Resources */,
+				ED063A513B6347BC963D431E /* OpenSans_SemiCondensed-ExtraBold.ttf in Resources */,
+				F6D99081B6454A2E9F1EA417 /* OpenSans_SemiCondensed-Light.ttf in Resources */,
+				A300DB8E14DC448688135AA1 /* Poppins-Black.ttf in Resources */,
+				1816E782D28C4178B43C3947 /* Poppins-BlackItalic.ttf in Resources */,
+				F33611B9AC4B4A7E8CCE3490 /* Poppins-Bold.ttf in Resources */,
+				35315FDDF042495EBFCD9FFE /* Poppins-BoldItalic.ttf in Resources */,
+				9EED979455F0465498CEB222 /* Poppins-ExtraBold.ttf in Resources */,
+				E74ACCC32DE2428E99C66BE7 /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				7B7BEE9DBB674C9081063158 /* Poppins-ExtraLight.ttf in Resources */,
+				49862F1E3DE94542AF1E55B3 /* Poppins-ExtraLightItalic.ttf in Resources */,
+				F19654B9C1E34DE1A9F8E13C /* Poppins-Italic.ttf in Resources */,
+				F5CC54D7921C450C89D2CDA7 /* Poppins-Light.ttf in Resources */,
+				3E01A0076D504C0386AFA55D /* Poppins-LightItalic.ttf in Resources */,
+				5C6A20E747CF4602B7B7B295 /* Poppins-Medium.ttf in Resources */,
+				30B338A9ECFF454CB784E57E /* Poppins-MediumItalic.ttf in Resources */,
+				54F06CA52B454994884CF637 /* Poppins-Regular.ttf in Resources */,
+				1DC67436F3D9435FB5703646 /* Poppins-SemiBold.ttf in Resources */,
+				F416F9FA434C48FCA827621F /* Poppins-SemiBoldItalic.ttf in Resources */,
+				B9270F3599054CD48E0939ED /* Poppins-Thin.ttf in Resources */,
+				98E91D4B8A0B475BA86B6B3F /* Poppins-ThinItalic.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Blsvisaappoinmentbook-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Blsvisaappoinmentbook/Pods-Blsvisaappoinmentbook-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		13B07F871A680F5B00A75B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* Blsvisaappoinmentbook */;
+			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		13B07F941A680F5B00A75B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-Blsvisaappoinmentbook.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = Blsvisaappoinmentbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Blsvisaappoinmentbook;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-Blsvisaappoinmentbook.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Blsvisaappoinmentbook/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = Blsvisaappoinmentbook;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		83CBBA201A601CBA00E9B192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+				);
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		83CBBA211A601CBA00E9B192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SDKROOT)/usr/lib/swift\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-DFOLLY_CFG_NO_COROUTINES=1",
+					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+				);
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Blsvisaappoinmentbook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13B07F941A680F5B00A75B9A /* Debug */,
+				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Blsvisaappoinmentbook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83CBBA201A601CBA00E9B192 /* Debug */,
+				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
+}
