@@ -21,7 +21,7 @@ const CustomTextInput = ({ placeholder, value, onChangeText, ...props }) => {
         onChangeText={setText}
         onSubmitEditing={handleTextSubmit}
         onBlur={handleTextSubmit}
-        placeholderTextColor="#888"
+        placeholderTextColor={colors.comanTextcolor2}
         returnKeyType="done"
         blurOnSubmit={true}
         {...props}
@@ -34,18 +34,12 @@ const styles = StyleSheet.create({
   inputWrapper: {
     backgroundColor: '#fff',
     borderRadius: 10,
-    margin:10,
     height: 54,
     width: "90%",
     justifyContent: 'center',
     paddingHorizontal: 16,
     borderWidth:1,
     borderColor:colors.borderColorSecondcolor
-    // elevation: 2,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.1,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 4,
   },
   input: {
     fontSize: 14,

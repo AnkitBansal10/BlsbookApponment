@@ -8,7 +8,8 @@ import {
     Button,
     TouchableOpacity,
     Alert,
-    StatusBar
+    StatusBar,
+    ScrollView
 } from "react-native";
 import { styles } from "./styles";
 import { scale } from "../../../utils/responsive";
@@ -36,6 +37,7 @@ export default function SignUpScreen() {
 
     return (
         <View style={styles.container} >
+            <ScrollView >
             <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
             <BackgroundGradient
                 style={{ position: "absolute", width: '100%', height: '100%' }}
@@ -81,21 +83,44 @@ export default function SignUpScreen() {
                    date={dob} setDate={setDob}
                 />
                  </View>
-            {/* <View style={styles.inputview}>
-                <PhoneInputField />
+                   <View style={styles.inputview}>
+                <CustomTextInput
+                    placeholder="Passport Number*"
+                    value={name}
+                    onChangeText={setName}
+                />
             </View>
-            <GDPRCheckbox checked={checked} onToggle={() => setChecked(!checked)} /> */}
-            {/* <View style={styles.inputview}>
+             <View style={styles.inputview}>
+                <CustomTextInput
+                    placeholder="Passport Number*"
+                    value={name}
+                    onChangeText={setName}
+                />
+            </View>
+             <View style={styles.inputview}>
+               <PhoneInputField />
+            </View>
+             <View style={styles.inputview}>
+                <CustomTextInput
+                    placeholder="Email*"
+                    value={name}
+                    onChangeText={setName}
+                />
+            </View>
+              <GDPRCheckbox checked={checked} onToggle={() => setChecked(!checked)} />
+            <View style={[styles.inputview,{margin:0}]}>
                 <CustomButton label="SING UP" onPress={() => Alert.alert('SING UP')} />
-            </View> */}
+            </View>
+            
             <View style={styles.singuptextview}>
                 <Text style={styles.accountText}>
-                    Already have an account  Sign in?{' '}
+                    Already have an account{' '}
                     <Text style={styles.signUpText} >
                         Sign in
                     </Text>
                 </Text>
             </View>
+            </ScrollView>
         </View>
 
     );

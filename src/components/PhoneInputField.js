@@ -4,6 +4,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { scale } from '../utils/responsive';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
+import { colors } from '../utils/colors';
 
 const PhoneInputField = () => {
     const [countryCode, setCountryCode] = useState('IN');
@@ -87,16 +88,13 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         backgroundColor: '#fff',
+        borderWidth:1,
+        borderColor:colors.borderColorSecondcolor,
     borderRadius: 10,
     height: 54,
     width: "90%",
     justifyContent: 'center',
     paddingHorizontal: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
     },
     errorBorder: {
         borderColor: 'red',

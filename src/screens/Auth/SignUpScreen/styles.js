@@ -36,8 +36,9 @@ export const styles = StyleSheet.create({
     },
     inputview: {
         width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
+        margin:14
+        // justifyContent: "center",
+        // alignItems: "center",
     },
     forgetTextView: {
         marginTop: verticalScale(10),
@@ -53,17 +54,18 @@ export const styles = StyleSheet.create({
     },
     singuptextview: {
         marginTop: 30,
+        marginBottom:30,
         alignItems: 'center',
     },
     accountText: {
-        color: colors.text,
+        color: colors.comanTextcolor2,
         fontFamily: Geist_Fonts.Geist_Medium,
-        fontSize: 14,
+        fontSize: scale(16),
         fontWeight: '400',
     },
     signUpText: {
-        fontFamily: Geist_Fonts.Geist_Bold,
-        color: colors.text,
-        fontSize: 14,
+        fontFamily:Poppins_Fonts.Poppins_Bold,
+        color: colors.primary,
+        fontSize:scale(16),
     },
 });
