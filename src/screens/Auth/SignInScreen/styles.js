@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../../utils/colors";
-import { Geist_Fonts, OpenSans_Fonts } from "../../../utils/fonts";
+import { Geist_Fonts, OpenSans_Fonts, Poppins_Fonts } from "../../../utils/fonts";
 import { moderateScale, scale, verticalScale } from "../../../utils/responsive";
 import { makeMutable } from "react-native-reanimated";
 
@@ -8,12 +8,13 @@ import { makeMutable } from "react-native-reanimated";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.primary,
-        alignItems: "center",
-        justifyContent: "center",
+         backgroundColor: colors.text,
     },
     logo: {
-        marginBottom: scale(120),
+        marginBottom: scale(10),
+        justifyContent:"center",
+        alignItems:"center",
+
     },
     image: {
         marginBottom: 40,
@@ -24,21 +25,20 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontSize: verticalScale(26),
+        fontSize: verticalScale(34),
         fontFamily: Geist_Fonts.Geist_Bold,
-        color: colors.ButtonTextColor,
+        color: colors.primary,
         margin: 10
     },
     subtitle: {
-        fontSize: verticalScale(14),
-        fontFamily: Geist_Fonts.Geist_Regular,
-        color: '#fff',
+        fontSize: verticalScale(16),
+        fontFamily:Poppins_Fonts.Poppins_Regular,
+        color:colors.comanTextcolor2,
     },
     inputview: {
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        margin: 10
     },
     forgetTextView: {
         marginTop: verticalScale(10),
@@ -48,8 +48,8 @@ export const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     forgetText: {
-        fontSize: verticalScale(14),
+        fontSize: verticalScale(16),
         fontFamily: Geist_Fonts.Geist_SemiBold,
-        color: colors.text
+        color: colors.primary
     }
 });

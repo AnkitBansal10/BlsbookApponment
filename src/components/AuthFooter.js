@@ -1,27 +1,26 @@
 import React, { useMemo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Platform ,Image} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SvgUri from 'react-native-svg-uri';
-import { scale } from '../utils/responsive';
-import { Geist_Fonts } from '../utils/fonts';
+import { scale, verticalScale } from '../utils/responsive';
+import { Geist_Fonts, Poppins_Fonts } from '../utils/fonts';
 import { colors } from '../utils/colors';
+import { FaceBook, Google } from '../utils/Image';
 
 const AuthFooter = ({ onSignUp, onGoogle, onFacebook, onApple }) => {
     const socialIcons = useMemo(() => (
         <View style={styles.iconRow}>
             <TouchableOpacity style={styles.iconBox} onPress={onGoogle}>
-                <SvgUri
+                <Google
                     width={scale(20)}
                     height={scale(20)}
-                    source={require('../assets/icons/google.svg')}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconBox} onPress={onFacebook}>
-                  <Image
-            source={require('../assets/icons/Facebook.png')}
-            style={styles.icon}
-            resizeMode="contain"
-          />
+                <FaceBook
+                    width={scale(20)}
+                    height={scale(20)}
+                />
             </TouchableOpacity>
             {Platform.OS === 'ios' && (
                 <TouchableOpacity style={styles.iconBox} onPress={onApple}>
@@ -50,26 +49,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     accountText: {
-        color: colors.text,
+        color: colors.comanTextcolor2,
         fontFamily: Geist_Fonts.Geist_Medium,
-        fontSize: 14,
-        fontWeight: '400',
+        fontSize: verticalScale(16),
     },
     signUpText: {
         fontFamily: Geist_Fonts.Geist_Bold,
-        color: colors.text,
-        fontSize: 14,
+        color: colors.primary,
+        fontSize: verticalScale(16),
     },
-icon: {
-    width: 24,
-    height: 24,
+    icon: {
+        width: 24,
+        height: 24,
     },
     orText: {
         marginTop: 20,
-        fontFamily: Geist_Fonts.Geist_Bold,
-        fontSize: 13,
+        fontFamily: Poppins_Fonts.Poppins_SemiBold,
+        fontSize: 16,
         letterSpacing: 1,
-        color: colors.text,
+        color: colors.comanTextcolor2,
     },
     iconRow: {
         marginTop: 20,
@@ -78,13 +76,14 @@ icon: {
     },
     iconBox: {
         backgroundColor: '#fff',
+        borderWidth:1,
         borderRadius: 10,
+        borderColor:colors.borderColorSecondcolor,
         padding: 10,
-        width: 70,
-        height: 40,
+        width:scale(86),
+        height:scale(52),
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 3,
     },
 });
 export default AuthFooter;

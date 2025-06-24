@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { scale } from '../../../utils/responsive';
+import { scale, verticalScale } from '../../../utils/responsive';
 import { Geist_Fonts, Poppins_Fonts } from '../../../utils/fonts';
 import { colors } from '../../../utils/colors';
 import VisaFeesCard from './VisaFeesCard';
@@ -22,15 +23,6 @@ const InformationTab = () => (
     <Text style={styles.cardText}>
       The purpose of this visa is to travel to Italy as a tourist, either by taking a trip organised by a tour operator,
       or through individual booking of tickets and accommodation.
-    </Text>
-  </View>
-);
-
-const PhotoSpecificationTab = () => (
-  <View style={styles.cardWrapper}>
-    <Text style={styles.cardTitle}>Photo Specification</Text>
-    <Text style={styles.cardText}>
-      Provide a recent passport size photo with white background and no shadows. Dimensions should be 35mm x 45mm.
     </Text>
   </View>
 );
@@ -51,61 +43,70 @@ const VisaDetailScreen = () => {
 
   const renderCustomTabBar = () => (
     <View style={styles.customTabBar}>
-      <ScrollView
-      horizontal
-       showsHorizontalScrollIndicator={false}
-      >
-      {routes.map((route, i) => {
-        const isActive = index === i;
-        return (
-          <TouchableOpacity
-            key={route.key}
-            style={[styles.tabItem, isActive && styles.activeTab]}
-            onPress={() => setIndex(i)}
-          >
-            <Text style={[styles.tabText, isActive && styles.activeTabText]}>
-              {route.title}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {routes.map((route, i) => {
+          const isActive = index === i;
+          return (
+            <TouchableOpacity
+              key={route.key}
+              style={[styles.tabItem, isActive && styles.activeTab]}
+              onPress={() => setIndex(i)}
+            >
+              <Text style={[styles.tabText, isActive && styles.activeTabText]}>
+                {route.title}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
     </View>
-
   );
+
   return (
-    <View style={styles.container}>
-      {renderCustomTabBar()}
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width }}
-        renderTabBar={() => null} // hide default tab bar
-      />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        {renderCustomTabBar()}
+        <View style={{ flex: 1 }}>
+          <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width }}
+            renderTabBar={() => null}
+            style={{ flex: 1 }}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    // backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    paddingHorizontal: scale(16),
+    paddingBottom: verticalScale(20),
+    flexGrow: 1,
   },
   customTabBar: {
-    width:"100%",
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop:20,
-    marginBottom:20
+    marginTop: verticalScale(20),
+    marginBottom: verticalScale(20),
   },
   tabItem: {
-    paddingVertical: 6,
-    height: scale(42),
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 14,
-    borderRadius: 20,
+    paddingVertical: verticalScale(8),
+    minHeight: verticalScale(38),
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: scale(18),
+    borderRadius: scale(20),
     backgroundColor: '#fff',
-    marginHorizontal: 6,
+    marginHorizontal: scale(6),
     borderWidth: 1,
     borderColor: '#ddd',
   },
@@ -115,34 +116,36 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontFamily: Poppins_Fonts.Poppins_Medium,
-    fontSize: 14,
+    fontSize: Math.min(scale(14), 16),
     color: colors.commonTextColor,
   },
   activeTabText: {
     fontFamily: Poppins_Fonts.Poppins_Medium,
-    fontSize: 14,
+    fontSize: Math.min(scale(14), 16),
     color: colors.text,
   },
   cardWrapper: {
     backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
+    padding: scale(16),
+    borderRadius: scale(12),
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 3,
+    shadowRadius: scale(3),
     elevation: 2,
+    marginHorizontal: scale(8),
   },
   cardTitle: {
     fontFamily: Geist_Fonts.Geist_SemiBold,
-    fontSize: 24,
+    fontSize: scale(22),
     color: colors.commonTextColor,
-    marginBottom: 10,
+    marginBottom: verticalScale(10),
   },
   cardText: {
     fontFamily: Poppins_Fonts.Poppins_Regular,
-    fontSize: 16,
+    fontSize: scale(16),
     color: colors.commonTextColor,
+    lineHeight: verticalScale(24),
   },
 });
 

@@ -1,60 +1,122 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import { colors } from '../utils/colors';
+import { View, Text, StyleSheet } from 'react-native';
 import { scale } from '../utils/responsive';
+import { colors } from '../utils/colors';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import {
+  Application,
+  Chatbot,
+  Menu,
+  Documents,
+  Home,
+  WightApplication,
+  HomeGray,
+  WightDocuments,
+  WightMenu,
+  WightChat,
+} from '../utils/Image';
+import { Poppins_Fonts } from '../utils/fonts';
 
 const Tab = createBottomTabNavigator();
-
-const pngIcons = {
-  Home: require('../assets/icons/Home.png'),
-  Applications: require('../assets/icons/Application.png'),
-  Chatbot: require('../assets/icons/Chatbot.png'),
-   Documents: require('../assets/icons/Document.png'),
-  Menu: require('../assets/icons/Menu.png'),
+const tabIcons = {
+  Home: {
+    focused: Home,
+    unfocused: HomeGray,
+  },
+  Applications: {
+    focused: WightApplication,
+    unfocused: Application,
+  },
+  Documents: {
+    focused: WightDocuments,
+    unfocused: Documents,
+  },
+  Chatbot: {
+    focused: WightChat,
+    unfocused: Chatbot,
+  },
+  Menu: {
+    focused: WightMenu,
+    unfocused: Menu,
+  },
 };
 
 const screenOptions = ({ route }) => ({
   headerShown: false,
+  tabBarShowLabel: false,
   tabBarIcon: ({ focused }) => {
-    const iconSource = pngIcons[route.name];
+    const iconSet = tabIcons[route.name];
+    const IconComponent = iconSet
+      ? focused
+        ? iconSet.focused
+        : iconSet.unfocused
+      : null;
+
+    if (!IconComponent) {
+      console.warn(`Missing icon for tab: ${route.name}`);
+      return (
+        <View style={styles.iconWrapper}>
+          <Text style={styles.label}>{route.name}</Text>
+        </View>
+      );
+    }
+
     return (
-      <Image
-        source={iconSource}
-        style={{
-          width: scale(20),
-          height: scale(20),
-          tintColor: focused ? colors.primary : 'gray',
-        }}
-        resizeMode="contain"
-      />
+      <View style={[styles.iconWrapper, focused && styles.activeTab]}>
+        <IconComponent
+          width={scale(20)}
+          height={scale(20)}
+        />
+        <Text style={[styles.label, focused && styles.activeLabel]}>
+          {route.name}
+        </Text>
+      </View>
     );
   },
-  tabBarLabelStyle: {
-    fontSize: 12,
-  },
-  tabBarActiveTintColor: colors.primary,
-  tabBarInactiveTintColor: 'gray',
-  tabBarStyle: {
-    backgroundColor: 'white',
-    borderTopWidth: 0.5,
-    borderTopColor: '#ddd',
-    height: 75,
-    paddingBottom: 20,
-    paddingTop: 5,
-    elevation: 5,
-  },
+  tabBarStyle: styles.tabBar,
 });
 
-export default function BottomTabNavigator() {
+export default function BottomTabs() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Applications" component={HomeScreen} />
+      <Tab.Screen name="Documents" component={HomeScreen} />
       <Tab.Screen name="Chatbot" component={HomeScreen} />
-       <Tab.Screen name="Documents" component={HomeScreen} />
       <Tab.Screen name="Menu" component={HomeScreen} />
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: scale(90),
+    backgroundColor: colors.text,
+    borderTopWidth: 0.5,
+    borderTopColor: '#ddd',
+    paddingTop: 5,
+    elevation: 5,
+  },
+  iconWrapper: {
+    marginTop:40,
+    width:scale(55),
+    height:scale(60),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    paddingVertical: 4,
+  },
+  activeTab: {
+    backgroundColor: '#B99147',
+  },
+  label: {
+    fontSize: scale(8),
+    fontFamily:Poppins_Fonts.Poppins_Regular,
+    color: '#777',
+    marginTop: 2,
+  },
+  activeLabel: {
+    color: '#fff',
+  },
+});

@@ -20,5 +20,6 @@ export const colors = {
   borderColor:"#828181",
   tableboder:"#D0D0D0",
   comanTextcolor2:"#676767",
-  indexcolor:"#f8f8f8"
+  indexcolor:"#f8f8f8",
+  borderColorSecondcolor:"#ECECEC"
 };

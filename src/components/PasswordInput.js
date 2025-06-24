@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { colors } from '../utils/colors';
+import { Eye,CloseEye } from '../utils/Image';
 const PasswordInput = ({ value, onChangeText, placeholder }) => {
   const [localValue, setLocalValue] = useState(value);
   const [secure, setSecure] = useState(true);
@@ -25,11 +26,7 @@ const PasswordInput = ({ value, onChangeText, placeholder }) => {
         placeholderTextColor="#888"
       />
       <TouchableOpacity onPress={() => setSecure(!secure)}>
-        <Ionicons
-          name={secure ? 'eye-off-outline' : 'eye-outline'}
-          size={20}
-          color="#555"
-        />
+       {secure ? <CloseEye /> : <Eye />}
       </TouchableOpacity>
     </View>
   );
@@ -45,11 +42,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
+    borderWidth:1,
+    borderColor:colors.borderColorSecondcolor
+    // elevation: 2,
+    // shadowColor: '#000',
+    // shadowOpacity: 0.1,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 4,
   },
   input: {
     flex: 1,

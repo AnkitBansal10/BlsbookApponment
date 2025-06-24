@@ -18,7 +18,7 @@ import MinusButton from '../assets/icons/MinusButton.svg'
 import PlusButton from '../assets/icons/PlusButton.svg'
 import TravelInsurance from '../assets/icons/Travelinsurance.svg'
 import Scooter from '../assets/icons/scooter.svg'
-import PremiumLounge from  '../assets/icons/Premium Lounge.svg'
+import PremiumLounge from '../assets/icons/Premium Lounge.svg'
 import Message from '../assets/icons/Message.svg'
 import CourierServices from '../assets/icons/CourierServices.svg'
 import Arrow from '../assets/icons/Arrow.svg'
@@ -27,14 +27,25 @@ import Application from '../assets/icons/Application.svg'
 import Documents from '../assets/icons/Documentens.svg'
 import Chatbot from '../assets/icons/chatbot.svg'
 import Menu from '../assets/icons/Menu.svg'
-
+import Home from '../assets/icons/Home.svg'
+import WightApplication from '../assets/icons/WightAplication.svg'
+import HomeGray from '../assets/icons/HomegRAY.svg'
+import WightChat from '../assets/icons/WhightChatbot.svg'
+import WightMenu from '../assets/icons/wightmenu.svg'
+import WightDocuments from '../assets/icons/wightDouments.svg'
+import FaceBook from '../assets/images/f.svg'
+import Google from '../assets/images/g.svg'
+import BackgroundGradient from '../assets/images/LinearGradient.svg'
+import Eye from '../assets/icons/Eye.svg'
+import CloseEye from '../assets/icons/closeeye.svg'
+import ClanderIcon from '../assets/icons/calnder.svg'
 export { Logo };
 export { GetStarted }
 export { WightLogo }
 export { BlackLogo }
 export { Background }
 export { Italyflag }
-export {Backgroundsmall}
+export { Backgroundsmall }
 
 // icons
 export { Butonlogo }
@@ -46,17 +57,28 @@ export { Wightlocation }
 export { HomeIcon }
 export { PLusIcon }
 export { FAQ }
-export {PlusButton}
-export {MinusButton}
-export {TravelInsurance}
-export {Scooter}
-export {PremiumLounge}
-export {Message}
-export {CourierServices}
-export {Arrow}
-export {Check}
-export {Application}
-export {Chatbot}
-export {Menu}
-export {Documents}
-
+export { PlusButton }
+export { MinusButton }
+export { TravelInsurance }
+export { Scooter }
+export { PremiumLounge }
+export { Message }
+export { CourierServices }
+export { Arrow }
+export { Check }
+export { Application }
+export { Chatbot }
+export { Menu }
+export { Documents }
+export { Home }
+export { HomeGray }
+export { WightApplication }
+export { WightChat }
+export { WightDocuments }
+export { WightMenu }
+export { FaceBook }
+export { Google }
+export { BackgroundGradient }
+export {CloseEye}
+export {Eye}
+export {ClanderIcon}

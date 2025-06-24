@@ -57,12 +57,13 @@ export default function AuthNavigator() {
   if (isLoading || isFirstLaunch === null) {
     return <SplashScreen />;
   }
-
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={
-        "BottomTab"}>
+        "SignUp"}>
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="BottomTab" component={BottomTabScreen} />
       <Stack.Screen name="VisaDetailScreen" component={VisaDetailScreen} />
       <Stack.Screen name="AdditionalServices" component={AdditionalServices} />
@@ -71,8 +72,6 @@ export default function AuthNavigator() {
       <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
       <Stack.Screen name="VisaTypescreen" component={VisaTypescreen} />
       <Stack.Screen name="GetStarted" component={GetStartedScreen} />
-      <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   );
 }
