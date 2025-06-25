@@ -39,6 +39,11 @@ import BackgroundGradient from '../assets/images/LinearGradient.svg'
 import Eye from '../assets/icons/Eye.svg'
 import CloseEye from '../assets/icons/closeeye.svg'
 import ClanderIcon from '../assets/icons/calnder.svg'
+import ProfileIcon from '../assets/icons/profileIcon.svg'
+import CheckIcon from '../assets/icons/CheckIcon.svg'
+import Cancel from '../assets/icons/Cancel.svg'
+import PrintIcon from '../assets/icons/ReprintIcon.svg'
+import LogOut from '../assets/icons/logouticon.svg'
 export { Logo };
 export { GetStarted }
 export { WightLogo }
@@ -82,3 +87,8 @@ export { BackgroundGradient }
 export {CloseEye}
 export {Eye}
 export {ClanderIcon}
+export {ProfileIcon}
+export {LogOut}
+export {PrintIcon}
+export {CheckIcon}
+export {Cancel}
