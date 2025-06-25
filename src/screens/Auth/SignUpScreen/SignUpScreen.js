@@ -24,8 +24,9 @@ import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
 import CalenderTextinput from "../../../components/CalenderTextinput";
-
+import PassportCountryDropdown from "../../../components/PassportCountryDropdown";
 export default function SignUpScreen() {
+      const [selectedPassportCountry, setSelectedPassportCountry] = useState('');
     const [name, setName] = useState("");
     console.log("name" + name)
     const [password, setPassword] = useState("");
@@ -34,6 +35,10 @@ export default function SignUpScreen() {
     const [checked, setChecked] = useState(false)
     const [dob, setDob] = useState('');
 
+    const handleCountryChange = (country) => {
+    setSelectedPassportCountry(country);
+    console.log('Selected Passport Country:', country);
+  };
 
     return (
         <View style={styles.container} >
@@ -84,11 +89,12 @@ export default function SignUpScreen() {
                 />
                  </View>
                    <View style={styles.inputview}>
-                <CustomTextInput
+                   <PassportCountryDropdown />
+                {/* <CustomTextInput
                     placeholder="Passport Number*"
                     value={name}
                     onChangeText={setName}
-                />
+                /> */}
             </View>
              <View style={styles.inputview}>
                 <CustomTextInput
