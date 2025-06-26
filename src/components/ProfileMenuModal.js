@@ -21,11 +21,9 @@ import {
 import { scale, verticalScale } from '../utils/responsive';
 import { colors } from '../utils/colors';
 import { Geist_Fonts } from '../utils/fonts';
-
 const ResponsiveHeader = () => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-    // Modified to toggle the modal visibility
     const handleProfilePress = () => setIsMenuVisible(!isMenuVisible);
     const handleCloseMenu = () => setIsMenuVisible(false);
 
@@ -66,9 +64,9 @@ const ResponsiveHeader = () => {
                     activeOpacity={1}
                     onPress={handleCloseMenu}
                 >
-                    
+
                     <View style={styles.modalContent}>
-                        
+
                         <MenuItem
                             IconComponent={CheckIcon}
                             text="Book Your Appointment"
@@ -137,7 +135,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalOverlay: {
-       
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.4)',
         justifyContent: 'flex-start',
@@ -146,8 +143,8 @@ const styles = StyleSheet.create({
         paddingRight: scale(10),
     },
     modalContent: {
-        right:"4%",
-         top: scale(96),
+        right: "4%",
+        top: scale(96),
         backgroundColor: '#fff',
         borderRadius: scale(12),
         paddingVertical: scale(10),

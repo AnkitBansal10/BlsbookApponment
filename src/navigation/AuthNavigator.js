@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
+import { getStoredTokens } from '../features/auth/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignInScreen from '../screens/Auth/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/Auth/SignUpScreen/SignUpScreen';
 import SplashScreen from '../screens/splash/SplashScreen';
 import BottomTabScreen from './BottomTabNavigator';
 import GetStartedScreen from '../screens/GetStartedScreen/GetStartedScreen';
-import { getStoredTokens } from '../features/auth/authService';
 import Bookanappointment from '../screens/Bookanappointment/Bookanappointment';
 import VisaTypescreen from '../screens/Visatypescreen/VisaTypescreen'
 import VisaDetailScreen from '../screens/VisaDetailScreen/VisaDetailScreen';
@@ -16,6 +16,7 @@ import HolidaysScreen from '../screens/HolidaysScreen/HolidaysScreen';
 import AdditionalServices from '../screens/AdditionalServices/AdditionalServices';
 import InformationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
 import Appointmentbookinglink from '../screens/Bookanappointment/Appointmentbookinglink/Appointmentbookinglink'
+import Uploadyourpassport from '../screens/Bookanappointment/Uploadyourpassport/Uploadyourpassport';
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
@@ -63,9 +64,10 @@ export default function AuthNavigator() {
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={
-        "Appointmentbookinglink"}>
-        <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
-        <Stack.Screen name="InformationScreen" component={InformationScreen} />
+        "Uploadyourpassport"}>
+      <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
+      <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
+      <Stack.Screen name="InformationScreen" component={InformationScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="BottomTab" component={BottomTabScreen} />
