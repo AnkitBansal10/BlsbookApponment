@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Platform,
     SafeAreaView,
+    StatusBar
 } from 'react-native';
 import {
     BlackLogo,
@@ -24,7 +25,8 @@ import { Geist_Fonts } from '../utils/fonts';
 const ResponsiveHeader = () => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-    const handleProfilePress = () => setIsMenuVisible(true);
+    // Modified to toggle the modal visibility
+    const handleProfilePress = () => setIsMenuVisible(!isMenuVisible);
     const handleCloseMenu = () => setIsMenuVisible(false);
 
     const MenuItem = ({ IconComponent, text, onPress, showDivider = true }) => (
@@ -46,7 +48,7 @@ const ResponsiveHeader = () => {
                     style={styles.logo}
                 />
                 <TouchableOpacity
-                    onPress={handleProfilePress}
+                    onPress={handleProfilePress} // This now toggles the modal
                     style={styles.profileButton}
                 >
                     <ProfileIcon width={scale(40)} height={scale(40)} />
@@ -64,7 +66,9 @@ const ResponsiveHeader = () => {
                     activeOpacity={1}
                     onPress={handleCloseMenu}
                 >
+                    
                     <View style={styles.modalContent}>
+                        
                         <MenuItem
                             IconComponent={CheckIcon}
                             text="Book Your Appointment"
@@ -108,7 +112,6 @@ export default ResponsiveHeader;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundPrimary,
     },
     headerContainer: {
         flexDirection: 'row',
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         position: 'absolute',
-        left: '50%',
+        left: '58%',
         transform: [{ translateX: -scale(95.6) / 2 }],
         marginTop: scale(10),
         top: Platform.OS === 'android' ? 0 : scale(0),
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalOverlay: {
-        top: scale(90),
+       
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.4)',
         justifyContent: 'flex-start',
@@ -143,10 +146,11 @@ const styles = StyleSheet.create({
         paddingRight: scale(10),
     },
     modalContent: {
+        right:"4%",
+         top: scale(96),
         backgroundColor: '#fff',
         borderRadius: scale(12),
         paddingVertical: scale(10),
-        width: scale(250),
         shadowColor: '#000',
         shadowOffset: { width: 0, height: scale(2) },
         shadowOpacity: 0.25,
@@ -171,4 +175,3 @@ const styles = StyleSheet.create({
         marginHorizontal: scale(20),
     },
 });
-

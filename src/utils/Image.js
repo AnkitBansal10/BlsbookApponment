@@ -44,6 +44,7 @@ import CheckIcon from '../assets/icons/CheckIcon.svg'
 import Cancel from '../assets/icons/Cancel.svg'
 import PrintIcon from '../assets/icons/ReprintIcon.svg'
 import LogOut from '../assets/icons/logouticon.svg'
+import SuccessIcon from '../assets/icons/successIcon.svg'
 export { Logo };
 export { GetStarted }
 export { WightLogo }
@@ -92,3 +93,4 @@ export {LogOut}
 export {PrintIcon}
 export {CheckIcon}
 export {Cancel}
+export {SuccessIcon}

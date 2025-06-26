@@ -16,7 +16,6 @@ import VisaFeesCard from './VisaFeesCard';
 import PhotoSpecifications from './PhotoSpecifications';
 
 const { width } = Dimensions.get('window');
-
 const InformationTab = () => (
   <View style={styles.cardWrapper}>
     <Text style={styles.cardTitle}>Information</Text>
@@ -61,7 +60,6 @@ const VisaDetailScreen = () => {
       </ScrollView>
     </View>
   );
-
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
@@ -84,7 +82,6 @@ const VisaDetailScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    // backgroundColor: '#fff',
   },
   scrollContainer: {
     paddingHorizontal: scale(16),

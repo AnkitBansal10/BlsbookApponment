@@ -15,6 +15,7 @@ import FaqScreen from '../screens/FaqScreen/FaqScreen';
 import HolidaysScreen from '../screens/HolidaysScreen/HolidaysScreen';
 import AdditionalServices from '../screens/AdditionalServices/AdditionalServices';
 import InformationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
+import Appointmentbookinglink from '../screens/Bookanappointment/Appointmentbookinglink/Appointmentbookinglink'
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
@@ -62,7 +63,8 @@ export default function AuthNavigator() {
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={
-        "InformationScreen"}>
+        "Appointmentbookinglink"}>
+        <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
         <Stack.Screen name="InformationScreen" component={InformationScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />

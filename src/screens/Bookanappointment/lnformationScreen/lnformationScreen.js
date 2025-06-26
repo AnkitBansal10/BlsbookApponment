@@ -74,12 +74,12 @@ export default function lnformationScreen({ navigation }) {
         <View style={styles.inputview}>
           <PhoneInputField />
         </View>
-        <View style={{marginTop:6,marginBottom:30}}>
-        <CaptchaInput value={input} onChange={setInput}/>
+        <View style={{ marginTop: 6, marginBottom: 30 }}>
+          <CaptchaInput value={input} onChange={setInput} />
         </View>
-        <View style={{marginBottom:30}}>
-        <CustomButton label="Continue" onPress={() => navigation.navigate("BottomTab")} />
-     </View>
+        <View style={{ marginBottom: 30 }}>
+          <CustomButton label="Continue" onPress={() => navigation.navigate("BottomTab")} />
+        </View>
       </ScrollView>
     </View>
   );
