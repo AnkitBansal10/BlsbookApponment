@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#fffaf0', 
     margin: 20, 
-    elevation: 3,
+    // elevation: 3,
   },
   leftSection: {
     flexDirection: 'row',

@@ -1,17 +1,15 @@
-// components/UploadPassportPhoto.js
-
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, ActionSheetIOS, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, ActionSheetIOS, Platform, Alert } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { scale } from '../../../../utils/responsive';
 import { Poppins_Fonts } from '../../../../utils/fonts';
 import { colors } from '../../../../utils/colors';
 import * as ImagePicker from 'react-native-image-picker';
+import { DeleteIcon, Refresh } from '../../../../utils/Image';
 
 const screenWidth = Dimensions.get('window').width;
-const percentageWidth = (550 / screenWidth) * 100;
 
-const UploadPassportPhoto = ({ onPress }) => {
+const UploadPassportPhoto = ({ onImageSelected }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageUpload = () => {
@@ -30,15 +28,20 @@ const UploadPassportPhoto = ({ onPress }) => {
         }
       );
     } else {
-      // For Android, we'll use a simple alert or implement a custom modal
       openImagePickerOptions();
     }
   };
 
   const openImagePickerOptions = () => {
-    // You can implement a custom modal for Android here
-    // For now, we'll default to opening the camera directly on Android
-    openCamera();
+    Alert.alert(
+      'Select Option',
+      'Choose an option',
+      [
+        { text: 'Camera', onPress: () => openCamera() },
+        { text: 'Gallery', onPress: () => openImageLibrary() },
+        { text: 'Cancel', style: 'cancel' },
+      ]
+    );
   };
 
   const openCamera = () => {
@@ -75,20 +78,47 @@ const UploadPassportPhoto = ({ onPress }) => {
     } else if (response.assets && response.assets[0]) {
       const source = { uri: response.assets[0].uri };
       setSelectedImage(source);
-      if (onPress) {
-        onPress(source);
+      if (onImageSelected) {
+        onImageSelected(source.uri); // Pass just the URI to parent
       }
     }
   };
 
+  const handleDeleteImage = () => {
+    setSelectedImage(null);
+    if (onImageSelected) {
+      onImageSelected(null); // Notify parent that image was removed
+    }
+  };
+
+  const handleReloadImage = () => {
+    handleImageUpload();
+  };
+
   return (
-    <TouchableOpacity style={styles.container} onPress={handleImageUpload}>
+    <TouchableOpacity 
+      style={styles.container} 
+      onPress={!selectedImage ? handleImageUpload : null}
+      activeOpacity={0.8}
+    >
       {selectedImage ? (
         <View style={styles.imageContainer}>
           <Image source={selectedImage} style={styles.image} resizeMode="contain" />
-          <View style={styles.overlay}>
-            <Feather name="camera" size={20} color="white" />
-            <Text style={styles.overlayText}>Change Photo</Text>
+          <View style={styles.topRightIcons}>
+            <TouchableOpacity 
+              style={styles.iconButton} 
+              onPress={handleReloadImage}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+            >
+              <Refresh width={scale(26)} height={scale(26)} />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.iconButton} 
+              onPress={handleDeleteImage}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+            >
+              <DeleteIcon width={scale(26)} height={scale(26)} />
+            </TouchableOpacity>
           </View>
         </View>
       ) : (
@@ -107,7 +137,7 @@ const UploadPassportPhoto = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
+     borderWidth: 1,
     borderColor: '#D1D1D1',
     borderRadius: 8,
     height: scale(450),
@@ -120,6 +150,7 @@ const styles = StyleSheet.create({
   innerContent: {
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   iconWrapper: {
     backgroundColor: '#F1F1F1',
@@ -129,11 +160,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.commonTextColor,
-    fontSize: scale(11),
+    fontSize: scale(13),
     fontFamily: Poppins_Fonts.Poppins_Medium,
     textAlign: 'center',
+    lineHeight: 20,
   },
-  imageContainer: {
+ imageContainer: {
     width: '100%',
     height: '100%',
     position: 'relative',
@@ -141,23 +173,19 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+    resizeMode: 'contain',
   },
-  overlay: {
+  topRightIcons: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 10,
+    top: 10,
+    right: 10,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 20,
+    padding: 8,
+    gap: 8,
   },
-  overlayText: {
-    color: 'white',
-    marginLeft: 8,
-    fontSize: scale(11),
-    fontFamily: Poppins_Fonts.Poppins_Medium,
+  iconButton: {
+    // Styles for your icon buttons
   },
 });
 
