@@ -1,5 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, ActionSheetIOS, Platform, Alert } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  Dimensions, 
+  Image, 
+  ActionSheetIOS, 
+  Platform, 
+  Alert,
+  Animated,
+  Easing
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { scale } from '../../../../utils/responsive';
 import { Poppins_Fonts } from '../../../../utils/fonts';
@@ -11,10 +23,60 @@ const screenWidth = Dimensions.get('window').width;
 
 const UploadPassportPhoto = ({ onImageSelected }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log(onImageSelected+"onImageSelected")
-  console.log(selectedImage+"selectedImage")
+  const [isScanning, setIsScanning] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const scanAnim = useRef(new Animated.Value(0)).current;
+  const verifyAnim = useRef(new Animated.Value(0)).current;
+  
+  // Scanning animation (before image selection)
+  useEffect(() => {
+    if (isScanning) {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scanAnim, {
+            toValue: 1,
+            duration: 2000,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scanAnim, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          })
+        ])
+      ).start();
+    } else {
+      scanAnim.setValue(0);
+    }
+  }, [isScanning]);
+
+  // Verification animation (after image selection)
+  useEffect(() => {
+    if (selectedImage && isVerifying) {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(verifyAnim, {
+            toValue: 1,
+            duration: 1500,
+            easing: Easing.linear,
+            useNativeDriver: true,
+          }),
+          Animated.timing(verifyAnim, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          })
+        ]),
+        { iterations: 3 } // Run the animation 3 times
+      ).start(() => {
+        setIsVerifying(false); // Stop verification after completion
+      });
+    }
+  }, [selectedImage, isVerifying]);
 
   const handleImageUpload = () => {
+    setIsScanning(true);
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -22,6 +84,7 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
           cancelButtonIndex: 0,
         },
         (buttonIndex) => {
+          setIsScanning(false);
           if (buttonIndex === 1) {
             openCamera();
           } else if (buttonIndex === 2) {
@@ -41,7 +104,11 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
       [
         { text: 'Camera', onPress: () => openCamera() },
         { text: 'Gallery', onPress: () => openImageLibrary() },
-        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Cancel', 
+          style: 'cancel',
+          onPress: () => setIsScanning(false)
+        },
       ]
     );
   };
@@ -56,6 +123,7 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
     };
 
     ImagePicker.launchCamera(options, (response) => {
+      setIsScanning(false);
       handleImageResponse(response);
     });
   };
@@ -68,32 +136,49 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
     };
 
     ImagePicker.launchImageLibrary(options, (response) => {
+      setIsScanning(false);
       handleImageResponse(response);
     });
   };
-const handleImageResponse = (response) => {
-    if (response.didCancel) {
-        console.log('User cancelled image picker');
-    } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-    } else if (response.assets && response.assets[0]) {
-        const source = { uri: response.assets[0].uri };
-        setSelectedImage(source);
-        if (onImageSelected) {
-            onImageSelected(response.assets[0].uri); 
-        }
-    }
-};
 
-const handleDeleteImage = () => {
-    setSelectedImage(null);
-    if (onImageSelected) {
-        onImageSelected(null);
+  const handleImageResponse = (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.assets && response.assets[0]) {
+      const source = { uri: response.assets[0].uri };
+      setSelectedImage(source);
+      setIsVerifying(true); // Start verification animation
+      if (onImageSelected) {
+        onImageSelected(response.assets[0].uri); 
+      }
     }
-};
+  };
+
+  const handleDeleteImage = () => {
+    setSelectedImage(null);
+    setIsVerifying(false);
+    if (onImageSelected) {
+      onImageSelected(null);
+    }
+  };
+
   const handleReloadImage = () => {
     handleImageUpload();
   };
+
+  // Scan line animation interpolation (before selection)
+  const scanLinePosition = scanAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%']
+  });
+
+  // Verification scan line animation (after selection)
+  const verifyLinePosition = verifyAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%']
+  });
 
   return (
     <TouchableOpacity 
@@ -104,6 +189,26 @@ const handleDeleteImage = () => {
       {selectedImage ? (
         <View style={styles.imageContainer}>
           <Image source={selectedImage} style={styles.image} resizeMode="contain" />
+          
+          {/* Verification overlay (only shows when verifying) */}
+          {isVerifying && (
+            <View style={styles.verifyOverlay}>
+              <Animated.View 
+                style={[
+                  styles.verifyLine,
+                  { bottom: verifyLinePosition }
+                ]} 
+              />
+              <View style={styles.cornerTopLeft} />
+              <View style={styles.cornerTopRight} />
+              <View style={styles.cornerBottomLeft} />
+              <View style={styles.cornerBottomRight} />
+              <View style={styles.verificationTextContainer}>
+                <Text style={styles.verificationText}>Verifying Passport...</Text>
+              </View>
+            </View>
+          )}
+          
           <View style={styles.topRightIcons}>
             <TouchableOpacity 
               style={styles.iconButton} 
@@ -123,6 +228,20 @@ const handleDeleteImage = () => {
         </View>
       ) : (
         <View style={styles.innerContent}>
+          {isScanning && (
+            <View style={styles.scanOverlay}>
+              <Animated.View 
+                style={[
+                  styles.scanLine,
+                  { bottom: scanLinePosition }
+                ]} 
+              />
+              <View style={styles.cornerTopLeft} />
+              <View style={styles.cornerTopRight} />
+              <View style={styles.cornerBottomLeft} />
+              <View style={styles.cornerBottomRight} />
+            </View>
+          )}
           <View style={styles.iconWrapper}>
             <Feather name="upload" size={20} color={colors.borderColor} />
           </View>
@@ -137,7 +256,7 @@ const handleDeleteImage = () => {
 
 const styles = StyleSheet.create({
   container: {
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: '#D1D1D1',
     borderRadius: 8,
     height: scale(450),
@@ -146,11 +265,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FAFAFA',
     overflow: 'hidden',
+    position: 'relative',
   },
   innerContent: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    width: '100%',
+    height: '100%',
   },
   iconWrapper: {
     backgroundColor: '#F1F1F1',
@@ -165,7 +287,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
   },
- imageContainer: {
+  imageContainer: {
     width: '100%',
     height: '100%',
     position: 'relative',
@@ -183,9 +305,93 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 8,
     gap: 8,
+    zIndex: 2, // Ensure icons stay above overlay
   },
-  iconButton: {
-    // Styles for your icon buttons
+  scanOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 8,
+  },
+  verifyOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scanLine: {
+    position: 'absolute',
+    height: 2,
+    width: '100%',
+    backgroundColor: 'rgba(0, 255, 0, 0.8)',
+  },
+  verifyLine: {
+    position: 'absolute',
+    height: 3,
+    width: '100%',
+    backgroundColor: 'rgba(0, 200, 255, 0.9)',
+  },
+  cornerTopLeft: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 20,
+    height: 20,
+    borderLeftWidth: 3,
+    borderTopWidth: 3,
+    borderColor: '#00FF00',
+  },
+  cornerTopRight: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 20,
+    height: 20,
+    borderRightWidth: 3,
+    borderTopWidth: 3,
+    borderColor: '#00FF00',
+  },
+  cornerBottomLeft: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: 20,
+    height: 20,
+    borderLeftWidth: 3,
+    borderBottomWidth: 3,
+    borderColor: '#00FF00',
+  },
+  cornerBottomRight: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 20,
+    height: 20,
+    borderRightWidth: 3,
+    borderBottomWidth: 3,
+    borderColor: '#00FF00',
+  },
+  verificationTextContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  verificationText: {
+    color: 'white',
+    fontSize: scale(14),
+    fontFamily: Poppins_Fonts.Poppins_SemiBold,
   },
 });
 
