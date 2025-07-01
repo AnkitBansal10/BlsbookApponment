@@ -44,11 +44,11 @@ export default function UploadSelfiescreen({ currentStep = 1, totalSteps = 2 }) 
                 <StepProgress currentPosition={0} />
                 
                 <View style={styles.uploadContainer}>
-                    <UploadPassportPhoto onImageSelected={()=>handleImageSelected()} />
+                    <UploadPassportPhoto onImageSelected={(uri)=>handleImageSelected(uri)} />
                 </View>
                 
                 {passportImageUri && (
-                   <CustomButton label="Proceed to Next Steps" onPress={console.log(";;")}/> 
+                   <CustomButton label="Continue" onPress={console.log(";;")}/> 
                 )}
             </View>
         </View>

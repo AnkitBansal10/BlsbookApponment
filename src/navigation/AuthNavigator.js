@@ -17,6 +17,7 @@ import AdditionalServices from '../screens/AdditionalServices/AdditionalServices
 import InformationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
 import Appointmentbookinglink from '../screens/Bookanappointment/Appointmentbookinglink/Appointmentbookinglink'
 import Uploadyourpassport from '../screens/Bookanappointment/Uploadyourpassport/Uploadyourpassport';
+import UploadSelfiescreen from '../screens/Bookanappointment/UploadSelfiescreen/UploadSelfiescreen';
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
@@ -65,7 +66,9 @@ export default function AuthNavigator() {
       screenOptions={{ headerShown: false }}
       initialRouteName={
         "Uploadyourpassport"}>
-      <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
+                <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
+
+      <Stack.Screen name="UploadSelfiescreen" component={UploadSelfiescreen} />
       <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
       <Stack.Screen name="InformationScreen" component={InformationScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />

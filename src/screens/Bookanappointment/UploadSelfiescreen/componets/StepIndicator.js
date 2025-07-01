@@ -31,7 +31,7 @@ const customStyles = {
 const StepProgress = ({ currentPosition = 0 }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Upload your passport</Text>
+            <Text style={styles.title}>Click Your Selfie</Text>
             <View style={{ width: "30%" }}>
                 <StepIndicator
                     customStyles={customStyles}

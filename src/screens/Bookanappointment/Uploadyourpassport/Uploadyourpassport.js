@@ -18,7 +18,6 @@ import CustomButton from "../../../components/CustomButton";
 
 export default function Uploadyourpassport({ currentStep = 1, totalSteps = 2 }) {
     const [passportImageUri, setPassportImageUri] = useState(null);
-    console.log("passportImag"+passportImageUri)
 
     const handleImageSelected = (uri) => {
         console.log(uri)
@@ -30,15 +29,12 @@ export default function Uploadyourpassport({ currentStep = 1, totalSteps = 2 }) 
             console.log("Passport image removed");
         }
     };
-
-
     return (
         <View style={styles.container}>
             <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
             <BackgroundGradient
                 style={{ position: "absolute", width: '100%', height: '100%' }}
             />
-            
             <View style={styles.logo}>
                 <ProfileMenuModal />
             </View>
@@ -48,7 +44,7 @@ export default function Uploadyourpassport({ currentStep = 1, totalSteps = 2 }) 
                 <StepProgress currentPosition={0} />
                 
                 <View style={styles.uploadContainer}>
-                    <UploadPassportPhoto onImageSelected={()=>handleImageSelected()} />
+                    <UploadPassportPhoto onImageSelected={(uri)=>handleImageSelected(uri)} />
                 </View>
                 
                 {passportImageUri && (

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, ActionSheetIOS, Platform, Alert } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -11,14 +12,12 @@ const screenWidth = Dimensions.get('window').width;
 
 const UploadPassportPhoto = ({ onImageSelected }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log(onImageSelected+"onImageSelected")
-  console.log(selectedImage+"selectedImage")
 
   const handleImageUpload = () => {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ['Cancel', 'Take Photo', 'Choose from Library'],
+          options: ['Cancel', 'Take Selfie', 'Choose from Library'],
           cancelButtonIndex: 0,
         },
         (buttonIndex) => {
@@ -39,8 +38,7 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
       'Select Option',
       'Choose an option',
       [
-        { text: 'Camera', onPress: () => openCamera() },
-        { text: 'Gallery', onPress: () => openImageLibrary() },
+        { text: 'Take Selfie', onPress: () => openCamera() },
         { text: 'Cancel', style: 'cancel' },
       ]
     );
@@ -48,9 +46,9 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
 
   const openCamera = () => {
     const options = {
-      title: 'Take Passport Photo',
+      title: 'Take Selfie',
       mediaType: 'photo',
-      cameraType: 'back',
+      cameraType: 'front', // Force front camera
       quality: 0.8,
       saveToPhotos: true,
     };
@@ -62,7 +60,7 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
 
   const openImageLibrary = () => {
     const options = {
-      title: 'Select Passport Photo',
+      title: 'Select Photo',
       mediaType: 'photo',
       quality: 0.8,
     };
@@ -71,33 +69,35 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
       handleImageResponse(response);
     });
   };
-const handleImageResponse = (response) => {
-    if (response.didCancel) {
-        console.log('User cancelled image picker');
-    } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-    } else if (response.assets && response.assets[0]) {
-        const source = { uri: response.assets[0].uri };
-        setSelectedImage(source);
-        if (onImageSelected) {
-            onImageSelected(response.assets[0].uri); 
-        }
-    }
-};
 
-const handleDeleteImage = () => {
+  const handleImageResponse = (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.assets && response.assets[0]) {
+      const source = { uri: response.assets[0].uri };
+      setSelectedImage(source);
+      if (onImageSelected) {
+        onImageSelected(response.assets[0].uri);
+      }
+    }
+  };
+
+  const handleDeleteImage = () => {
     setSelectedImage(null);
     if (onImageSelected) {
-        onImageSelected(null);
+      onImageSelected(null);
     }
-};
+  };
+
   const handleReloadImage = () => {
     handleImageUpload();
   };
 
   return (
-    <TouchableOpacity 
-      style={styles.container} 
+    <TouchableOpacity
+      style={styles.container}
       onPress={!selectedImage ? handleImageUpload : null}
       activeOpacity={0.8}
     >
@@ -105,17 +105,17 @@ const handleDeleteImage = () => {
         <View style={styles.imageContainer}>
           <Image source={selectedImage} style={styles.image} resizeMode="contain" />
           <View style={styles.topRightIcons}>
-            <TouchableOpacity 
-              style={styles.iconButton} 
+            <TouchableOpacity
+              style={styles.iconButton}
               onPress={handleReloadImage}
-              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <Refresh width={scale(26)} height={scale(26)} />
             </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.iconButton} 
+            <TouchableOpacity
+              style={styles.iconButton}
               onPress={handleDeleteImage}
-              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <DeleteIcon width={scale(26)} height={scale(26)} />
             </TouchableOpacity>
@@ -127,7 +127,7 @@ const handleDeleteImage = () => {
             <Feather name="upload" size={20} color={colors.borderColor} />
           </View>
           <Text style={styles.text}>
-            Click here to upload the passport photograph
+            Click here to take your selfie (front camera will be used)
           </Text>
         </View>
       )}
@@ -137,7 +137,7 @@ const handleDeleteImage = () => {
 
 const styles = StyleSheet.create({
   container: {
-     borderWidth: 1,
+    borderWidth: 1,
     borderColor: '#D1D1D1',
     borderRadius: 8,
     height: scale(450),
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
   },
- imageContainer: {
+  imageContainer: {
     width: '100%',
     height: '100%',
     position: 'relative',
