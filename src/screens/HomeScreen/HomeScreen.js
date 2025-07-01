@@ -69,9 +69,9 @@ const HomeScreen = ({navigation}) => {
                         <Text style={styles.viewAll}>View all</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cards}>
+                {/* <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cards}> */}
               <CardSlider/>
-                </ScrollView>
+                {/* </ScrollView> */}
             </LinearGradient>
             </ScrollView>
         </SafeAreaView>

@@ -68,7 +68,6 @@ export default function AuthNavigator() {
       <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
       <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
       <Stack.Screen name="InformationScreen" component={InformationScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="BottomTab" component={BottomTabScreen} />
       <Stack.Screen name="VisaDetailScreen" component={VisaDetailScreen} />

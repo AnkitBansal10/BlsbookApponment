@@ -8,12 +8,12 @@ import { Logo } from '../../utils/Image';
 
 export default function SplashScreen() {
   const navigation = useNavigation();
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigation.navigate('Login');
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, [navigation]);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     navigation.navigate('Login');
+  //   }, 3000);
+  //   return () => clearTimeout(timeout);
+  // }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>

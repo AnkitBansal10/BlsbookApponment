@@ -16,9 +16,8 @@ import StepProgress from "./componets/StepIndicator";
 import UploadPassportPhoto from "./componets/UploadPassportPhoto";
 import CustomButton from "../../../components/CustomButton";
 
-export default function Uploadyourpassport({ currentStep = 1, totalSteps = 2 }) {
+export default function UploadSelfiescreen({ currentStep = 1, totalSteps = 2 }) {
     const [passportImageUri, setPassportImageUri] = useState(null);
-    console.log("passportImag"+passportImageUri)
 
     const handleImageSelected = (uri) => {
         console.log(uri)
@@ -30,15 +29,12 @@ export default function Uploadyourpassport({ currentStep = 1, totalSteps = 2 }) 
             console.log("Passport image removed");
         }
     };
-
-
     return (
         <View style={styles.container}>
             <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
             <BackgroundGradient
                 style={{ position: "absolute", width: '100%', height: '100%' }}
             />
-            
             <View style={styles.logo}>
                 <ProfileMenuModal />
             </View>
