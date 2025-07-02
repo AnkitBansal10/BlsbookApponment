@@ -50,10 +50,6 @@ export default VisaTypeGrid;
 const styles = StyleSheet.create({
   container: {
         marginTop:20,
-
-    // paddingHorizontal: scale(8),
-    // paddingTop: verticalScale(8),
-    // paddingBottom: verticalScale(24),
   },
   card: {
     width: CARD_SIZE,

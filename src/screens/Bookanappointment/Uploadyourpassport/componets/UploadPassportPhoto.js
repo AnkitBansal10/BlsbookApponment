@@ -18,42 +18,206 @@ import { Poppins_Fonts } from '../../../../utils/fonts';
 import { colors } from '../../../../utils/colors';
 import * as ImagePicker from 'react-native-image-picker';
 import { DeleteIcon, Refresh } from '../../../../utils/Image';
+import RNFetchBlob from 'rn-fetch-blob';
+import PassportConfirmationModal from './PassportConfirmationModal';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
+
 
 const screenWidth = Dimensions.get('window').width;
 
-const UploadPassportPhoto = ({ onImageSelected }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+const UploadPassportPhoto = ({ onImageSelected, onPassportConfirmed }) => {
+  const [isLoadingData, setIsLoadingData] = useState(false);
+ const [selectedImage, setSelectedImage] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [extractedData, setExtractedData] = useState(null);
   const scanAnim = useRef(new Animated.Value(0)).current;
   const verifyAnim = useRef(new Animated.Value(0)).current;
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [passportData, setPassportData] = useState({
+    surname: '',
+    firstName: '',
+    dateOfBirth: '',
+    sex: '',
+    nationality: '',
+    placeOfBirth: '',
+    dateOfIssue: '',
+    dateOfExpiry: ''
+  });
   
-  // Scanning animation (before image selection)
+
+  const extractPassportData = async (imageUri) => {
+    try {
+      setIsLoadingData(true); 
+      setIsVerifying(true);
+      
+      // Convert image to base64
+      const base64Data = await RNFetchBlob.fs.readFile(imageUri, 'base64');
+      
+      // Prepare the request payload for Google Vision API
+      const requestBody = {
+        requests: [
+          {
+            image: {
+              content: base64Data,
+            },
+            features: [
+              {
+                type: 'DOCUMENT_TEXT_DETECTION',
+                maxResults: 1,
+              },
+            ],
+          },
+        ],
+      };
+
+      // Call Google Vision API
+      const response = await fetch(
+        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCw-DG5-XLza46W-vKFu3GFpdjomf3E2B0',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data)
+      
+      if (data.responses && data.responses[0] && data.responses[0].fullTextAnnotation) {
+        const text = data.responses[0].fullTextAnnotation.text;
+        console.log("text"+data)
+        const passportData = parsePassportText(text);
+        setPassportData(passportData);
+        setShowConfirmation(true);
+        
+        setExtractedData(passportData);
+      //   if (onPassportDataExtracted) {
+      //     onPassportDataExtracted(passportData);
+      //   }
+      // } else {
+      //   Alert.alert('Error', 'Could not read passport information. Please try with a clearer image.');
+      }
+    } catch (error) {
+      console.error('Error calling Google Vision API:', error);
+      Alert.alert('Error', 'Failed to process passport image. Please try again.');
+    } finally {
+      setIsVerifying(false);
+       setIsLoadingData(false);
+    }
+  };
+
+
+  const handleConfirm = () => {
+    setShowConfirmation(false);
+    if (onPassportConfirmed) {
+      onPassportConfirmed(passportData);
+    }
+  };
+
+  const handleEditField = (field) => {
+    // Implement your edit functionality here
+    // Could open another modal or input for editing the specific field
+    console.log(`Editing field: ${field}`);
+  };
+
+  const parsePassportText = (text) => {
+    // This is a simplified parser - you'll need to adjust based on actual passport formats
+    const data = {
+      surname: '',
+      firstName: '',
+      dateOfBirth: '',
+      sex: '',
+      nationality: '',
+      placeOfBirth: '',
+      dateOfIssue: '',
+      dateOfExpiry: ''
+    };
+
+    console.log("data"+data)
+
+    // Example parsing logic (will need to be customized for your passport format)
+    const lines = text.split('\n');
+    
+    // Look for common patterns in passport text
+    lines.forEach(line => {
+      // Match surname/first name (common pattern: "Surname Given Names")
+      if (line.match(/[A-Z<]{2,}/)) {
+        const nameParts = line.split(/<+/).filter(part => part.trim());
+        if (nameParts.length >= 2) {
+          data.surname = nameParts[0].trim();
+          data.firstName = nameParts.slice(1).join(' ').trim();
+        }
+      }
+      
+      // Match passport number (common pattern: "P<[A-Z]+<[A-Z]+")
+      if (line.match(/P<[A-Z]+/)) {
+        const parts = line.split('<');
+        if (parts.length > 1) {
+          data.surname = parts[1] || '';
+          if (parts.length > 2) {
+            data.firstName = parts.slice(2).join(' ').trim();
+          }
+        }
+      }
+      
+      // Match dates (common formats: DD.MM.YYYY or YYYY-MM-DD)
+      const dateMatch = line.match(/(\d{2}[./-]\d{2}[./-]\d{4})|(\d{4}[./-]\d{2}[./-]\d{2})/);
+      if (dateMatch) {
+        if (!data.dateOfBirth) {
+          data.dateOfBirth = dateMatch[0];
+        } else if (!data.dateOfIssue) {
+          data.dateOfIssue = dateMatch[0];
+        } else if (!data.dateOfExpiry) {
+          data.dateOfExpiry = dateMatch[0];
+        }
+      }
+      
+      // Match sex (common patterns: "Sex M" or "F")
+      const sexMatch = line.match(/Sex[:\s]*([MF])/i) || line.match(/\b([MF])\b/);
+      if (sexMatch) {
+        data.sex = sexMatch[1].toUpperCase();
+      }
+      
+      // Match nationality (common pattern: "Nationality: USA")
+      const nationalityMatch = line.match(/Nationality[:\s]*([A-Z]{2,3})/i);
+      if (nationalityMatch) {
+        data.nationality = nationalityMatch[1].toUpperCase();
+      }
+      
+      // Match place of birth (common pattern: "Place of birth: CITY")
+      const birthPlaceMatch = line.match(/Place of birth[:\s]*(.+)/i);
+      if (birthPlaceMatch) {
+        data.placeOfBirth = birthPlaceMatch[1].trim();
+      }
+    });
+
+    return data;
+  };
+
+
+  
   useEffect(() => {
     if (isScanning) {
       Animated.loop(
-        Animated.sequence([
-          Animated.timing(scanAnim, {
-            toValue: 1,
-            duration: 2000,
-            easing: Easing.linear,
-            useNativeDriver: true,
-          }),
-          Animated.timing(scanAnim, {
-            toValue: 0,
-            duration: 0,
-            useNativeDriver: true,
-          })
-        ])
+        Animated.timing(scanAnim, {
+          toValue: 1,
+          duration: 2000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        })
       ).start();
     } else {
       scanAnim.setValue(0);
+      Animated.timing(scanAnim).stop();
     }
   }, [isScanning]);
 
-  // Verification animation (after image selection)
+  // Verification animation
   useEffect(() => {
-    if (selectedImage && isVerifying) {
+    if (isVerifying) {
       Animated.loop(
         Animated.sequence([
           Animated.timing(verifyAnim, {
@@ -68,12 +232,27 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
             useNativeDriver: true,
           })
         ]),
-        { iterations: 3 } // Run the animation 3 times
+        { iterations: 3 }
       ).start(() => {
-        setIsVerifying(false); // Stop verification after completion
+        setIsVerifying(false);
       });
+    } else {
+      verifyAnim.setValue(0);
+      Animated.timing(verifyAnim).stop();
     }
-  }, [selectedImage, isVerifying]);
+  }, [isVerifying]);
+
+  // Animation interpolations
+  const scanLineTranslateY = scanAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, Dimensions.get('window').height]
+  });
+
+  const verifyLineTranslateY = verifyAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, Dimensions.get('window').height]
+  });
+
 
   const handleImageUpload = () => {
     setIsScanning(true);
@@ -149,10 +328,14 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
     } else if (response.assets && response.assets[0]) {
       const source = { uri: response.assets[0].uri };
       setSelectedImage(source);
-      setIsVerifying(true); // Start verification animation
+      setIsVerifying(true);
+      
       if (onImageSelected) {
-        onImageSelected(response.assets[0].uri); 
+        onImageSelected(response.assets[0].uri);
       }
+      
+      // Call the API to extract passport data
+      extractPassportData(response.assets[0].uri);
     }
   };
 
@@ -190,13 +373,12 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
         <View style={styles.imageContainer}>
           <Image source={selectedImage} style={styles.image} resizeMode="contain" />
           
-          {/* Verification overlay (only shows when verifying) */}
           {isVerifying && (
             <View style={styles.verifyOverlay}>
               <Animated.View 
                 style={[
                   styles.verifyLine,
-                  { bottom: verifyLinePosition }
+                  { transform: [{ translateY: verifyLineTranslateY }] }
                 ]} 
               />
               <View style={styles.cornerTopLeft} />
@@ -204,11 +386,21 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
               <View style={styles.cornerBottomLeft} />
               <View style={styles.cornerBottomRight} />
               <View style={styles.verificationTextContainer}>
-                <Text style={styles.verificationText}>Verifying Passport...</Text>
+                <Text style={styles.verificationText}>
+                  {extractedData ? 'Passport Verified' : 'Verifying Passport...'}
+                </Text>
               </View>
             </View>
           )}
-          
+
+          <PassportConfirmationModal
+            visible={showConfirmation}
+            data={passportData}
+            onConfirm={handleConfirm}
+            onEdit={handleEditField}
+             isLoading={isLoadingData}
+          />
+
           <View style={styles.topRightIcons}>
             <TouchableOpacity 
               style={styles.iconButton} 
@@ -233,7 +425,7 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
               <Animated.View 
                 style={[
                   styles.scanLine,
-                  { bottom: scanLinePosition }
+                  { transform: [{ translateY: scanLineTranslateY }] }
                 ]} 
               />
               <View style={styles.cornerTopLeft} />
@@ -330,12 +522,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  scanLine: {
-    position: 'absolute',
-    height: 2,
-    width: '100%',
-    backgroundColor: 'rgba(0, 255, 0, 0.8)',
-  },
+ 
   verifyLine: {
     position: 'absolute',
     height: 3,
@@ -393,6 +580,45 @@ const styles = StyleSheet.create({
     fontSize: scale(14),
     fontFamily: Poppins_Fonts.Poppins_SemiBold,
   },
+   extractedDataContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    padding: 10,
+    borderRadius: 8,
+  },
+  extractedDataText: {
+    color: 'white',
+    fontSize: scale(12),
+    fontFamily: Poppins_Fonts.Poppins_Regular,
+    marginVertical: 2,
+  },
+   scanLine: {
+    position: 'absolute',
+    height: 2,
+    width: '100%',
+    backgroundColor:colors.primary,
+    top: 0,
+    left: 0,
+  },
+  verifyLine: {
+    position: 'absolute',
+    height: 3,
+    width: '100%',
+    backgroundColor: 'rgba(0, 200, 255, 0.9)',
+    top: 0,
+    left: 0,
+     loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  },
 });
 
 export default UploadPassportPhoto;
+

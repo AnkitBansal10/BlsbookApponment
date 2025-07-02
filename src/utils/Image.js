@@ -47,6 +47,7 @@ import LogOut from '../assets/icons/logouticon.svg'
 import SuccessIcon from '../assets/icons/successIcon.svg'
 import DeleteIcon from '../assets/icons/DeleteIcon.svg'
 import Refresh from '../assets/icons/refresh.svg'
+import Cancelicon from '../assets/icons/Cancelicon.svg'
 export { Logo };
 export { GetStarted }
 export { WightLogo }
@@ -98,3 +99,4 @@ export {Cancel}
 export {SuccessIcon}
 export {DeleteIcon}
 export {Refresh}
+export {Cancelicon}
