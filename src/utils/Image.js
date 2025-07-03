@@ -48,55 +48,25 @@ import SuccessIcon from '../assets/icons/successIcon.svg'
 import DeleteIcon from '../assets/icons/DeleteIcon.svg'
 import Refresh from '../assets/icons/refresh.svg'
 import Cancelicon from '../assets/icons/Cancelicon.svg'
-export { Logo };
-export { GetStarted }
-export { WightLogo }
-export { BlackLogo }
-export { Background }
-export { Italyflag }
-export { Backgroundsmall }
+import ProfileIconBox from '../assets/icons/profileIconbox.svg'
+import ClanderIcon1 from '../assets/icons/ClanderIcon1.svg'
+import ClanderIcon2 from '../assets/icons/ClanderIcon2.svg'
+import Holidays from '../assets/icons/fontisto_holiday-village.svg'
+import WeeklyIcon from '../assets/icons/WeeklyIcon.svg'
 
-// icons
-export { Butonlogo }
-export { Mail }
-export { CellPhone }
-export { World }
-export { Location }
-export { Wightlocation }
-export { HomeIcon }
-export { PLusIcon }
-export { FAQ }
-export { PlusButton }
-export { MinusButton }
-export { TravelInsurance }
-export { Scooter }
-export { PremiumLounge }
-export { Message }
-export { CourierServices }
-export { Arrow }
-export { Check }
-export { Application }
-export { Chatbot }
-export { Menu }
-export { Documents }
-export { Home }
-export { HomeGray }
-export { WightApplication }
-export { WightChat }
-export { WightDocuments }
-export { WightMenu }
-export { FaceBook }
-export { Google }
-export { BackgroundGradient }
-export {CloseEye}
-export {Eye}
-export {ClanderIcon}
-export {ProfileIcon}
-export {LogOut}
-export {PrintIcon}
-export {CheckIcon}
-export {Cancel}
-export {SuccessIcon}
-export {DeleteIcon}
-export {Refresh}
-export {Cancelicon}
+// Logos
+export { Logo, WightLogo, BlackLogo, Butonlogo };
+// Backgrounds
+export { Background, Backgroundsmall, BackgroundGradient };
+// Icons
+export {
+  Mail, CellPhone, World, Location, Wightlocation, HomeIcon, PLusIcon, FAQ,
+  PlusButton, MinusButton, TravelInsurance, Scooter, PremiumLounge, Message,
+  CourierServices, Arrow, Check, Application, Chatbot, Menu, Documents, Home,
+  HomeGray, WightApplication, WightChat, WightDocuments, WightMenu, FaceBook,
+  Google, CloseEye, Eye, ClanderIcon, ProfileIcon, LogOut, PrintIcon, CheckIcon,
+  Cancel, SuccessIcon, DeleteIcon, Refresh, Cancelicon, ProfileIconBox,
+  ClanderIcon1, ClanderIcon2, Holidays, WeeklyIcon
+};
+// Flags
+export { Italyflag, GetStarted };

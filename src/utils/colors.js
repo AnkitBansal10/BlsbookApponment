@@ -21,5 +21,6 @@ export const colors = {
   tableboder:"#D0D0D0",
   comanTextcolor2:"#676767",
   indexcolor:"#f8f8f8",
-  borderColorSecondcolor:"#ECECEC"
+  borderColorSecondcolor:"#ECECEC",
+  Inputfield:"#F9F9F9"
 };

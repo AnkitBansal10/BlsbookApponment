@@ -1,4 +1,5 @@
-import { TravelInsurance,Scooter,CourierServices,Message,PremiumLounge } from './Image';
+import { TravelInsurance,Scooter,CourierServices,Message,PremiumLounge,ProfileIconBox, ClanderIcon1, ClanderIcon2, Holidays, WeeklyIcon } from './Image';
+
 import { scale } from './responsive';
 
 export const visaOptions = [
@@ -199,4 +200,41 @@ export const countries = [
   { label: 'South Sudan', value: 'South Sudan' },
   { label: 'Lesotho', value: 'Lesotho' },
   { label: 'Eswatini', value: 'Eswatini' }
+];
+export const boxData = [
+  {
+    id: '1',
+    text: 'Appointment Available',
+    IconComponent: ProfileIconBox,
+    backgroundColor: '#5cb85c',
+    span: 1, // Indicates it takes 1 column (half width)
+  },
+  {
+    id: '2',
+    text: 'Appointment Booked',
+    IconComponent: ClanderIcon1,
+    backgroundColor: '#d9534f',
+    span: 1,
+  },
+  {
+    id: '3',
+    text: 'Currently Selected Day',
+    IconComponent: ClanderIcon2,
+    backgroundColor: '#337ab7',
+    span: 1,
+  },
+  {
+    id: '4',
+    text: 'Weekly Off Day',
+    IconComponent: WeeklyIcon,
+    backgroundColor: '#6c757d',
+    span: 1,
+  },
+  {
+    id: '5',
+    text: 'Holiday',
+    IconComponent: Holidays,
+    backgroundColor: '#f0ad4e',
+    span: 2,
+  },
 ];

@@ -6,7 +6,7 @@ import { Geist_Fonts, OpenSans_Fonts, Poppins_Fonts } from "../../../utils/fonts
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:colors.text,
+    // backgroundColor:colors.text,
   },
   headerImage: {
     height: verticalScale(300),
@@ -50,19 +50,54 @@ export const styles = StyleSheet.create({
   },
   RefreshContainer: {
     width: "100%",
-    padding:16.
+    padding: 16,
+    backgroundColor: colors.text
   },
-  SubContainer:{
-    backgroundColor:colors.borderColor,
-    borderRadius:10,
-    justifyContent:"center",
-    alignItems:"center",
-    width:"100%",
-    height:66
+  SubContainer: {
+    backgroundColor: colors.borderColor,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: 66
   },
-  textstyling:{
+  textstyling: {
+    fontSize: 16,
+    color: colors.text,
+    textAlign: "center",
+    fontFamily: Geist_Fonts.Geist_Medium
+  },
+  AppoinmentText: {
+    marginTop: 20,
+    fontFamily: Poppins_Fonts.Poppins_Medium,
+    fontSize: 16,
+    color: colors.commonTextColor
+  },
+  AppoinmentDateText: {
+    marginTop: 20,
+    fontFamily: Poppins_Fonts.Poppins_Regular,
+    fontSize: 16,
+    color: colors.commonTextColor
+  },
+  PersonalInformation: {
+    fontFamily: Poppins_Fonts.Poppins_SemiBold,
+    fontSize: 18,
+    color: colors.comanTextcolor2,
+    marginBottom:16
+  },
+  PersonalInformationContainer: {
+    padding: 20,
+    backgroundColor: colors.text,
+    width: "100%",
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+  },
+  Applicant:{
     fontSize:16,
-    color:colors.text,
-   fontFamily:Geist_Fonts.Geist_Medium
+    fontFamily:Poppins_Fonts.Poppins_Medium,
+    color:colors.commonTextColor
   }
 });
