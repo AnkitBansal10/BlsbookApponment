@@ -1,49 +1,36 @@
 // src/features/auth/authService.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const storeTokens = async (tokens) => {
+export const storeAuthData = async ({ tokens, user }) => {
   try {
-    await AsyncStorage.setItem('authTokens', JSON.stringify(tokens));
+    await AsyncStorage.multiSet([
+      ['authTokens', JSON.stringify(tokens)],
+      ['userInfo', JSON.stringify(user)]
+    ]);
   } catch (error) {
-    console.error('Error storing auth tokens', error);
+    console.error('Error storing auth data:', error);
     throw error;
   }
 };
 
-export const getStoredTokens = async () => {
+export const getStoredAuthData = async () => {
   try {
-    const tokens = await AsyncStorage.getItem('authTokens');
-    return tokens ? JSON.parse(tokens) : null;
+    const [tokens, user] = await AsyncStorage.multiGet(['authTokens', 'userInfo']);
+    return {
+      tokens: tokens[1] ? JSON.parse(tokens[1]) : null,
+      user: user[1] ? JSON.parse(user[1]) : null
+    };
   } catch (error) {
-    console.error('Error getting auth tokens', error);
-    throw error;
+    console.error('Error getting auth data:', error);
+    return { tokens: null, user: null };
   }
 };
 
-export const clearTokens = async () => {
+export const clearAuthData = async () => {
   try {
-    await AsyncStorage.removeItem('authTokens');
+    await AsyncStorage.multiRemove(['authTokens', 'userInfo']);
   } catch (error) {
-    console.error('Error clearing auth tokens', error);
-    throw error;
-  }
-};
-
-export const storeUser = async (user) => {
-  try {
-    await AsyncStorage.setItem('userInfo', JSON.stringify(user));
-  } catch (error) {
-    console.error('Error storing user info', error);
-    throw error;
-  }
-};
-
-export const getStoredUser = async () => {
-  try {
-    const user = await AsyncStorage.getItem('userInfo');
-    return user ? JSON.parse(user) : null;
-  } catch (error) {
-    console.error('Error getting user info', error);
+    console.error('Error clearing auth data:', error);
     throw error;
   }
 };

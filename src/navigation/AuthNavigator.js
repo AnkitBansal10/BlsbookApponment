@@ -66,13 +66,13 @@ export default function AuthNavigator() {
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={
-      "ProcessingScreen"}>
+      "SignIn"}>
+        <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
       <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
       <Stack.Screen name="UploadSelfiescreen" component={UploadSelfiescreen} />
       <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
       <Stack.Screen name="InformationScreen" component={InformationScreen} />
-      <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="BottomTab" component={BottomTabScreen} />
       <Stack.Screen name="VisaDetailScreen" component={VisaDetailScreen} />
       <Stack.Screen name="AdditionalServices" component={AdditionalServices} />

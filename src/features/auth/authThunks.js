@@ -20,11 +20,13 @@ export const checkFirstLaunch = createAsyncThunk(
     }
   }
 );
-
 // Email/Password Login
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
+    console.log(email)
+    console.log(password)
+
     try {
       const response = await api.post('/auth/login', { email, password });
       const { tokens, user } = response.data;

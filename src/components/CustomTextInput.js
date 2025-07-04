@@ -23,19 +23,18 @@ const CustomTextInput = ({ placeholder, value, onChangeText, ...props }) => {
         onBlur={handleTextSubmit}
         placeholderTextColor={colors.comanTextcolor2}
         returnKeyType="done"
-        blurOnSubmit={true}
         {...props}
       />
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   inputWrapper: {
     backgroundColor: '#fff',
     borderRadius: 10,
     height: 54,
     width: "90%",
+    marginBottom:20,
     justifyContent: 'center',
     paddingHorizontal: 16,
     borderWidth:1,
