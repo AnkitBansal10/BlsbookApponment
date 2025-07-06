@@ -17,6 +17,8 @@ import AuthFooter from "../../../components/AuthFooter";
 import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
+import CryptoJS from 'crypto-js';
+
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -27,50 +29,13 @@ export default function SignInScreen({ navigation }) {
   const handleLogin = async () => {
     try {
     await dispatch(loginUser({ email, password })).unwrap();
+    console.log(email+password)
       navigation.navigate("BottomTab");
     } catch (error) {
      console.log(error) // Error is already handled by the thunk
     }
   };
 
-
-
-
-
-//  const loginApplicant = async () => {
-//   const payload = {
-//     email: 'ankit.bansal@blsinternational.com',
-//     password: 'NjQox5VF',
-//   };
-
-//   console.log(payload)
-//   try {
-//     const response = await client.fetch(
-//       'https://development.blsinternational.com/Italy_pakistan_appmnt/api/example/applicant_login',
-//       {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'X-API-KEY': API_KEY,
-//         },
-//         body: JSON.stringify(payload),
-//       }
-//     );
-
-//     const data = await response.json();
-
-//     if (response.ok) {
-//       console.log('Login successful:', data);
-//       return data;
-//     } else {
-//       console.error('Login failed:', data);
-//       return null;
-//     }
-//   } catch (error) {
-//     console.error('API call error:', error);
-//     return null;
-//   }
-// };
 
   return (
     <View style={styles.container}>

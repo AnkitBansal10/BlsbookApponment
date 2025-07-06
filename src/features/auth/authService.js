@@ -12,7 +12,6 @@ export const storeAuthData = async ({ tokens, user }) => {
     throw error;
   }
 };
-
 export const getStoredAuthData = async () => {
   try {
     const [tokens, user] = await AsyncStorage.multiGet(['authTokens', 'userInfo']);
@@ -26,6 +25,11 @@ export const getStoredAuthData = async () => {
   }
 };
 
+// Make sure you're exporting any other functions you need
+export const getStoredTokens = async () => {
+  const { tokens } = await getStoredAuthData();
+  return tokens;
+};
 export const clearAuthData = async () => {
   try {
     await AsyncStorage.multiRemove(['authTokens', 'userInfo']);

@@ -36,9 +36,8 @@ export const styles = StyleSheet.create({
     },
     inputview: {
         width: "100%",
-        margin:14
-        // justifyContent: "center",
-        // alignItems: "center",
+     justifyContent: "center",
+        alignItems: "center",
     },
     forgetTextView: {
         marginTop: verticalScale(10),

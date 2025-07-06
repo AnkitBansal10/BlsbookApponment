@@ -44,7 +44,6 @@ const AppointmentDate = ({
     console.log('❌ Blocked: Either unavailable or not in availableDates');
     return;
   }
-
   console.log('✅ Selected:', selected);
   setDate(selected);
   setModalVisible(false);
@@ -74,7 +73,6 @@ const AppointmentDate = ({
         },
       };
     });
-
     // 🟢 Available
     availableDates.forEach((d) => {
       if (!marked[d]) {

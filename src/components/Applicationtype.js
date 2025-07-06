@@ -11,13 +11,9 @@ const data = [
     { label: 'Group/Family: 3 members', value: 'Group/Family: 3 members' },
     { label: 'Group/Family: 4 members', value: 'Group/Family: 4 members' },
     { label: 'Group/Family: 5 members', value: 'Group/Family: 5 members' },
-
-
 ];
-
 const Applicationtype = () => {
     const [value, setValue] = useState('Application_type');
-
     return (
         <View style={styles.container}>
             <Dropdown
@@ -29,7 +25,6 @@ const Applicationtype = () => {
                 data={data}
                 maxHeight={300}
                 labelField="label"
-
                 valueField="value"
                 value={value}
                 onChange={item => {

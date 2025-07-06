@@ -86,19 +86,19 @@ export default function ProcessingScreen({ navigation }) {
                             label="Nationality"
                             value={nationality}
                             onChangeText={setNationality}
-                            // placeholder="Enter your nationality"
+                        // placeholder="Enter your nationality"
                         />
                         <LabeledInput
                             label="Mobile No"
                             value={nationality}
                             onChangeText={setNationality}
-                            // placeholder="Enter your nationality"
+                        // placeholder="Enter your nationality"
                         />
                         <LabeledInput
                             label="Email address"
                             value={nationality}
                             onChangeText={setNationality}
-                            // placeholder="Enter your nationality"
+                        // placeholder="Enter your nationality"
                         />
                         <Text style={styles.Applicant}>Applicant - 1 </Text>
                         <TimeSlot />
@@ -128,11 +128,9 @@ export default function ProcessingScreen({ navigation }) {
                         <ServiceDescriptionInput />
                     </View>
                 </View>
-                <View style={{backgroundColor:colors.text,marginBottom:20}}>
- <CustomButton  label="BOOK"/>
+                <View style={{ backgroundColor: colors.text, marginBottom: 20 }}>
+                    <CustomButton label="BOOK" />
                 </View>
-                                   
-
             </ScrollView>
         </View>
     );

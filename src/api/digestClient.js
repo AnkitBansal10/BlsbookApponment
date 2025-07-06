@@ -1,4 +1,4 @@
-
+import DigestFetch from "digest-fetch"
 
 const USERNAME = 'ITALY';
 const PASSWORD = '=pQy2JFN';

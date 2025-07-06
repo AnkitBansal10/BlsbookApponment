@@ -43,7 +43,6 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
       ]
     );
   };
-
   const openCamera = () => {
     const options = {
       title: 'Take Selfie',
@@ -52,7 +51,6 @@ const UploadPassportPhoto = ({ onImageSelected }) => {
       quality: 0.8,
       saveToPhotos: true,
     };
-
     ImagePicker.launchCamera(options, (response) => {
       handleImageResponse(response);
     });

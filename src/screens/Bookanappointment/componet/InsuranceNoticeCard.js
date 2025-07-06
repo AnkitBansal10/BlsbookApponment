@@ -2,9 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Poppins_Fonts } from '../../../utils/fonts'; // Adjust path if needed
-
-import { colors } from '../../../utils/colors';
-
 const InsuranceNoticeCard = () => {
   return (
     <ImageBackground

@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 import { onGoogleButtonPress, onFacebookButtonPress } from './onGoogleButtonPress';
 import api from '../../api/authApi';
+import { Alert } from 'react-native';
+import { use } from 'react';
 
 export const checkFirstLaunch = createAsyncThunk(
   'auth/checkFirstLaunch',
@@ -24,25 +26,65 @@ export const checkFirstLaunch = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
-    console.log(email)
-    console.log(password)
-
     try {
-      const response = await api.post('/auth/login', { email, password });
-      const { tokens, user } = response.data;
-      
+      const response = await api.post('applicant_login', {
+        email: email.trim(),
+        password: password.trim()
+      });
+
+      const user = response.data?.data; // ✅ Real user object is in "data"
+      if (!user) throw new Error("Invalid user data from server");
+
+      // Optionally simulate token since API doesn't return one
+      const tokens = {
+        access_token: user.email, // Or generate a dummy token
+        fake: true
+      };
+
       await storeAuthData({ tokens, user });
-      return { tokens, user };
+
+      return { tokens, user }; // matches your authSlice expectations
     } catch (error) {
+      console.log("❌ Axios Error:", error);
+      console.log("❌ Error Response:", error.response?.data);
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Login failed'
       );
     }
   }
 );
 
+
+// registerUser
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  async ({ first_name, email, mobile, passport }, { rejectWithValue }) => {
+    console.log(mobile)
+    try {
+      const response = await api.post('applicant_registration', {
+        first_name: first_name.trim(),
+        email: email.trim(),
+        mobile: mobile.trim(),
+        passport: passport.trim(),
+      });
+     const { message } = response.data;
+      console.log("✅ Registration Message:", message);
+    //  await storeAuthData({  user });
+      return {  message };
+    } catch (error) {
+      console.log("❌ Registration Error:", error);
+console.log("❌ Error Response:", error.response?.data);
+console.log("❌ Error Response:", error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'Registration failed'
+      );
+    }
+  }
+)
 // Google Login
 export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',
@@ -50,24 +92,23 @@ export const loginWithGoogle = createAsyncThunk(
     try {
       const credential = await onGoogleButtonPress();
       const idToken = credential?.user?.stsTokenManager?.accessToken;
-      
+
       if (!idToken) throw new Error('Google authentication failed');
-      
+
       const response = await api.post('/auth/google', { token: idToken });
       const { tokens, user } = response.data;
-      
+
       await storeAuthData({ tokens, user });
       return { tokens, user };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Google login failed'
       );
     }
   }
 );
-
 // Facebook Login
 export const loginWithFacebook = createAsyncThunk(
   'auth/loginWithFacebook',
@@ -75,18 +116,18 @@ export const loginWithFacebook = createAsyncThunk(
     try {
       const credential = await onFacebookButtonPress();
       const accessToken = credential?.accessToken;
-      
+
       if (!accessToken) throw new Error('Facebook authentication failed');
-      
+
       const response = await api.post('/auth/facebook', { token: accessToken });
       const { tokens, user } = response.data;
-      
+
       await storeAuthData({ tokens, user });
       return { tokens, user };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Facebook login failed'
       );
     }
@@ -99,18 +140,18 @@ export const loadUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { tokens, user } = await getStoredAuthData();
-      
+
       if (!tokens?.access_token) {
         throw new Error('No active session');
       }
-      
+
       await api.get('/auth/verify');
       return { tokens, user };
     } catch (error) {
       await clearAuthData();
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Session expired'
       );
     }
@@ -128,8 +169,8 @@ export const logoutUser = createAsyncThunk(
     } catch (error) {
       await clearAuthData();
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Logout failed'
       );
     }
@@ -141,19 +182,19 @@ export const checkAuthStatus = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { tokens, user } = await getStoredAuthData();
-      
+
       if (!tokens?.access_token) {
         throw new Error('No active session');
       }
-      
+
       // Verify token with backend
       await api.get('/auth/verify');
       return { tokens, user };
     } catch (error) {
       await clearAuthData();
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.message || 
+        error.response?.data?.message ||
+        error.message ||
         'Session verification failed'
       );
     }

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     iconStyle: {
         width: 32,
         height: 16,
-        color:colors.comanTextcolor2
+       
     },
 });
 

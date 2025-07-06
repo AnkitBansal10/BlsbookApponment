@@ -23,23 +23,42 @@ import GDPRCheckbox from "../../../components/GDPRCheckbox";
 import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
+import { registerUser } from '../../../features/auth/authThunks';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 import CalenderTextinput from "../../../components/CalenderTextinput";
 import PassportCountryDropdown from "../../../components/PassportCountryDropdown";
 export default function SignUpScreen() {
       const [selectedPassportCountry, setSelectedPassportCountry] = useState('');
-    const [name, setName] = useState("");
-    console.log("name" + name)
-    const [password, setPassword] = useState("");
-    const [phone, setPhone] = useState("");
-    const [FormattedPhone, setFormattedPhone] = useState("")
+    const [first_name, setFirst_name] = useState("");
+      const dispatch = useDispatch();
+    
+    // console.log("name" + name)
+    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [passport, setPassport] = useState("")
     const [checked, setChecked] = useState(false)
     const [dob, setDob] = useState('');
+
+  console.log(mobile)
+
 
     const handleCountryChange = (country) => {
     setSelectedPassportCountry(country);
     console.log('Selected Passport Country:', country);
   };
-
+ const handleLogin = async () => {
+    console.log("hi")
+  try {
+   const { message } = await dispatch(registerUser({ first_name, email, mobile, passport })).unwrap();
+    Alert.alert("Registration Successful", message);
+    // navigation.navigate("BottomTab");
+  } catch (error) {
+    console.log("❌ Sign Up Error:", error);
+    Alert.alert("Registration Error", error);
+  }
+};
     return (
         <View style={styles.container} >
             <ScrollView >
@@ -63,59 +82,63 @@ export default function SignUpScreen() {
             </View>
             <View style={styles.inputview}>
                 <CustomTextInput
-                    placeholder="Surname (Family Name)*"
-                    value={name}
-                    onChangeText={setName}
-                />
-            </View>
-            <View style={styles.inputview}>
-                <CustomTextInput
                     placeholder="First Name (Given Name)*"
-                    value={name}
-                    onChangeText={setName}
+                    value={first_name}
+                    onChangeText={setFirst_name}
                 />
             </View>
             <View style={styles.inputview}>
                 <CustomTextInput
-                    placeholder="Last Name*"
-                    value={name}
-                    onChangeText={setName}
+                    placeholder="email*"
+                    value={email}
+                    onChangeText={setEmail}
                 />
             </View>
-              <View style={styles.inputview}>
+            <View style={styles.inputview}>
+                {/* <CustomTextInput
+                    placeholder="Last Name*"
+                    value={mobile}
+                    onChangeText={setMobile}
+                /> */}
+            </View>
+              {/* <View style={styles.inputview}>
                 <CalenderTextinput
                     placeholder="Date of Birth*"
                    date={dob} setDate={setDob}
                 />
-                 </View>
-                   <View style={styles.inputview}>
+                 </View> */}
+                   {/* <View style={styles.inputview}>
                    <PassportCountryDropdown />
                 {/* <CustomTextInput
                     placeholder="Passport Number*"
                     value={name}
                     onChangeText={setName}
                 /> */}
-            </View>
+            {/* </View> */} 
              <View style={styles.inputview}>
                 <CustomTextInput
                     placeholder="Passport Number*"
-                    value={name}
-                    onChangeText={setName}
+                    value={passport}
+                    onChangeText={setPassport}
                 />
             </View>
              <View style={styles.inputview}>
-               <PhoneInputField />
+<PhoneInputField
+  value={mobile}
+  onChangeText={setMobile}
+  showError={true}
+/>  
             </View>
-             <View style={styles.inputview}>
+             {/* <View style={styles.inputview}>
                 <CustomTextInput
                     placeholder="Email*"
                     value={name}
                     onChangeText={setName}
                 />
-            </View>
+            </View> */}
               <GDPRCheckbox checked={checked} onToggle={() => setChecked(!checked)} />
             <View style={[styles.inputview,{margin:0}]}>
-                <CustomButton label="SING UP" onPress={() => Alert.alert('SING UP')} />
+                <CustomButton label="SING UP" onPress={handleLogin} />
             </View>
             
             <View style={styles.singuptextview}>

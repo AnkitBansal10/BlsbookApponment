@@ -1,32 +1,23 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../utils/colors';
-import { Eye,CloseEye } from '../utils/Image';
-const PasswordInput = ({ value, onChangeText, placeholder }) => {
-  const [localValue, setLocalValue] = useState(value);
-  const [secure, setSecure] = useState(true);
+import { Eye, CloseEye } from '../utils/Image';
 
-  const handleBlur = useCallback(() => {
-    if (localValue !== value) {
-      onChangeText(localValue);
-    }
-  }, [localValue, value, onChangeText]);
+const PasswordInput = ({ value, onChangeText, placeholder }) => {
+  const [secure, setSecure] = useState(true);
 
   return (
     <View style={styles.container}>
       <TextInput
-        value={localValue}
-        onChangeText={setLocalValue}
+        value={value}
+        onChangeText={onChangeText}
         placeholder={placeholder}
         secureTextEntry={secure}
-        onBlur={handleBlur}
-        onSubmitEditing={handleBlur}
         style={styles.input}
         placeholderTextColor="#888"
       />
       <TouchableOpacity onPress={() => setSecure(!secure)}>
-       {secure ? <CloseEye /> : <Eye />}
+        {secure ? <CloseEye /> : <Eye />}
       </TouchableOpacity>
     </View>
   );
@@ -42,13 +33,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderWidth:1,
-    borderColor:colors.borderColorSecondcolor
-    // elevation: 2,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.1,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.borderColorSecondcolor,
   },
   input: {
     flex: 1,
