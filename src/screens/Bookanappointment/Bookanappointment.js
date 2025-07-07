@@ -27,25 +27,26 @@ import { Background, CellPhone, Location, Mail, World } from '../../utils/Image'
 import { WightLogo } from '../../utils/Image';
 import { scale } from '../../utils/responsive';
 import { Italyflag } from '../../utils/Image';
+
+
 export default function BLSHeaderScreen() {
     const navigation = useNavigation();
-
     return (
         <View style={styles.container}>
             <ScrollView >
                 <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-                <Background  /> 
+                <Background style={{ width: '100%', height: '100%' }} />
                 <View style={styles.overlay}>
                     <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                         <Ionicons name="chevron-back" size={24} color="#828181" />
                     </TouchableOpacity>
-                     <WightLogo height={scale(39)} width={scale(79)} style={styles.logo}  /> 
+                    <WightLogo height={scale(39)} width={scale(79)} style={styles.logo} />
                 </View>
                 <View style={styles.subcaionter}>
                     <View style={styles.topRow}>
                         <View style={styles.flagRow}>
-                             <Italyflag  height={scale(15)}
-                             width={scale(35)}/> 
+                            <Italyflag height={scale(15)}
+                                width={scale(35)} />
                             <Text style={styles.country}>Italy</Text>
                         </View>
 
@@ -54,20 +55,20 @@ export default function BLSHeaderScreen() {
                                 <CellPhone />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.iconBtn}>
-                                <Mail/>
+                                <Mail />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.iconBtn}>
-                              <World/>
+                                <World />
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.locationRow}>
-                      <Location
-                       style={{ }} />
+                        <Location
+                            style={{}} />
                         <Text style={styles.locationText}>Senegal</Text>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.heading}>Welcome to BLS Italy Visa Centre</Text>
+                        <Text style={styles.heading}>Welcome to BLS Italy {"\n"}Visa Centre</Text>
 
                         <Text style={styles.bodyText}>
                             BLS International Services Ltd. is a trustworthy partner of the Embassy of Italy in Senegal for managing the administrative and non-judgmental tasks of processing visa applications.
@@ -80,13 +81,14 @@ export default function BLSHeaderScreen() {
                     <EmbassyServiceCard />
                     <InsuranceNoticeCard />
                     <FavoritePlacesSlider />
-                    <TravelInsuranceCard/>
-                    <ContactCard/>
+                    <TravelInsuranceCard />
+                    <ContactCard />
                 </View>
             </ScrollView>
-            <CustomButton label='BOOK AN APPOINTMENT' onPress={()=>navigation.navigate("VisaTypescreen")} />
+            <View style={{ marginBottom: 10 }}>
+                <CustomButton label='BOOK AN APPOINTMENT' onPress={() => navigation.navigate("VisaTypescreen")} />
+            </View>
         </View>
-
     );
 }
 

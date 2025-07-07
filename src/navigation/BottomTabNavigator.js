@@ -19,6 +19,7 @@ import {
 import { Poppins_Fonts } from '../utils/fonts';
 
 const Tab = createBottomTabNavigator();
+
 const tabIcons = {
   Home: {
     focused: Home,
@@ -63,18 +64,24 @@ const screenOptions = ({ route }) => ({
     }
 
     return (
-      <View style={[styles.iconWrapper, focused && styles.activeTab]}>
+      <View style={[styles.iconWrapper, focused && styles.activeTabBackground]}>
         <IconComponent
-          width={scale(20)}
-          height={scale(20)}
+          width={scale(23.56)}
+          height={scale(21.82)}
         />
-        <Text style={[styles.label, focused && styles.activeLabel]}>
+        <Text style={[styles.label, focused && styles.activeLabel]} numberOfLines={1}>
           {route.name}
         </Text>
       </View>
     );
   },
   tabBarStyle: styles.tabBar,
+  tabBarItemStyle: {
+    flex: 1, // Crucial for equal horizontal distribution
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: scale(5),
+  },
 });
 
 export default function BottomTabs() {
@@ -91,30 +98,38 @@ export default function BottomTabs() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: scale(90),
+    height: scale(78),
     backgroundColor: colors.text,
     borderTopWidth: 0.5,
     borderTopColor: '#ddd',
-    paddingTop: 5,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    paddingBottom: 0,
+    paddingTop: 0,
   },
   iconWrapper: {
-    marginTop:40,
-    width:scale(55),
-    height:scale(60),
+    marginTop:scale(24),
+    width: scale(55), // Increased width to accommodate longer text labels like "Applications"
+    height: scale(60),
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    paddingVertical: 4,
   },
-  activeTab: {
+  activeTabBackground: {
     backgroundColor: '#B99147',
   },
   label: {
-    fontSize: scale(8),
-    fontFamily:Poppins_Fonts.Poppins_Regular,
+    fontSize: scale(12),
+    fontFamily: Poppins_Fonts.Poppins_Regular,
     color: '#777',
-    marginTop: 2,
+    marginTop: scale(2),
+    flexShrink: 1, // Allows the text to shrink if absolutely necessary
+    flexGrow: 0,   // Prevents the text from growing unnecessarily
+    textAlign: 'center', // Ensures text is centered
+    // No need for overflow: 'hidden' or textBreakStrategy: 'simple' as numberOfLines={1} handles truncation
   },
   activeLabel: {
     color: '#fff',

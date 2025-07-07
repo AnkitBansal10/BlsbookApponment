@@ -5,6 +5,7 @@ import { Geist_Fonts, Poppins_Fonts } from '../../../utils/fonts';
 import { colors } from '../../../utils/colors';
 import { CellPhone } from '../../../utils/Image';
 import { Mail } from '../../../utils/Image';
+import { scale } from '../../../utils/responsive';
 
 const ContactCard = () => {
   return (
@@ -42,7 +43,7 @@ const ContactCard = () => {
 
 const styles = StyleSheet.create({
   card: {
-    width: 340,
+    width:"100%",
     height: 302,
     backgroundColor: '#fff',
     padding: 16,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   lightText: {
     fontFamily: Poppins_Fonts.Poppins_Regular,
-    fontSize: 16,
+    fontSize:scale(16),
     color: colors.commonTextColor,
   },
 });

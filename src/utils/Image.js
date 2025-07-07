@@ -53,11 +53,21 @@ import ClanderIcon1 from '../assets/icons/ClanderIcon1.svg'
 import ClanderIcon2 from '../assets/icons/ClanderIcon2.svg'
 import Holidays from '../assets/icons/fontisto_holiday-village.svg'
 import WeeklyIcon from '../assets/icons/WeeklyIcon.svg'
+import Flight from '../assets/icons/flightIcon.svg'
+import FlagIcon from '../assets/icons/IconFlag.svg'
+import BottomImage from '../assets/icons/BottomImage.svg'
+import NewsIcon from '../assets/icons/newicon.svg'
+import Quintion from '../assets/icons/quitionmark.svg'
+import BankIcon from '../assets/icons/bank.svg'
+import TravelInsurances from '../assets/images/Travelinsurance.svg'
+import FlightBAg from '../assets/icons/FlightBag.svg'
+import BeachIcon from '../assets/icons/Beach.svg'
+import BookMark from '../assets/icons/Bookmark.svg'
 
 // Logos
 export { Logo, WightLogo, BlackLogo, Butonlogo };
 // Backgrounds
-export { Background, Backgroundsmall, BackgroundGradient };
+export { Background, Backgroundsmall, BackgroundGradient ,TravelInsurances};
 // Icons
 export {
   Mail, CellPhone, World, Location, Wightlocation, HomeIcon, PLusIcon, FAQ,
@@ -66,7 +76,8 @@ export {
   HomeGray, WightApplication, WightChat, WightDocuments, WightMenu, FaceBook,
   Google, CloseEye, Eye, ClanderIcon, ProfileIcon, LogOut, PrintIcon, CheckIcon,
   Cancel, SuccessIcon, DeleteIcon, Refresh, Cancelicon, ProfileIconBox,
-  ClanderIcon1, ClanderIcon2, Holidays, WeeklyIcon
+  ClanderIcon1, ClanderIcon2, Holidays, WeeklyIcon,FlagIcon,Flight,BottomImage,
+  BankIcon,NewsIcon,Quintion,FlightBAg,BeachIcon,BookMark
 };
 // Flags
 export { Italyflag, GetStarted };

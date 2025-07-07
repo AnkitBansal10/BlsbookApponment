@@ -32,7 +32,7 @@ const GradientButton = ({ title = 'GO', onPress }) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         width: "40%",
-        height: 50,
+        height: 56,
         borderRadius: 8,
         overflow: 'hidden',
     },

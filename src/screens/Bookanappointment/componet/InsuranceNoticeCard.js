@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Poppins_Fonts } from '../../../utils/fonts'; // Adjust path if needed
+import { colors } from '../../../utils/colors';
 const InsuranceNoticeCard = () => {
   return (
     <ImageBackground
@@ -14,8 +15,8 @@ const InsuranceNoticeCard = () => {
           <MaterialCommunityIcons name="bell-outline" size={18} color="#9C6100" />
         </View>
         <Text style={styles.text}>
-          Please note that Medical insurance is a mandatory document, We recommend that you
-          purchase insurance from the Visa Application Center or from an authorized agency,
+          Please note that Medical insurance{"\n"} is a mandatory document, We recommend that you
+          purchase{"\n"} insurance from the Visa Application{"\n"} Center or from an authorized {"\n"}agency,
           <Text style={styles.date}> 21 May 25</Text>
         </Text>
       </View>
@@ -47,9 +48,9 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    fontSize: 13,
-    lineHeight: 20,
-    color: '#fff',
+    fontSize: 14,
+    // lineHeight: 20,
+    color:colors.text,
     fontFamily:Poppins_Fonts.Poppins_Regular,
   },
   date: {

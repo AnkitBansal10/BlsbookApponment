@@ -70,7 +70,7 @@ const FavoritePlacesSlider = () => {
       />
 
       <View style={styles.filters}>
-        <ScrollView style={{ paddingHorizontal: 16 }}
+        <ScrollView style={{  }}
           horizontal
           showsHorizontalScrollIndicator={false}
         >

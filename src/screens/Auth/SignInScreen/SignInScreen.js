@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Alert
 } from "react-native";
 import { styles } from "./styles";
 import { scale } from "../../../utils/responsive";
@@ -28,15 +29,15 @@ export default function SignInScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-    await dispatch(loginUser({ email, password })).unwrap();
-    console.log(email+password)
+       const response = await dispatch(loginUser({ email, password })).unwrap();
+        console.log("✅ Login Success:", response.message); 
+         Alert.alert(response.message)
       navigation.navigate("BottomTab");
     } catch (error) {
+      Alert.alert(error)
      console.log(error) // Error is already handled by the thunk
     }
   };
-
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
@@ -81,7 +82,7 @@ export default function SignInScreen({ navigation }) {
           disabled={loading}
         />
         <AuthFooter
-          onSignUp={() => navigation.navigate('SignUp')}
+          onSignUp={() => navigation.navigate('SignUpScreen')}
           onGoogle={() => console.log('Google')}
           onFacebook={() => console.log('Facebook')}
           onApple={() => console.log('Apple')}

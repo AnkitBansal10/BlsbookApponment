@@ -4,24 +4,26 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Geist_Fonts, Poppins_Fonts } from '../../../utils/fonts';
 import { colors } from '../../../utils/colors';
 import { useNavigation } from '@react-navigation/native';
+import { BankIcon,NewsIcon,Quintion } from '../../../utils/Image';
+import { scale } from '../../../utils/responsive';
 
 const serviceData = [
   {
     id: '1',
     title: 'Visa Information',
-    icon: 'help-circle-outline',
+    Icon:Quintion,
     route: 'VisaDetailScreen',
   },
   {
     id: '2',
     title: 'Visa Application Centre',
-    icon: 'office-building-outline',
+    Icon: BankIcon,
     route: 'AdditionalServices',
   },
   {
     id: '3',
     title: 'News & Updates',
-    icon: 'newspaper-variant-outline',
+    Icon: NewsIcon,
     route: 'HolidaysScreen',
   },
 ];
@@ -43,7 +45,7 @@ const EmbassyServiceCard = () => {
             style={styles.card}
             onPress={() => navigation.navigate(item.route)}
           >
-            <MaterialCommunityIcons name={item.icon} size={28} color="#9C6100" />
+            <item.Icon width={scale(27.08)} height={scale(28.44)}/>
             <Text style={styles.title}>{item.title}</Text>
           </TouchableOpacity>
         )}
@@ -57,10 +59,10 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   header: {
-    fontSize: 16,
+    fontSize: 22,
     fontFamily: Poppins_Fonts.Poppins_SemiBold,
     marginBottom: 12,
-    color: '#333',
+    color:colors.commonTextColor,
   },
   cardList: {
     gap: 12,
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
   card: {
     width: 135,
     height: 116,
+    marginBottom:10,
     backgroundColor: '#fff',
     borderRadius: 12,
     padding: 12,
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 14,
     fontFamily: Poppins_Fonts.Poppins_Medium,
-    color: '#333',
+    color:colors.comanTextcolor2,
     lineHeight: 18,
   },
 });

@@ -23,19 +23,17 @@ import CountryDropdown from '../../components/CountryDropdown';
 import GradientButton from '../../components/GradientButton';
 import { styles } from './styles';
 import CardSlider from '../../components/CardSlider';
-import { BlackLogo } from '../../utils/Image';
+import { BackgroundGradient, BlackLogo, BottomImage, ButtomIcon } from '../../utils/Image';
 
 const HomeScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView>
-            <LinearGradient
-                colors={[colors.primaryGradientTop, colors.primaryGradientBottom]}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 0.5, y: 1 }}
-                style={styles.gradientBackground}
-            >
-                <StatusBar
+               
+                    <BackgroundGradient
+                                   style={{ position: "absolute", width: '100%', height: '100%' }}
+                               />
+                                <StatusBar
                     translucent
                     backgroundColor="transparent"
                     barStyle="dark-content"
@@ -43,20 +41,23 @@ const HomeScreen = ({navigation}) => {
                 <View style={styles.header}>
                     <View style={{ justifyContent: "center", alignItems: "center" }}>
                         <BlackLogo
-                            width={scale(70)}
-                            height={scale(70)}
-                          
+                            width={scale(79.67)}
+                            height={scale(50)}
                         />
                     </View>
                     <Text style={styles.title}>Your gateway to</Text>
-                    <Text style={styles.subtitle}>
-                        Global <Text style={styles.highlight}>Exploration!</Text>
-                    </Text>
-                        <SvgUri
-                            width={scale(110)}
+                    <Text style={styles.subtitle}
+                    adjustsFontSizeToFit
+  minimumFontScale={0.8} // Minimum scale down to 80% of original size
+  numberOfLines={1}
+                    >
+                        Global <Text style={styles.highlight}>Exploration!</Text></Text>
+                        <BottomImage
+                            width={scale(146.92)}
+                            height={scale(15.36)}
                             style={styles.vector}
-                            source={require('../../assets/images/Vector.svg')}
-                        /> 
+                           
+  /> 
                 </View>
                 <View style={{ padding: 20 }}>
                     <Text style={styles.subHeading}>Applying for a visa?</Text>
@@ -69,10 +70,7 @@ const HomeScreen = ({navigation}) => {
                         <Text style={styles.viewAll}>View all</Text>
                     </TouchableOpacity>
                 </View>
-                {/* <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cards}> */}
               <CardSlider/>
-                {/* </ScrollView> */}
-            </LinearGradient>
             </ScrollView>
         </SafeAreaView>
     );

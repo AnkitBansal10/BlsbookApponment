@@ -1,19 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { colors } from '../../../utils/colors';
+import { FlightBAg  ,TravelInsurances,BeachIcon} from '../../../utils/Image';
 
 const TravelInsuranceCard = () => {
   return (
-    <LinearGradient
-      colors={['#f9d423', '#ff4e50']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.card}
-    >
+    <View style={styles.card}>
+      {/* SVG Background */}
+      <View style={styles.svgBackground}>
+        <TravelInsurances width="406.36" height="100%" />
+      </View>
+      
+      {/* Content */}
       <View style={styles.leftContent}>
-        <Icon name="plane-departure" size={30} color="#fff" />
-        <Icon name="suitcase-rolling" size={24} color="#fff" style={{ marginLeft: 10 }} />
+        <FlightBAg width={69} height={57} />
       </View>
 
       <View style={styles.textContent}>
@@ -21,21 +22,31 @@ const TravelInsuranceCard = () => {
         <Text style={styles.subtitle}>Travel Insurance</Text>
         <Text style={styles.description}>from BLS for hassle free travel</Text>
       </View>
-
-      <Icon name="umbrella-beach" size={20} color="#fff" style={styles.cornerIcon} />
-    </LinearGradient>
+      <BeachIcon  width={20.6} height={20.53} style={styles.cornerIcon} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    marginTop:20,
-    marginBottom:20,
+  flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 20,
     borderRadius: 16,
     padding: 16,
     alignItems: 'center',
     position: 'relative',
+    overflow: 'hidden',
+    height: 120,
+    backgroundColor:colors.primary, // fallback color
+  },
+   svgBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
   },
   leftContent: {
     flexDirection: 'row',

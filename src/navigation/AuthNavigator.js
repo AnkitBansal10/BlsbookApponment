@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkFirstLaunch, loadUser } from '../features/auth/authThunks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNativeStackNavigator ,CardStyleInterpolators} from '@react-navigation/native-stack';
 import SignInScreen from '../screens/Auth/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/Auth/SignUpScreen/SignUpScreen';
 import SplashScreen from '../screens/splash/SplashScreen';
@@ -19,80 +16,72 @@ import Appointmentbookinglink from '../screens/Bookanappointment/Appointmentbook
 import Uploadyourpassport from '../screens/Bookanappointment/Uploadyourpassport/Uploadyourpassport';
 import UploadSelfiescreen from '../screens/Bookanappointment/UploadSelfiescreen/UploadSelfiescreen';
 import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/ProcessingScreen';
+import { useSelector, useDispatch } from 'react-redux';
+import { initializeAuth, logout } from '../features/auth/authSlice';
+import { getStoredAuthData } from '../features/auth/authService';
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const { 
-    isAuthenticated, 
-    isFirstLaunch, 
-    loading: authLoading 
-  } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  console.log(isAuthenticated)
 
   useEffect(() => {
-    const initializeApp = async () => {
+    const checkAuthSession = async () => {
       try {
-        // Check if it's first launch and load user session
-        await Promise.all([
-          dispatch(checkFirstLaunch()),
-          dispatch(loadUser())
-        ]);
+        const authData = await getStoredAuthData();
+        
+        if (authData?.tokens?.access_token) {
+          // Dispatch initializeAuth with the stored data
+          dispatch(initializeAuth(authData));
+        }
       } catch (error) {
-        console.error('Initialization error:', error);
+        console.error('Session check failed:', error);
+        dispatch(logout());
       } finally {
         setIsLoading(false);
       }
     };
 
-    initializeApp();
+    checkAuthSession();
   }, [dispatch]);
 
-  if (isLoading || authLoading || isFirstLaunch === null) {
+  if (isLoading) {
     return <SplashScreen />;
   }
 
-  const getInitialRoute = () => {
-    if (isFirstLaunch) return 'GetStarted';
-    return isAuthenticated ? 'BottomTab' : 'SignIn';
-  };
 
   return (
     <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName={getInitialRoute()}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+        gestureDirection: 'horizontal',
+      }}
+      initialRouteName={isAuthenticated ? "BottomTabScreen" : "SplashScreen"}
     >
-      {/* Authentication Screens */}
-      {!isAuthenticated && (
+      {isAuthenticated ? (
         <>
-          {isFirstLaunch && (
-            <Stack.Screen name="GetStarted" component={GetStartedScreen} />
-          )}
+          <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
+          {/* Authenticated screens */}
+          <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
+          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
+          {/* ... other authenticated screens ... */}
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="GetStarted" component={GetStartedScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         </>
       )}
-
-      {/* Authenticated Screens */}
-      {isAuthenticated && (
-        <>
-          <Stack.Screen name="BottomTab" component={BottomTabScreen} />
-          <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
-          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
-          <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
-          <Stack.Screen name="UploadSelfiescreen" component={UploadSelfiescreen} />
-          <Stack.Screen name="Appointmentbookinglink" component={Appointmentbookinglink} />
-          <Stack.Screen name="InformationScreen" component={InformationScreen} />
-        </>
-      )}
-
-      {/* Public Screens (accessible regardless of auth state) */}
+      {/* Common screens accessible to all */}
       <Stack.Screen name="VisaDetailScreen" component={VisaDetailScreen} />
       <Stack.Screen name="AdditionalServices" component={AdditionalServices} />
-      <Stack.Screen name="HolidaysScreen" component={HolidaysScreen} />
-      <Stack.Screen name="FaqScreen" component={FaqScreen} />
-      <Stack.Screen name="VisaTypescreen" component={VisaTypescreen} />
+      {/* ... other common screens ... */}
     </Stack.Navigator>
   );
 }

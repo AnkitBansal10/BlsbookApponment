@@ -31,7 +31,6 @@ export const loginUser = createAsyncThunk(
         email: email.trim(),
         password: password.trim()
       });
-
       const user = response.data?.data; // ✅ Real user object is in "data"
       if (!user) throw new Error("Invalid user data from server");
 
@@ -42,8 +41,11 @@ export const loginUser = createAsyncThunk(
       };
 
       await storeAuthData({ tokens, user });
-
-      return { tokens, user }; // matches your authSlice expectations
+return { 
+        tokens, 
+        user,
+        message: response.data.message // Pass message to Redux store
+      };
     } catch (error) {
       console.log("❌ Axios Error:", error);
       console.log("❌ Error Response:", error.response?.data);

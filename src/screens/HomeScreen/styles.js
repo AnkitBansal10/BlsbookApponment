@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Geist_Fonts } from '../../utils/fonts';
+import { Geist_Fonts, Poppins_Fonts } from '../../utils/fonts';
 import { colors } from '../../utils/colors';
 import { moderateScale, scale, verticalScale } from "../../utils/responsive";
 
@@ -7,6 +7,7 @@ import { moderateScale, scale, verticalScale } from "../../utils/responsive";
 export const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        backgroundColor:colors.text
     },
     gradientBackground: {
         flex: 1,
@@ -25,37 +26,28 @@ export const styles = StyleSheet.create({
         fontFamily: Geist_Fonts.Geist_Regular,
         marginTop: 20,
         marginBottom: 10,
-        fontWeight: 'normal',
-        color: '#616161',
+        color:colors.commonTextColor,
     },
     subtitle: {
         fontSize: 38,
-        fontWeight: '600',
         fontFamily: Geist_Fonts.Geist_SemiBold,
-        fontSize: 38,
-        lineHeight: 50,
-        letterSpacing: 0,
-        color: '#616161',
+      color:colors.commonTextColor,
+      textAlign:"justify"
     },
     vector: {
         left: moderateScale(190),
         top: scale(-8)
     },
     highlight: {
-        color: '#dc9f3e',
-        fontWeight: 'bold',
+        fontSize:38,
+        fontFamily:Geist_Fonts.Geist_Bold,
+        color:colors.primary
     },
     subHeading: {
-        fontSize: 18,
-        color: colors.darkText,
+        fontSize:20,
+        color: colors.commonTextColor,
         marginBottom: 15,
-        fontFamily: Geist_Fonts.Geist_SemiBold,
-        fontWeight: '600',
-        fontSize: 20,
-        lineHeight: 20,
-        letterSpacing: 0,
-        color: '#616161',
-
+        fontFamily: Geist_Fonts.Geist_SemiBold
     },
     form: {
         // padding: 20,
@@ -96,17 +88,18 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        marginTop: 10,
+        // marginTop: 10,
+        // marginBottom:20,
         alignItems: 'center',
     },
     sectionTitle: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: '#616161',
+        fontSize:20,
+        color:colors.commonTextColor,
         fontFamily: Geist_Fonts.Geist_SemiBold
     },
     viewAll: {
-        color: '#d8a441',
+        color:colors.primary,
+        fontFamily:Poppins_Fonts.Poppins_Regular,
         fontSize: 14,
     },
     cards: {

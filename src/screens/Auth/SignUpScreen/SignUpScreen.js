@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CalenderTextinput from "../../../components/CalenderTextinput";
 import PassportCountryDropdown from "../../../components/PassportCountryDropdown";
-export default function SignUpScreen() {
+export default function SignUpScreen({navigation}) {
       const [selectedPassportCountry, setSelectedPassportCountry] = useState('');
     const [first_name, setFirst_name] = useState("");
       const dispatch = useDispatch();
@@ -142,12 +142,14 @@ export default function SignUpScreen() {
             </View>
             
             <View style={styles.singuptextview}>
+                <TouchableOpacity onPress={()=>navigation.navigate("SignIn")}>
                 <Text style={styles.accountText}>
                     Already have an account{' '}
-                    <Text style={styles.signUpText} >
+                    <Text style={styles.signUpText}   >
                         Sign in
                     </Text>
                 </Text>
+                </TouchableOpacity>
             </View>
             </ScrollView>
         </View>

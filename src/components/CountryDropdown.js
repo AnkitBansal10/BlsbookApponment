@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// Assuming these are correctly imported and available
-// import { colors } from '../utils/colors'; 
-// import { scale } from '../utils/responsive'; 
-// import SvgUri from 'react-native-svg-uri'; 
+import { FlagIcon,Flight } from '../utils/Image';
+import { scale } from '../utils/responsive';
 
 const countries = [
     { label: 'Kazakhstan', value: 'Kazakhstan' },
@@ -19,14 +17,16 @@ const countries = [
 const CountryDropdown = () => {
     const [openFrom, setOpenFrom] = useState(false);
     const [valueFrom, setValueFrom] = useState(null);
-
     const [openTo, setOpenTo] = useState(false);
     const [valueTo, setValueTo] = useState(null);
 
     return (
-        <>
+        <View style={styles.container}>
             <View style={styles.row}>
-                <Icon name="airplane" size={24} color="red" style={styles.leftIcon} />
+                <View style={styles.iconContainer}>
+                    {/* Changed icon to 'flag' and color to 'black' as per the image */}
+                   <FlagIcon width={scale(16)} height={scale(18)} />
+                </View>
                 <DropDownPicker
                     placeholder="I'm applying from"
                     open={openFrom}
@@ -34,22 +34,22 @@ const CountryDropdown = () => {
                     items={countries}
                     setOpen={setOpenFrom}
                     setValue={setValueFrom}
-                    setItems={() => { }}
                     style={styles.dropdown}
                     dropDownContainerStyle={styles.dropdownBox}
                     textStyle={styles.text}
-                    showArrowIcon={true}
                     placeholderStyle={styles.placeholder}
-                    ArrowDownIconComponent={() => (
-                    <Icon name="chevron-down" size={24} color="#676767" style={{ fontWeight: 'bold' }} />
-                    )}
-                    ArrowUpIconComponent={() => (
-                    <Icon name="chevron-up" size={24} color="#676767" style={{ fontWeight: 'bold' }} />
-                    )}
+                    arrowIconStyle={styles.arrowIcon}
+                    // Ensure that the second dropdown doesn't open when the first one is open
+                    // This prevents issues with multiple dropdowns trying to expand simultaneously
+                    zIndex={3000}
+                    zIndexInverse={1000}
                 />
             </View>
+
             <View style={styles.row}>
-                <Icon name="airplane" size={24} color="red" style={styles.leftIcon} />
+                <View style={styles.iconContainer}>
+                  <Flight width={scale(24.21)} height={scale(18)} />
+                </View>
                 <DropDownPicker
                     placeholder="I'm going to"
                     open={openTo}
@@ -57,38 +57,36 @@ const CountryDropdown = () => {
                     items={countries}
                     setOpen={setOpenTo}
                     setValue={setValueTo}
-                    setItems={() => { }}
                     style={styles.dropdown}
                     dropDownContainerStyle={styles.dropdownBox}
                     textStyle={styles.text}
-                    showArrowIcon={true}
                     placeholderStyle={styles.placeholder}
-                    ArrowDownIconComponent={() => (
-                    <Icon name="chevron-down" size={24} color="#676767" style={{ fontWeight: 'bold' }} />
-                    )}
-                    ArrowUpIconComponent={() => (
-                    <Icon name="chevron-up" size={24} color="#676767" style={{ fontWeight: 'bold' }} />
-                    )}
+                    arrowIconStyle={styles.arrowIcon}
+                    // Ensure that the first dropdown doesn't open when the second one is open
+                    zIndex={2000}
+                    zIndexInverse={2000}
                 />
             </View>
-        </>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10,
     },
     row: {
+        flexDirection: 'row',
+        alignItems: 'center',
         marginBottom: 10,
-        // zIndex: 10,
+        position: 'relative',
     },
     dropdown: {
+        flex: 1,
         borderColor: '#ECECEC',
         borderWidth: 1,
         borderRadius: 12,
-        paddingLeft: 40, // Adjust padding to make space for the icon
-        height: 56,
+        height: 60,
+        paddingLeft: 50, // Make space for the icon
     },
     dropdownBox: {
         borderColor: '#ECECEC',
@@ -100,17 +98,21 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     placeholder: {
+        // If 'Poppins-Regular' is a custom font, ensure it's loaded in your React Native project.
+        // Otherwise, you might need to use a standard font or remove this line.
         fontFamily: 'Poppins-Regular',
         fontSize: 16,
-        lineHeight: 48,
-        letterSpacing: 0,
         color: '#888',
     },
-    leftIcon: {
+    iconContainer: {
         position: 'absolute',
-        left: 12,
-        top: '50%', 
-        transform: [{ translateY: -12 }],
+        left: 15,
+        // Increased zIndex to ensure the icon is always on top of the dropdown
+        zIndex: 4000,
+    },
+    arrowIcon: {
+        width: 24,
+        height: 24,
     },
 });
 
