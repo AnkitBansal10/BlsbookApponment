@@ -63,6 +63,7 @@ import TravelInsurances from '../assets/images/Travelinsurance.svg'
 import FlightBAg from '../assets/icons/FlightBag.svg'
 import BeachIcon from '../assets/icons/Beach.svg'
 import BookMark from '../assets/icons/Bookmark.svg'
+import Avtar from '../assets/icons/Avtar.svg'
 
 // Logos
 export { Logo, WightLogo, BlackLogo, Butonlogo };
@@ -77,7 +78,7 @@ export {
   Google, CloseEye, Eye, ClanderIcon, ProfileIcon, LogOut, PrintIcon, CheckIcon,
   Cancel, SuccessIcon, DeleteIcon, Refresh, Cancelicon, ProfileIconBox,
   ClanderIcon1, ClanderIcon2, Holidays, WeeklyIcon,FlagIcon,Flight,BottomImage,
-  BankIcon,NewsIcon,Quintion,FlightBAg,BeachIcon,BookMark
+  BankIcon,NewsIcon,Quintion,FlightBAg,BeachIcon,BookMark,Avtar
 };
 // Flags
 export { Italyflag, GetStarted };

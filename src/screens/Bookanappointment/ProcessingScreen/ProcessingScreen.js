@@ -19,13 +19,11 @@ import ServiceDescriptionInput from "../../../components/ServiceDescriptionInput
 import CustomButton from "../../../components/CustomButton";
 import { colors } from "../../../utils/colors";
 
-
 export default function ProcessingScreen({ navigation }) {
     const [nationality, setNationality] = useState('');
+    const [applicationType, setApplicationType] = useState({ label: 'Application_type', value: 'Application_type', count: 1 });
     const [dob, setDob] = useState('');
-
-
-    console.log("dob")
+    const [BookanappointmentDate,setBookanappointmentDate] =useState()
 
     const availableDates = [
         '2025-07-17',
@@ -38,6 +36,50 @@ export default function ProcessingScreen({ navigation }) {
         '2025-07-07', '2025-07-08', '2025-07-09', '2025-07-10',
         '2025-07-11', '2025-07-14', '2025-07-15', '2025-07-16'
     ];
+
+    console.log(BookanappointmentDate)
+
+    const renderApplicantForms = () => {
+        const forms = [];
+        // Ensure applicationType.count is a number and greater than 0
+        const count = typeof applicationType.count === 'number' && applicationType.count > 0 ? applicationType.count : 1;
+
+        for (let i = 0; i < count; i++) {
+            forms.push(
+                <View key={`applicant-${i}`} style={{ marginTop: 20 }}>
+                    <Text style={styles.Applicant}>Applicant - {i + 1} </Text>
+                    {/* <Text style={styles.Applicant}>Applicant - 1 </Text> */}
+                    <TimeSlot />
+                    <LabeledInput
+                        label="Applicant First Name"
+                        value={nationality}
+                        onChangeText={setNationality}
+                    // placeholder="Enter your nationality"
+                    />
+                    <LabeledInput
+                        label="Applicant Last Name"
+                        value={nationality}
+                        onChangeText={setNationality}
+                    // placeholder="Enter your nationality"
+                    />
+                    <DateofBirth
+                        placeholder="Date of Birth*"
+                        date={dob} setDate={setDob}
+                    />
+                    <LabeledInput
+                        label="Passport No"
+                        value={nationality}
+                        onChangeText={setNationality}
+                    // placeholder="Enter your nationality"
+                    />
+                    <PremiumLounge />
+                </View>
+            );
+        }
+        return forms;
+    };
+
+
     return (
         <View style={styles.container} >
             <ScrollView >
@@ -65,14 +107,18 @@ export default function ProcessingScreen({ navigation }) {
                     </Text>
                     <ApplicationCenter />
                     <Servicetype />
-                    <Applicationtype />
+                    <Applicationtype
+                        value={applicationType}
+                        setValue={setApplicationType}
+                    />
                     <Text style={styles.AppoinmentDateText}>
                         Appointment Date:
                     </Text>
                     <BoxUIWithFlatList />
                     <AppointmentDate
                         placeholder="Click here for Appointment Date*"
-                        date={dob} setDate={setDob}
+                        date={BookanappointmentDate} 
+                        setDate={setBookanappointmentDate}
                         availableDates={availableDates}
                         unavailableDates={unavailableDates}
                     />
@@ -100,31 +146,8 @@ export default function ProcessingScreen({ navigation }) {
                             onChangeText={setNationality}
                         // placeholder="Enter your nationality"
                         />
-                        <Text style={styles.Applicant}>Applicant - 1 </Text>
-                        <TimeSlot />
-                        <LabeledInput
-                            label="Applicant First Name"
-                            value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
-                        />
-                        <LabeledInput
-                            label="Applicant Last Name"
-                            value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
-                        />
-                        <DateofBirth
-                            placeholder="Date of Birth*"
-                            date={dob} setDate={setDob}
-                        />
-                        <LabeledInput
-                            label="Passport No"
-                            value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
-                        />
-                        <PremiumLounge />
+
+                        {renderApplicantForms()}
                         <ServiceDescriptionInput />
                     </View>
                 </View>

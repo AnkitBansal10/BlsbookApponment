@@ -67,7 +67,6 @@ export default function AuthNavigator() {
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
           {/* Authenticated screens */}
           <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
-          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
           {/* ... other authenticated screens ... */}
         </>
       ) : (

@@ -16,9 +16,9 @@ import { Geist_Fonts, Poppins_Fonts } from '../utils/fonts';
 import { Avtar, BookMark, Location } from '../utils/Image';
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.58;
+const CARD_WIDTH = width * 0.42;
 
-const CardSlider = () => {
+const ViewCardSlider = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.card}>
       <Image source={item.image} style={styles.image} />
@@ -42,7 +42,7 @@ const CardSlider = () => {
           </View>
 
         <View style={styles.avatars}>
-        <Avtar  width={scale(54)} height={scale(24)}/>
+        <Avtar  width={scale(44)} height={scale(24)}/>
           </View>
         
         </View>
@@ -54,9 +54,8 @@ const CardSlider = () => {
     <FlatList
       data={destinationData}
       renderItem={renderItem}
-      horizontal
-      showsHorizontalScrollIndicator={false}
       keyExtractor={(item) => item.id}
+      numColumns={2}
       contentContainerStyle={styles.list}
       snapToInterval={CARD_WIDTH + 20}
       decelerationRate="fast"
@@ -66,14 +65,14 @@ const CardSlider = () => {
 
 const styles = StyleSheet.create({
   list: {
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
   },
   card: {
   width: CARD_WIDTH,
   marginTop: 10,
   backgroundColor: colors.text,
   borderRadius: 16,
-  marginBottom: 30,
+  marginBottom: 10,
   marginHorizontal: 8,
   alignItems: "center",
   shadowColor: '#000',
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   image: {
     marginTop: moderateScale(10),
     borderRadius: 16,
-    height: scale(240),
+    height: scale(180),
     width: '90%',
   },
   content: {
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Geist_Fonts.Geist_SemiBold,
-    fontSize: 18,
+    fontSize: 14,
     lineHeight:20,
       marginBottom:6,
     color: colors.commonTextColor
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginLeft: 4,
-    fontSize: 15,
+    fontSize: 12,
     color:colors.commonTextColor,
     fontFamily:Poppins_Fonts.Poppins_Regular
   },
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     width:"70%"
   },
   location: {
-   fontSize: scale(13), 
+   fontSize: scale(10), 
     color:colors.comanTextcolor2,
     marginLeft: scale(2),
   },
@@ -151,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CardSlider;
+export default ViewCardSlider;

@@ -34,21 +34,54 @@ const AppointmentDate = ({
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
-  const onDayPress = (day) => {
-    console.log("hihhihhiih")
+  // const onDayPress = (day) => {
+  //   console.log("hihhihhiih")
+  //   const selected = day.dateString.trim();
+  //   setDate(selected)
+  //   console.log('Pressed:', selected);
+  //   console.log('Closing modal...');
+  //   setModalVisible(false);
+  //   const isUnavailable = unavailableDates.includes(selected);
+  //   const isAvailable = availableDates.length === 0 || availableDates.includes(selected);
+  //   if (!isAvailable || isUnavailable) {
+  //     console.log('❌ Blocked: Either unavailable or not in availableDates');
+  //     return;
+  //   }
+  //   console.log('✅ Selected:', selected);
+  //   setDate(selected);
+  //   setModalVisible(false);
+  // };
+
+ 
+const onDayPress = (day) => {
   const selected = day.dateString.trim();
-  console.log('Pressed:', selected);
-  const isUnavailable = unavailableDates.includes(selected);
-  const isAvailable = availableDates.length === 0 || availableDates.includes(selected);
-  if (!isAvailable || isUnavailable) {
-    console.log('❌ Blocked: Either unavailable or not in availableDates');
+  console.log('Selected date:', selected);
+  
+  // Check if date is unavailable
+  if (unavailableDates.includes(selected)) {
+    Alert.alert(
+      'Not Available',
+      'This date is marked as unavailable',
+      [{ text: 'OK', onPress: () => setModalVisible(false) }]
+    );
     return;
   }
-  console.log('✅ Selected:', selected);
+  
+  // Check if date is available (if availableDates is provided)
+  if (availableDates.length > 0 && !availableDates.includes(selected)) {
+    Alert.alert(
+      'Not Available',
+      'Please select from the available dates',
+      [{ text: 'OK', onPress: () => setModalVisible(false) }]
+    );
+    return;
+  }
+  
+  // If all checks pass
+  console.log('✅ Valid selection:', selected);
   setDate(selected);
   setModalVisible(false);
 };
-
   const handleYearSelect = (year) => {
     setSelectedYear(parseInt(year));
     setMode('month');
@@ -69,7 +102,7 @@ const AppointmentDate = ({
         disableTouchEvent: true,
         customStyles: {
           container: { backgroundColor: '#d9534f', borderRadius: 4 },
-          text: { color:colors.text },
+          text: { color: colors.text },
         },
       };
     });
@@ -78,8 +111,8 @@ const AppointmentDate = ({
       if (!marked[d]) {
         marked[d] = {
           customStyles: {
-            container: {  backgroundColor: '#4CAF50', borderRadius: 4 },
-            text: { color:colors.text },
+            container: { backgroundColor: '#4CAF50', borderRadius: 4 },
+            text: { color: colors.text },
           },
         };
       }

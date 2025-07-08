@@ -18,6 +18,8 @@ const Servicetype = () => {
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
+         itemTextStyle={styles.itemText}
+        selectedItemTextStyle={styles.selectedItemText}
         iconStyle={styles.iconStyle}
         iconColor={colors.comanTextcolor2}
         data={data}
@@ -50,6 +52,11 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
    fontSize: 16,
+    fontFamily:Poppins_Fonts.Poppins_Regular,
+    color:colors.comanTextcolor2
+  },
+  itemText:{
+ fontSize: 16,
     fontFamily:Poppins_Fonts.Poppins_Regular,
     color:colors.comanTextcolor2
   },

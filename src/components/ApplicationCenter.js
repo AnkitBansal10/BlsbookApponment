@@ -20,10 +20,12 @@ const ApplicationCenter = () => {
                 selectedTextStyle={styles.selectedTextStyle}
                 iconStyle={styles.iconStyle}
                 iconColor={colors.comanTextcolor2}
+                textStyle={styles.text}
+                itemTextStyle={styles.itemText}
+                selectedItemTextStyle={styles.selectedItemText}
                 data={data}
                 maxHeight={300}
                 labelField="label"
-
                 valueField="value"
                 value={value}
                 onChange={item => {
@@ -54,10 +56,24 @@ const styles = StyleSheet.create({
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
+    text: {
+        fontSize: 16,
+        fontFamily: Poppins_Fonts.Poppins_Regular,
+         color: colors.commonTextColor,
+    },
     iconStyle: {
         width: 32,
         height: 16,
-       
+    },
+    itemText: {
+        fontSize: 16,
+        fontFamily: Poppins_Fonts.Poppins_Regular,
+        color: colors.commonTextColor,
+    },
+    selectedItemText: {
+        fontSize: 16,
+        fontFamily: Poppins_Fonts.Poppins_Regular,
+         color: colors.commonTextColor,
     },
 });
 

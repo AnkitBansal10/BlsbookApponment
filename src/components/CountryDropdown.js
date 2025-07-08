@@ -4,6 +4,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FlagIcon,Flight } from '../utils/Image';
 import { scale } from '../utils/responsive';
+import { colors } from '../utils/colors';
+import { Poppins_Fonts } from '../utils/fonts';
 
 const countries = [
     { label: 'Kazakhstan', value: 'Kazakhstan' },
@@ -62,7 +64,6 @@ const CountryDropdown = () => {
                     textStyle={styles.text}
                     placeholderStyle={styles.placeholder}
                     arrowIconStyle={styles.arrowIcon}
-                    // Ensure that the first dropdown doesn't open when the second one is open
                     zIndex={2000}
                     zIndexInverse={2000}
                 />
@@ -94,15 +95,14 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
     text: {
-        fontSize: 14,
-        color: '#333',
+        fontSize: 16,
+        color:colors.comanTextcolor2,
+        fontFamily:Poppins_Fonts.Poppins_Regular
     },
     placeholder: {
-        // If 'Poppins-Regular' is a custom font, ensure it's loaded in your React Native project.
-        // Otherwise, you might need to use a standard font or remove this line.
-        fontFamily: 'Poppins-Regular',
         fontSize: 16,
-        color: '#888',
+        color:colors.comanTextcolor2,
+        fontFamily:Poppins_Fonts.Poppins_Regular
     },
     iconContainer: {
         position: 'absolute',
@@ -111,8 +111,9 @@ const styles = StyleSheet.create({
         zIndex: 4000,
     },
     arrowIcon: {
-        width: 24,
-        height: 24,
+        width: 32,
+        height: 16,
+        tintColor:colors.comanTextcolor2
     },
 });
 
