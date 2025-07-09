@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     Alert,
     StatusBar,
-    ScrollView
+    ScrollView,
+    AccessibilityInfo
 } from "react-native";
 import { styles } from "./styles";
 import { scale } from "../../../utils/responsive";
@@ -33,7 +34,8 @@ export default function SignUpScreen({navigation}) {
       const [selectedPassportCountry, setSelectedPassportCountry] = useState('');
     const [first_name, setFirst_name] = useState("");
       const dispatch = useDispatch();
-    
+    AccessibilityInfo.announceForAccessibility('New content has loaded');
+
     // console.log("name" + name)
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
@@ -60,7 +62,7 @@ export default function SignUpScreen({navigation}) {
   }
 };
     return (
-        <View style={styles.container} >
+        <View style={styles.container} accessible={true} >
             <ScrollView >
             <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
             <BackgroundGradient
@@ -77,7 +79,11 @@ export default function SignUpScreen({navigation}) {
             </View>
             <ContactCard />
             <View style={styles.titleTextView}>
-                <Text style={styles.title}>Sign up now</Text>
+                <Text style={styles.title}
+                 accessibilityLabel="Welcome to our accessible application"
+                  accessibilityRole="header"
+                
+                >Sign up now</Text>
                 <Text style={styles.subtitle}>Please sign up to continue our app</Text>
             </View>
             <View style={styles.inputview}>
@@ -85,6 +91,7 @@ export default function SignUpScreen({navigation}) {
                     placeholder="First Name (Given Name)*"
                     value={first_name}
                     onChangeText={setFirst_name}
+                    validationType={"name"}
                 />
             </View>
             <View style={styles.inputview}>
@@ -92,6 +99,7 @@ export default function SignUpScreen({navigation}) {
                     placeholder="email*"
                     value={email}
                     onChangeText={setEmail}
+                    validationType={"email"}
                 />
             </View>
             <View style={styles.inputview}>

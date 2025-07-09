@@ -19,25 +19,23 @@ import AuthFooter from "../../../components/AuthFooter";
 import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
-import CryptoJS from 'crypto-js';
 
-
-export default function SignInScreen({ navigation }) {
+export default function ForgetScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleLogin = async () => {
-    try {
-       const response = await dispatch(loginUser({ email, password })).unwrap();
-        console.log("✅ Login Success:", response.message); 
-         Alert.alert(response.message)
-      navigation.navigate("BottomTab");
-    } catch (error) {
-      Alert.alert(error)
-     console.log(error) // Error is already handled by the thunk
-    }
+    // try {
+    //    const response = await dispatch(loginUser({ email, password })).unwrap();
+    //     console.log("✅ Login Success:", response.message); 
+    //      Alert.alert(response.message)
+    //   navigation.navigate("BottomTab");
+    // } catch (error) {
+    //   Alert.alert(error)
+    //  console.log(error) // Error is already handled by the thunk
+    // }
   };
   return (
   <KeyboardAvoidingView
@@ -55,8 +53,8 @@ export default function SignInScreen({ navigation }) {
       </View>
       <ContactCard />
       <View style={styles.titleTextView}>
-        <Text style={styles.title}>Sign in now</Text>
-        <Text style={styles.subtitle}>Please sign in to continue our app</Text>
+        <Text style={styles.title}>Forget Password</Text>
+        <Text style={styles.subtitle}>Forget Password </Text>
       </View>
       <View style={styles.inputview}>
         <CustomTextInput
@@ -67,28 +65,28 @@ export default function SignInScreen({ navigation }) {
           autoCapitalize="none"
            validationType="email"
         />
-        <PasswordInput
+        {/* <PasswordInput
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
-        />
-        <View style={styles.forgetTextView}>
-          <TouchableOpacity onPress={() =>navigation.navigate("ForgetScreen")}>
+        /> */}
+        {/* <View style={styles.forgetTextView}>
+          <TouchableOpacity>
             <Text style={styles.forgetText}>Forget Password ?</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <CustomButton 
-          label="SIGN IN" 
+          label="SEND LINK" 
           onPress={handleLogin}
           loading={loading}
           disabled={loading}
         />
-        <AuthFooter
+        {/* <AuthFooter
           onSignUp={() => navigation.navigate('SignUpScreen')}
           onGoogle={() => console.log('Google')}
           onFacebook={() => console.log('Facebook')}
           onApple={() => console.log('Apple')}
-        />
+        /> */}
       </View>
     </KeyboardAvoidingView>
   );

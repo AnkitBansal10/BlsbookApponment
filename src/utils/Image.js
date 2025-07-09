@@ -1,5 +1,5 @@
 import Logo from '../assets/images/Group.svg';
-import GetStarted from '../assets/images/getstarted.svg'
+import GetStarted from '../assets/icons/GetStartImage.svg'
 import WightLogo from '../assets/images/logoWight.svg'
 import BlackLogo from '../assets/images/blacklogo.svg'
 import Butonlogo from '../assets/icons/fontIcon.svg'

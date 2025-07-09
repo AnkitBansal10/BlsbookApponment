@@ -8,7 +8,6 @@ import {
     StatusBar,
     ScrollView,
     SafeAreaView,
-    ActivityIndicator
 } from 'react-native';
 import { scale } from '../../utils/responsive';
 import CountryDropdown from '../../components/CountryDropdown';
@@ -22,7 +21,6 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 const HomeScreen = ({ navigation }) => {
     const [viewAll, setViewAll] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
-
     useEffect(() => {
         // Simulate loading data
         const timer = setTimeout(() => {

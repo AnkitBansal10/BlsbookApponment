@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomButton from '../../components/CustomButton';
-import { Geist_Fonts, OpenSans_Fonts } from '../../utils/fonts';
-const { width, height } = Dimensions.get('window');
+import { Geist_Fonts, OpenSans_Fonts, Poppins_Fonts } from '../../utils/fonts';
+import { colors } from '../../utils/colors';
+import { verticalScale,moderateScale,scale,fontScale ,platformScale} from '../../utils/responsive';
 
 const GetStartedScreen = ({navigation}) => {
     const insets = useSafeAreaInsets();
@@ -37,6 +38,8 @@ const GetStartedScreen = ({navigation}) => {
     );
 };
 export default GetStartedScreen;
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -50,38 +53,41 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: 'white',
-        borderRadius: 20,
-        marginHorizontal: 20,
-        padding: 20,
+        borderRadius: moderateScale(20),
+        marginHorizontal: moderateScale(20),
+        padding: moderateScale(20),
         alignItems: 'center',
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
+        shadowOffset: { width: 0, height: verticalScale(6) },
         shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 10,
+        shadowRadius: moderateScale(10),
+        elevation: platformScale(10),
     },
     title: {
-        fontSize:30,
+        fontSize: fontScale(30),
         fontFamily:Geist_Fonts.Geist_Medium,
-        color: '#333',
-        marginBottom: 10,
+        color:colors.commonTextColor,
+        marginBottom: verticalScale(10),
     },
     subtitle: {
-        fontSize: 13,
-        fontFamily:OpenSans_Fonts.OpenSans_Medium,
-        textAlign: 'center',
-        color: '#666',
-        marginBottom: 20,
+        fontSize: fontScale(16),
+        fontFamily:Poppins_Fonts.Poppins_Regular,
+        color: colors.comanTextcolor2,
+        marginBottom: verticalScale(20),
+        textAlign: "center",
     },
     button: {
         backgroundColor: '#AD842B',
-        paddingHorizontal: 30,
-        paddingVertical: 12,
-        borderRadius: 6,
+        paddingHorizontal: moderateScale(30),
+        paddingVertical: verticalScale(12),
+        borderRadius: moderateScale(6),
     },
     buttonText: {
         color: '#fff',
         fontWeight: '600',
-        fontSize: 14,
+        fontSize: fontScale(14),
     },
 });
+
+
+

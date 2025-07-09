@@ -19,6 +19,7 @@ export const colors = {
   commonTextColor:"#616161",
   borderColor:"#828181",
   tableboder:"#D0D0D0",
+  error:"#e6101b",
   comanTextcolor2:"#676767",
   indexcolor:"#f8f8f8",
   borderColorSecondcolor:"#ECECEC",

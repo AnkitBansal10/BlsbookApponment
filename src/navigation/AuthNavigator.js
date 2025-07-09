@@ -19,7 +19,8 @@ import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/Proc
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeAuth, logout } from '../features/auth/authSlice';
 import { getStoredAuthData } from '../features/auth/authService';
-
+import ForgetScreen from '../screens/Auth/ForgetScreen/ForgetScreen';
+import { styles } from '';
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
@@ -65,22 +66,21 @@ export default function AuthNavigator() {
       {isAuthenticated ? (
         <>
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
-          {/* Authenticated screens */}
           <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
-          {/* ... other authenticated screens ... */}
         </>
       ) : (
         <>
+          
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="GetStarted" component={GetStartedScreen} />
+          <Stack.Screen name="ForgetScreen" component={ForgetScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+
         </>
       )}
-      {/* Common screens accessible to all */}
       <Stack.Screen name="VisaDetailScreen" component={VisaDetailScreen} />
       <Stack.Screen name="AdditionalServices" component={AdditionalServices} />
-      {/* ... other common screens ... */}
     </Stack.Navigator>
   );
 }
