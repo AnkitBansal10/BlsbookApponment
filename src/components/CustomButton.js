@@ -1,15 +1,25 @@
-// components/CustomButton.js
-
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Geist_Fonts } from '../utils/fonts';
 
+// Memoized gradient colors array
+const GRADIENT_COLORS = ['#9C6100', '#D9A546'];
+
 const CustomButton = ({ onPress, label = "SIGN IN" }) => {
+  // Memoize the press handler to prevent unnecessary re-renders
+  const handlePress = useCallback(() => {
+    onPress?.();
+  }, [onPress]);
+
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.85} style={styles.touchable}>
+    <TouchableOpacity 
+      onPress={handlePress} 
+      activeOpacity={0.85} 
+      style={styles.touchable}
+    >
       <LinearGradient
-        colors={['#9C6100', '#D9A546']} // Adjust as needed for golden effect
+        colors={GRADIENT_COLORS}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradient}
@@ -25,7 +35,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     borderRadius: 8,
-    overflow: 'hidden', // Ensures gradient corners are rounded
+    overflow: 'hidden',
   },
   gradient: {
     height: 50,
@@ -42,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomButton;
+export default memo(CustomButton);

@@ -1,14 +1,11 @@
-// src/features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { 
-  storeAuthData, 
-  getStoredAuthData, 
-  clearAuthData 
-} from './authService';
+import { fetchNationalities } from '../auth/authThunks';
+import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 
 const initialState = {
   tokens: null,
   user: null,
+  nationalities: null,
   loading: false,
   error: null,
   isAuthenticated: false,
@@ -38,34 +35,50 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Specific handler for fetchNationalities
+      .addCase(fetchNationalities.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchNationalities.fulfilled, (state, action) => {
+        state.loading = false;
+        state.nationalities = action.payload;
+      })
+      .addCase(fetchNationalities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // Generic matchers for other actions
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) => action.type.endsWith('/pending') && 
+                  !action.type.includes('fetchNationalities'),
         (state) => {
           state.loading = true;
-          state.error = null;
         }
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) => action.type.endsWith('/fulfilled') && 
+                  !action.type.includes('fetchNationalities'),
+        (state, action) => {
+          state.loading = false;
+          if (action.payload?.tokens) {
+            state.tokens = action.payload.tokens;
+            state.user = action.payload.user;
+            state.isAuthenticated = !!action.payload.tokens?.access_token;
+          }
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected') && 
+                  !action.type.includes('fetchNationalities'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;
-          state.isAuthenticated = false;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/fulfilled'),
-        (state, action) => {
-          state.loading = false;
-          state.tokens = action.payload.tokens;
-          state.user = action.payload.user;
-          state.isAuthenticated = !!action.payload.tokens?.access_token;
-          state.error = null;
         }
       );
   },
 });
 
-// Export all actions
 export const { logout, clearError, initializeAuth, refreshTokens } = authSlice.actions;
 export default authSlice.reducer;

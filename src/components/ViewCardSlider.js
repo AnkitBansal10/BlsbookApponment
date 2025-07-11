@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{memo,useCallback} from 'react';
 import {
   View,
   Text,
@@ -19,7 +19,7 @@ const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.42;
 
 const ViewCardSlider = () => {
-  const renderItem = ({ item }) => (
+  const renderItem = useCallback(({ item }) => (
     <TouchableOpacity style={styles.card}>
       <Image source={item.image} style={styles.image} />
        <TouchableOpacity style={styles.bookmarkIconContainer}>
@@ -48,7 +48,7 @@ const ViewCardSlider = () => {
         </View>
       </View>
     </TouchableOpacity>
-  );
+), []);
 
   return (
     <FlatList
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewCardSlider;
+export default memo(ViewCardSlider);

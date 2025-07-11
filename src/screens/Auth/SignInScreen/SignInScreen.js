@@ -28,6 +28,8 @@ export default function SignInScreen({ navigation }) {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
 
+  console.log(email)
+
   const handleLogin = async () => {
     try {
        const response = await dispatch(loginUser({ email, password })).unwrap();
@@ -41,7 +43,7 @@ export default function SignInScreen({ navigation }) {
   };
   return (
   <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+       style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
       <BackgroundGradient
         style={{ position: "absolute", width: '100%', height: '100%' }}
@@ -71,6 +73,12 @@ export default function SignInScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
+           validationRules={{
+          minLength: 6,
+          requireUppercase: false,
+          requireNumber: true,
+          requireSpecialChar: false
+        }}
         />
         <View style={styles.forgetTextView}>
           <TouchableOpacity onPress={() =>navigation.navigate("ForgetScreen")}>

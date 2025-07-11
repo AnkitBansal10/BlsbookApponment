@@ -1,95 +1,76 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { TextInput, View, StyleSheet, Text } from 'react-native';
 import { colors } from '../utils/colors';
 
 const CustomTextInput = ({
   placeholder,
-  value,
+  value = '',
   onChangeText,
-  validationType, // 'name' or 'email'
+  validationType, // 'name', 'email', or undefined
   ...props
 }) => {
-  const [text, setText] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Validation functions
-  const validateName = (name) => {
-    if (!name.trim()) {
-      setError(true);
-      setErrorMessage('Name is required');
-      return false;
-    } else if (name.length < 3) {
-      setError(true);
-      setErrorMessage('Name must be at least 3 characters');
-      return false;
-    } else {
-      setError(false);
-      setErrorMessage('');
-      return true;
+  // Memoized validation functions
+  const validators = useMemo(() => ({
+    name: {
+      validate: (value) => {
+        if (!value.trim()) return 'Name is required';
+        if (value.length < 3) return 'Name must be at least 3 characters';
+        return '';
+      }
+    },
+    email: {
+      validate: (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!value.trim()) return 'Email is required';
+        if (!emailRegex.test(value)) return 'Invalid email format';
+        return '';
+      }
     }
-  };
+  }), []);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) {
-      setError(true);
-      setErrorMessage('Email is required');
-      return false;
-    } else if (!emailRegex.test(email)) {
-      setError(true);
-      setErrorMessage('Invalid email format');
-      return false;
-    } else {
-      setError(false);
-      setErrorMessage('');
-      return true;
+  // Handle text change with validation
+  const handleTextChange = useCallback((newText) => {
+    onChangeText?.(newText); // Update parent state immediately
+    if (validationType && validators[validationType]) {
+      const message = validators[validationType].validate(newText);
+      setError(!!message);
+      setErrorMessage(message);
     }
-  };
+  }, [onChangeText, validationType, validators]);
 
-  // Handle text change and validation
-  const handleTextChange = (newText) => {
-    setText(newText);
-    if (validationType === 'name') {
-      validateName(newText);
-    } else if (validationType === 'email') {
-      validateEmail(newText);
+  // Handle focus changes
+  const handleFocus = useCallback(() => setIsFocused(true), []);
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+    // Re-validate on blur
+    if (validationType && validators[validationType]) {
+      const message = validators[validationType].validate(value);
+      setError(!!message);
+      setErrorMessage(message);
     }
-  };
+  }, [validationType, validators, value]);
 
-  // Called on blur or submit
-  const handleTextSubmit = useCallback(() => {
-    if (text !== value) {
-      onChangeText(text);
-    }
-    if (validationType === 'name') {
-      validateName(text);
-    } else if (validationType === 'email') {
-      validateEmail(text);
-    }
-  }, [text, value, onChangeText, validationType]);
+  // Dynamic input style
+  const inputStyle = useMemo(() => [
+    styles.inputWrapper,
+    isFocused && styles.inputFocused,
+    error && styles.inputError,
+  ], [isFocused, error]);
 
   return (
     <View style={styles.container}>
-      <View
-        style={[
-          styles.inputWrapper,
-          isFocused && styles.inputFocused,
-          error && styles.inputError,
-        ]}
-      >
+      <View style={inputStyle}>
         <TextInput
           style={styles.input}
           placeholder={placeholder}
-          value={text}
+          value={value}
           onChangeText={handleTextChange}
-          onSubmitEditing={handleTextSubmit}
-          onBlur={() => {
-            handleTextSubmit();
-            setIsFocused(false);
-          }}
-          onFocus={() => setIsFocused(true)}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           placeholderTextColor={colors.comanTextcolor2}
           returnKeyType="done"
           {...props}
@@ -115,10 +96,10 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColorSecondcolor,
   },
   inputFocused: {
-    borderColor: "red", // Highlight when focused
+    borderColor: colors.primary,
   },
   inputError: {
-    borderColor: colors.error, // Red border on error
+    borderColor: colors.error,
   },
   input: {
     fontSize: 14,

@@ -28,8 +28,8 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await api.post('applicant_login', {
-        email: email.trim(),
-        password: password.trim()
+        email: email,
+        password: password
       });
       const user = response.data?.data; // ✅ Real user object is in "data"
       if (!user) throw new Error("Invalid user data from server");
@@ -41,8 +41,8 @@ export const loginUser = createAsyncThunk(
       };
 
       await storeAuthData({ tokens, user });
-return { 
-        tokens, 
+      return {
+        tokens,
         user,
         message: response.data.message // Pass message to Redux store
       };
@@ -71,14 +71,14 @@ export const registerUser = createAsyncThunk(
         mobile: mobile.trim(),
         passport: passport.trim(),
       });
-     const { message } = response.data;
+      const { message } = response.data;
       console.log("✅ Registration Message:", message);
-    //  await storeAuthData({  user });
-      return {  message };
+      //  await storeAuthData({  user });
+      return { message };
     } catch (error) {
       console.log("❌ Registration Error:", error);
-console.log("❌ Error Response:", error.response?.data);
-console.log("❌ Error Response:", error.response?.data?.message);
+      console.log("❌ Error Response:", error.response?.data);
+      console.log("❌ Error Response:", error.response?.data?.message);
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||
@@ -87,6 +87,56 @@ console.log("❌ Error Response:", error.response?.data?.message);
     }
   }
 )
+//Nanationality
+export const fetchNationalities = createAsyncThunk(
+  'auth/fetchNationalities',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('nationality');
+      return response.data; // Return nationality data
+    } catch (error) {
+      console.error('Fetch Nationalities Error:', {
+        error: error.response?.data || error.message,
+        status: error.response?.status,
+      });
+      
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        'Failed to fetch nationalities'
+      );
+    }
+  }
+);
+// ForgetPassword
+export const ForgetPassword = createAsyncThunk(
+  'auth/forgetPassword',
+  async ({ email, password }, { rejectWithValue }) => {
+    console.log(password)
+    console.log(email)
+    try {
+      const response = await api.post('applicant_forgot', {
+        email: email.trim(),
+        password: password.trim(),
+      });
+      const { message } = response.data;
+      console.log("✅ ForgetPassword Message:", message);
+      //  await storeAuthData({  user });
+      return { message };
+    } catch (error) {
+      console.log("❌ ForgetPassword Error:", error);
+      console.log("❌ Error Response:", error.response?.data);
+      console.log("❌ Error Response:", error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'ForgetPassword failed'
+      );
+    }
+  }
+)
+
 // Google Login
 export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',

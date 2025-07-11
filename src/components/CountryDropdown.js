@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState, useMemo, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { FlagIcon,Flight } from '../utils/Image';
+import { FlagIcon, Flight } from '../utils/Image';
 import { scale } from '../utils/responsive';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
 
-const countries = [
+// Memoized countries data
+const COUNTRIES = [
     { label: 'Kazakhstan', value: 'Kazakhstan' },
     { label: 'Cameroon', value: 'Cameroon' },
     { label: 'Senegal', value: 'Senegal' },
@@ -22,50 +22,59 @@ const CountryDropdown = () => {
     const [openTo, setOpenTo] = useState(false);
     const [valueTo, setValueTo] = useState(null);
 
+    // Memoized dropdown props to prevent unnecessary re-renders
+    const commonDropdownProps = useMemo(() => ({
+        style: styles.dropdown,
+        dropDownContainerStyle: styles.dropdownBox,
+        textStyle: styles.text,
+        placeholderStyle: styles.placeholder,
+        arrowIconStyle: styles.arrowIcon,
+        items: COUNTRIES,
+    }), []);
+
+    // Callback for from dropdown state changes
+    const handleFromOpen = useCallback((open) => {
+        if (open) setOpenTo(false);
+        setOpenFrom(open);
+    }, []);
+
+    // Callback for to dropdown state changes
+    const handleToOpen = useCallback((open) => {
+        if (open) setOpenFrom(false);
+        setOpenTo(open);
+    }, []);
+
     return (
         <View style={styles.container}>
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
-                    {/* Changed icon to 'flag' and color to 'black' as per the image */}
-                   <FlagIcon width={scale(16)} height={scale(18)} />
+                    <FlagIcon width={scale(16)} height={scale(18)} />
                 </View>
                 <DropDownPicker
+                    {...commonDropdownProps}
                     placeholder="I'm applying from"
                     open={openFrom}
                     value={valueFrom}
-                    items={countries}
-                    setOpen={setOpenFrom}
+                    setOpen={handleFromOpen}
                     setValue={setValueFrom}
-                    style={styles.dropdown}
-                    dropDownContainerStyle={styles.dropdownBox}
-                    textStyle={styles.text}
-                    placeholderStyle={styles.placeholder}
-                    arrowIconStyle={styles.arrowIcon}
-                    // Ensure that the second dropdown doesn't open when the first one is open
-                    // This prevents issues with multiple dropdowns trying to expand simultaneously
-                    zIndex={3000}
-                    zIndexInverse={1000}
+                    zIndex={openFrom ? 3000 : 1000}
+                    zIndexInverse={openFrom ? 1000 : 3000}
                 />
             </View>
 
             <View style={styles.row}>
                 <View style={styles.iconContainer}>
-                  <Flight width={scale(24.21)} height={scale(18)} />
+                    <Flight width={scale(24.21)} height={scale(18)} />
                 </View>
                 <DropDownPicker
+                    {...commonDropdownProps}
                     placeholder="I'm going to"
                     open={openTo}
                     value={valueTo}
-                    items={countries}
-                    setOpen={setOpenTo}
+                    setOpen={handleToOpen}
                     setValue={setValueTo}
-                    style={styles.dropdown}
-                    dropDownContainerStyle={styles.dropdownBox}
-                    textStyle={styles.text}
-                    placeholderStyle={styles.placeholder}
-                    arrowIconStyle={styles.arrowIcon}
-                    zIndex={2000}
-                    zIndexInverse={2000}
+                    zIndex={openTo ? 3000 : 1000}
+                    zIndexInverse={openTo ? 1000 : 3000}
                 />
             </View>
         </View>
@@ -87,7 +96,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 12,
         height: 60,
-        paddingLeft: 50, // Make space for the icon
+        paddingLeft: 50,
     },
     dropdownBox: {
         borderColor: '#ECECEC',
@@ -96,25 +105,24 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
-        color:colors.comanTextcolor2,
-        fontFamily:Poppins_Fonts.Poppins_Regular
+        color: colors.comanTextcolor2,
+        fontFamily: Poppins_Fonts.Poppins_Regular
     },
     placeholder: {
         fontSize: 16,
-        color:colors.comanTextcolor2,
-        fontFamily:Poppins_Fonts.Poppins_Regular
+        color: colors.comanTextcolor2,
+        fontFamily: Poppins_Fonts.Poppins_Regular
     },
     iconContainer: {
         position: 'absolute',
         left: 15,
-        // Increased zIndex to ensure the icon is always on top of the dropdown
         zIndex: 4000,
     },
     arrowIcon: {
         width: 32,
         height: 16,
-        tintColor:colors.comanTextcolor2
+        tintColor: colors.comanTextcolor2
     },
 });
 
-export default CountryDropdown;
+export default React.memo(CountryDropdown);

@@ -6,13 +6,15 @@ import { StatusBar, LogBox } from 'react-native';
 import { colors } from "./src/utils/colors";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { store } from "./src/store/store";
+import { webClientId } from "./src/api/digestClient";
+
 
 LogBox.ignoreAllLogs();
 
 export default function App() {
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: '772676389619-vb002cjoemj97ipssos8sjsp5u648t7i.apps.googleusercontent.com',
+      webClientId:webClientId,
       offlineAccess: true,
     });
   }, []);

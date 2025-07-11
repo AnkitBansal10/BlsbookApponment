@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -12,52 +12,83 @@ import { scale } from '../utils/responsive';
 import { ClanderIcon } from '../utils/Image';
 import { colors } from '../utils/colors';
 
-const generateYears = (start = 1950, end = new Date().getFullYear()) => {
-  return Array.from({ length: end - start + 1 }, (_, i) => `${start + i}`).reverse();
-};
-
-const months = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
-
-const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
+export const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState('calendar'); // calendar | year | month
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
-  const onDayPress = (day) => {
+  // Memoized year generation
+  const years = useMemo(() => {
+    const start = 1950;
+    const end = new Date().getFullYear();
+    return Array.from({ length: end - start + 1 }, (_, i) => `${start + i}`).reverse();
+  }, []);
+
+  // Memoized months array
+  const months = useMemo(() => [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ], []);
+
+  // Memoized marked dates for calendar
+  const markedDates = useMemo(() => ({
+    [date]: {
+      selected: true,
+      selectedColor: colors.primary,
+    },
+  }), [date]);
+
+  // Memoized calendar date string
+  const calendarDate = useMemo(() => 
+    `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`,
+    [selectedYear, selectedMonth]
+  );
+
+  // Callback for day selection
+  const onDayPress = useCallback((day) => {
     setDate(day.dateString);
     setModalVisible(false);
-  };
+  }, [setDate]);
 
-  const handleYearSelect = (year) => {
+  // Callback for year selection
+  const handleYearSelect = useCallback((year) => {
     setSelectedYear(parseInt(year));
     setMode('month');
-  };
+  }, []);
 
-  const handleMonthSelect = (index) => {
+  // Callback for month selection
+  const handleMonthSelect = useCallback((index) => {
     setSelectedMonth(index);
     setMode('calendar');
-  };
+  }, []);
 
-  const getCurrentMarked = () => {
-    return {
-      [date]: {
-        selected: true,
-        selectedColor: colors.primary,
-      },
-    };
-  };
+  // Render item for year FlatList
+  const renderYearItem = useCallback(({ item }) => (
+    <TouchableOpacity 
+      onPress={() => handleYearSelect(item)} 
+      style={styles.gridItem}
+    >
+      <Text>{item}</Text>
+    </TouchableOpacity>
+  ), [handleYearSelect]);
 
-  const getCalendarDate = () => {
-    return `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
-  };
+  // Render item for month FlatList
+  const renderMonthItem = useCallback(({ item, index }) => (
+    <TouchableOpacity 
+      onPress={() => handleMonthSelect(index)} 
+      style={styles.gridItem}
+    >
+      <Text>{item}</Text>
+    </TouchableOpacity>
+  ), [handleMonthSelect]);
 
   return (
     <View>
-      <TouchableOpacity style={styles.inputBox} onPress={() => setModalVisible(true)}>
+      <TouchableOpacity 
+        style={styles.inputBox} 
+        onPress={() => setModalVisible(true)}
+      >
         <Text style={[styles.inputText, !date && { color: '#888' }]}>
           {date || placeholder}
         </Text>
@@ -83,9 +114,9 @@ const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
                   </TouchableOpacity>
                 </View>
                 <Calendar
-                  current={getCalendarDate()}
+                  current={calendarDate}
                   onDayPress={onDayPress}
-                  markedDates={getCurrentMarked()}
+                  markedDates={markedDates}
                   maxDate={new Date().toISOString().split('T')[0]}
                   theme={{
                     todayTextColor: colors.primary,
@@ -97,15 +128,11 @@ const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
 
             {mode === 'year' && (
               <FlatList
-                data={generateYears(1950)}
+                data={years}
                 keyExtractor={(item) => item}
                 numColumns={3}
                 contentContainerStyle={styles.gridList}
-                renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleYearSelect(item)} style={styles.gridItem}>
-                    <Text>{item}</Text>
-                  </TouchableOpacity>
-                )}
+                renderItem={renderYearItem}
               />
             )}
 
@@ -115,11 +142,7 @@ const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
                 keyExtractor={(item) => item}
                 numColumns={3}
                 contentContainerStyle={styles.gridList}
-                renderItem={({ item, index }) => (
-                  <TouchableOpacity onPress={() => handleMonthSelect(index)} style={styles.gridItem}>
-                    <Text>{item}</Text>
-                  </TouchableOpacity>
-                )}
+                renderItem={renderMonthItem}
               />
             )}
           </View>
@@ -128,9 +151,6 @@ const DateOfBirthPicker = ({ date, setDate, placeholder = "Select DOB" }) => {
     </View>
   );
 };
-
-export default DateOfBirthPicker;
-
 const styles = StyleSheet.create({
   inputBox: {
     height: 54,

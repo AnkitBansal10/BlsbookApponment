@@ -73,7 +73,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ padding: 20 }}>
                     <Text style={styles.subHeading}>Applying for a visa?</Text>
                     <CountryDropdown />
-                    <GradientButton title="GO" onPress={() => navigation.navigate('Bookanappointment')} />
+                    <GradientButton title="GO" onPress={() => navigation.navigate('Bookanappoinment')} />
                 </View>
                 <View style={styles.bestDestinations}>
                     <Text style={styles.sectionTitle}>Best Destination</Text>
