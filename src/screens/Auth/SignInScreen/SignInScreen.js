@@ -1,5 +1,5 @@
 // src/screens/Auth/SignInScreen/SignInScreen.js
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,30 +20,70 @@ import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
 import CryptoJS from 'crypto-js';
-
+import { useRoute } from '@react-navigation/native';
+import MessagePopup from "../../../components/MessagePopup";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
+  const [popupVisible, setPopupVisible] = useState(false);
+const [popupProps, setPopupProps] = useState({
+  visible: false,
+  type: 'info',
+  title: '',
+  message: '',
+  onClose: () => {},
+  duration: null,
+  showCloseButton: true
+});
+
+const showPopup = (props) => {
+  setPopupProps({
+    ...popupProps,
+    ...props,
+    visible: true
+  });
+};
 
   console.log(email)
 
-  const handleLogin = async () => {
-    try {
-       const response = await dispatch(loginUser({ email, password })).unwrap();
-        console.log("✅ Login Success:", response.message); 
-         Alert.alert(response.message)
-      navigation.navigate("BottomTab");
-    } catch (error) {
-      Alert.alert(error)
-     console.log(error) // Error is already handled by the thunk
-    }
-  };
+const handleLogin = async () => {
+  try {
+    const response = await dispatch(loginUser({ email, password })).unwrap(); 
+    showPopup({
+      type: 'success',
+      title: 'Login Successful',
+      message: response.message,
+      // onClose: () => navigation.navigate("BottomTab"),
+      duration: 5000,
+      showCloseButton: false
+    });
+  } catch (error) {
+    showPopup({
+      type: 'error',
+      title: 'Login Failed',
+      message:error|| 'An error occurred during login',
+      duration: 3000
+    });
+  }
+};
+
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await dispatch(loginUser({ email, password })).unwrap();
+  //     console.log("✅ Login Success:", response.message);
+  //     Alert.alert(response.message)
+  //     navigation.navigate("BottomTab");
+  //   } catch (error) {
+  //     Alert.alert(error)
+  //     console.log(error) // Error is already handled by the thunk
+  //   }
+  // };
   return (
-  <KeyboardAvoidingView
-       style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
       <BackgroundGradient
         style={{ position: "absolute", width: '100%', height: '100%' }}
@@ -67,29 +107,29 @@ export default function SignInScreen({ navigation }) {
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-           validationType="email"
+          validationType="email"
         />
         <PasswordInput
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
-           validationRules={{
-          minLength: 6,
-          requireUppercase: false,
-          requireNumber: true,
-          requireSpecialChar: false
-        }}
+          validationRules={{
+            minLength: 6,
+            requireUppercase: false,
+            requireNumber: true,
+            requireSpecialChar: false
+          }}
         />
         <View style={styles.forgetTextView}>
-          <TouchableOpacity onPress={() =>navigation.navigate("ForgetScreen")}>
+          <TouchableOpacity onPress={() => navigation.navigate("ForgetScreen")}>
             <Text style={styles.forgetText}>Forget Password ?</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton 
-          label="SIGN IN" 
+        <CustomButton
+          label="SIGN IN"
           onPress={handleLogin}
           loading={loading}
-          disabled={loading}
+          loadingText="Processing..."
         />
         <AuthFooter
           onSignUp={() => navigation.navigate('SignUpScreen')}
@@ -97,6 +137,19 @@ export default function SignInScreen({ navigation }) {
           onFacebook={() => console.log('Facebook')}
           onApple={() => console.log('Apple')}
         />
+      <MessagePopup
+  visible={popupProps.visible}
+  type={popupProps.type}
+  title={popupProps.title}
+  message={popupProps.message}
+  onClose={() => {
+    setPopupProps({...popupProps, visible: false});
+    popupProps.onClose?.();
+  }}
+  duration={popupProps.duration}
+  showCloseButton={popupProps.showCloseButton}
+/>
+
       </View>
     </KeyboardAvoidingView>
   );

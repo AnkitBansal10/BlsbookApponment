@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { TextInput, View, StyleSheet, Text } from 'react-native';
 import { colors } from '../utils/colors';
+import { validators } from '../utils/validation';
 
 const CustomTextInput = ({
   placeholder,
   value = '',
   onChangeText,
-  validationType, // 'name', 'email', or undefined
+  validationType, // 'name', 'email', 'passport' or undefined
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -14,27 +15,44 @@ const CustomTextInput = ({
   const [errorMessage, setErrorMessage] = useState('');
 
   // Memoized validation functions
-  const validators = useMemo(() => ({
-    name: {
-      validate: (value) => {
-        if (!value.trim()) return 'Name is required';
-        if (value.length < 3) return 'Name must be at least 3 characters';
-        return '';
-      }
-    },
-    email: {
-      validate: (value) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!value.trim()) return 'Email is required';
-        if (!emailRegex.test(value)) return 'Invalid email format';
-        return '';
-      }
-    }
-  }), []);
+  // const validators = useMemo(() => ({
+  //   name: {
+  //     validate: (value) => {
+  //       if (!value.trim()) return 'Name is required';
+  //       if (value.length < 3) return 'Name must be at least 3 characters';
+  //       return '';
+  //     }
+  //   },
+  //   email: {
+  //     validate: (value) => {
+  //       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //       if (!value.trim()) return 'Email is required';
+  //       if (!emailRegex.test(value)) return 'Invalid email format';
+  //       return '';
+  //     }
+  //   },
+  //   passport: {
+  //     validate: (value) => {
+  //       // Basic passport number validation (adjust according to your requirements)
+  //       const passportRegex = /^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/i;
+  //       if (!value.trim()) return 'Passport number is required';
+  //       if (!passportRegex.test(value)) return 'Invalid passport format';
+  //       return '';
+  //     }
+  //   }
+  // }), []);
 
   // Handle text change with validation
   const handleTextChange = useCallback((newText) => {
     onChangeText?.(newText); // Update parent state immediately
+    
+    // For passport numbers, auto-format with space if needed
+    if (validationType === 'passport' && newText.length === 8 && !newText.includes(' ')) {
+      const formatted = `${newText.substring(0, 2)} ${newText.substring(2)}`;
+      onChangeText?.(formatted);
+      newText = formatted;
+    }
+
     if (validationType && validators[validationType]) {
       const message = validators[validationType].validate(newText);
       setError(!!message);
@@ -73,6 +91,10 @@ const CustomTextInput = ({
           onFocus={handleFocus}
           placeholderTextColor={colors.comanTextcolor2}
           returnKeyType="done"
+          // Add keyboard type for passport if needed
+          keyboardType={validationType === 'passport' ? 'default' : undefined}
+          autoCapitalize={validationType === 'passport' ? 'characters' : 'none'}
+          maxLength={validationType === 'passport' ? 9 : undefined} // For format like "AB 123456"
           {...props}
         />
       </View>
@@ -81,6 +103,7 @@ const CustomTextInput = ({
   );
 };
 
+// Styles remain the same as in your original component
 const styles = StyleSheet.create({
   container: {
     width: '90%',

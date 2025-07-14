@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderColor: colors.borderLight,
+    borderColor: colors.borderColorSecondcolor,
   },
   errorContainer: {
     borderColor: colors.error,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 14,
-    color: colors.textPrimary,
+    color:colors.comanTextcolor2,
     paddingVertical: 0,
   },
   errorText: {

@@ -26,18 +26,13 @@ import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
 import { registerUser } from '../../../features/auth/authThunks';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-import CalenderTextinput from "../../../components/CalenderTextinput";
 import PassportCountryDropdown from "../../../components/PassportCountryDropdown";
-import CountryDropdown from "../../../components/CountryDropdown";
+import MessagePopup from "../../../components/MessagePopup";
 export default function SignUpScreen({ navigation }) {
     const [selectedPassportCountry, setSelectedPassportCountry] = useState('');
-    const [first_name, setFirst_name] = useState("IN");
-
+    const [first_name, setFirst_name] = useState("");
     const dispatch = useDispatch();
     AccessibilityInfo.announceForAccessibility('New content has loaded');
-
     // console.log("name" + name)
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
@@ -46,27 +41,48 @@ export default function SignUpScreen({ navigation }) {
     const [countryId, setCountryId] = useState()
     const [dob, setDob] = useState('');
     const [country, setCountry] = useState("IN")
-   const [callingCodeCountry,setcallingCodeCountry] =useState("+91")
-    console.log("dob" + country)
+   const [callingCodeCountry,setcallingCodeCountry] =useState("91")
+   const [nationality_id,setnationality_id] =useState("")
+   const [country_id,setcountry_id]=useState("")
 
-    
+   const [popupProps, setPopupProps] = useState({
+     visible: false,
+     type: 'info',
+     title: '',
+     message: '',
+     onClose: () => {},
+     duration: null,
+     showCloseButton: true
+   });
+   
+   const showPopup = (props) => {
+     setPopupProps({
+       ...popupProps,
+       ...props,
+       visible: true
+     });
+   };
 
-
-    const handleCountryChange = (country) => {
-        setSelectedPassportCountry(country);
-        console.log('Selected Passport Country:', country);
-    };
     const handleLogin = async () => {
-        console.log("hi")
         try {
-            const { message } = await dispatch(registerUser({ first_name, email, mobile, passport })).unwrap();
-            Alert.alert("Registration Successful", message);
-            // navigation.navigate("BottomTab");
-        } catch (error) {
-            console.log("❌ Sign Up Error:", error);
-            Alert.alert("Registration Error", error);
-        }
-    };
+            const { message } = await dispatch(registerUser({ first_name, email, mobile, passport ,nationality_id,country_id})).unwrap();
+             showPopup({
+      type: 'success',
+      title: 'RegisterUser Successful',
+      onClose: () => navigation.navigate("SignIn"),
+      message: message,
+      duration: 20000,
+      showCloseButton: false
+    });
+  } catch (error) {
+    showPopup({
+      type: 'error',
+      title: 'RegisterUser Failed',
+      message:error|| 'An error occurred during login',
+      duration: 3000
+    });
+  }
+};
     return (
         <View style={styles.container} accessible={true} >
             <ScrollView >
@@ -102,7 +118,7 @@ export default function SignUpScreen({ navigation }) {
                 </View>
                 <View style={styles.inputview}>
                     <CustomTextInput
-                        placeholder="email*"
+                        placeholder="Email*"
                         value={email}
                         onChangeText={setEmail}
                         validationType={"email"}
@@ -111,6 +127,9 @@ export default function SignUpScreen({ navigation }) {
                 <View style={[styles.inputview, { marginBottom: 20, justifyContent: "center", alignItems: "center", marginLeft: 20 }]}>
                     <PassportCountryDropdown
                         label="Select Nationality"
+                         onValueChange={(selected) => {
+                                setcountry_id(selected?.id);
+                            }}
                     />
                 </View>
                 <View style={styles.inputview}>
@@ -118,6 +137,7 @@ export default function SignUpScreen({ navigation }) {
                         <PassportCountryDropdown
                             onValueChange={(selected) => {
                                 setCountryId(selected?.id);
+                                setnationality_id(selected?.id)
                                 setCountry(selected?.iso);
                                 setcallingCodeCountry(selected?.phonecode)
                             }}
@@ -130,6 +150,7 @@ export default function SignUpScreen({ navigation }) {
                         placeholder="Passport Number*"
                         value={passport}
                         onChangeText={setPassport}
+                        // validationType={"passport"}
                     />
                 </View>
                 <View style={styles.inputview}>
@@ -158,6 +179,18 @@ export default function SignUpScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+             <MessagePopup
+  visible={popupProps.visible}
+  type={popupProps.type}
+  title={popupProps.title}
+  message={popupProps.message}
+  onClose={() => {
+    setPopupProps({...popupProps, visible: false});
+    popupProps.onClose?.();
+  }}
+  duration={popupProps.duration}
+  showCloseButton={popupProps.showCloseButton}
+/>
         </View>
     );
 }
