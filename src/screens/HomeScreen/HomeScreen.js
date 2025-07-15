@@ -19,9 +19,12 @@ import { BackgroundGradient, BlackLogo, BottomImage, ButtomIcon } from '../../ut
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const HomeScreen = ({ navigation }) => {
+    console.log("hi")
     const [viewAll, setViewAll] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
+            console.log("hi2")
+
         // Simulate loading data
         const timer = setTimeout(() => {
             setIsLoading(false);
@@ -73,9 +76,9 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ padding: 20 }}>
                     <Text style={styles.subHeading}>Applying for a visa?</Text>
                     <CountryDropdown />
-                    <GradientButton title="GO" onPress={() => navigation.navigate('Bookanappoinment')} />
+                    <GradientButton title="GO" onPress={() => navigation.navigate('Bookanappointment')} />
                 </View>
-                <View style={styles.bestDestinations}>
+                {/* <View style={styles.bestDestinations}>
                     <Text style={styles.sectionTitle}>Best Destination</Text>
                     <TouchableOpacity onPress={toggleView}>
                         <Text style={styles.viewAll}>View all</Text>
@@ -85,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
                     <CardSlider />
                 ) : (
                     <ViewCardSlider />
-                )}
+                )} */}
             </ScrollView>
         </SafeAreaView>
     );

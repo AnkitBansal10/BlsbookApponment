@@ -10,6 +10,8 @@ import { initializeAuth, logout } from '../features/auth/authSlice';
 import { getStoredAuthData } from '../features/auth/authService';
 import ForgetScreen from '../screens/Auth/ForgetScreen/ForgetScreen';
 import Bookanappointment from '../screens/Bookanappointment/Bookanappointment';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import InfromationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -48,12 +50,14 @@ export default function AuthNavigator() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-      initialRouteName={isAuthenticated ? "BottomTabScreen" : "SplashScreen"}
+      initialRouteName={isAuthenticated ? "InfromationScreen" : "SplashScreen"}
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
-          <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
+          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+            <Stack.Screen name="InfromationScreen" component={InfromationScreen}/>
+          <Stack.Screen name="Bookanappointment" component={Bookanappointment}
+          />
         </>
       ) : (
         <>

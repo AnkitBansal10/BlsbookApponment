@@ -1,62 +1,83 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import { scale } from '../utils/responsive';
 import { colors } from '../utils/colors';
+import { Poppins_Fonts } from '../utils/fonts';
 
 const PhoneInputField = ({ 
   value = '', 
   onChangeText, 
   showError = false,
-  defaultCountry = 'BA',
+  defaultCountry = 'US',
   selectedCountry,
   onCountryChange,
   callingCodeCountry,
+  isOptional = false,
+  editable = true,
 }) => {
-  const [countryCode, setCountryCode] = useState(selectedCountry || defaultCountry);
-  const [callingCode, setCallingCode] = useState(callingCodeCountry);
+  const [countryCode, setCountryCode] = useState(defaultCountry);
+  const [callingCode, setCallingCode] = useState(callingCodeCountry || '1');
   const [phoneRaw, setPhoneRaw] = useState('');
   const [formattedPhone, setFormattedPhone] = useState('');
-  const [showPicker, setShowPicker] = useState(false);
   const [isValid, setIsValid] = useState(true);
-  const [countryData, setCountryData] = useState(null);
+
+  // Static mapping of country names to codes
+  const countryNameToCode = {
+    'pakistan': 'PK',
+    'united states': 'US',
+    'united kingdom': 'GB',
+    'canada': 'CA',
+    'australia': 'AU',
+    'india': 'IN',
+  };
 
   // Initialize country code and calling code
   useEffect(() => {
     if (selectedCountry) {
-      setCountryCode(selectedCountry);
+      if (selectedCountry.length === 2) {
+        setCountryCode(selectedCountry.toUpperCase());
+      } else {
+        const lowerName = selectedCountry.toLowerCase();
+        const foundCode = countryNameToCode[lowerName];
+        if (foundCode) {
+          setCountryCode(foundCode);
+        }
+      }
     }
+    
     if (callingCodeCountry) {
       setCallingCode(callingCodeCountry);
     }
   }, [selectedCountry, callingCodeCountry]);
 
-  const handleCountrySelect = useCallback((country) => {
-    if (!country || !country.cca2 || !country.callingCode) {
-      console.warn('Invalid country data:', country);
-      return;
+  // Handle initial value
+  useEffect(() => {
+    if (value) {
+      try {
+        const fullNumber = value.startsWith('+') ? value : `+${callingCode}${value}`;
+        const parsed = parsePhoneNumberFromString(fullNumber);
+        
+        if (parsed) {
+          setCountryCode(parsed.country || countryCode);
+          setCallingCode(parsed.countryCallingCode || callingCode);
+          setPhoneRaw(parsed.nationalNumber);
+          
+          const formatter = new AsYouType(parsed.country || countryCode);
+          formatter.input(parsed.nationalNumber);
+          setFormattedPhone(formatter.formattedOutput || parsed.nationalNumber);
+        }
+      } catch (error) {
+        console.warn("Failed to parse initial phone number:", error);
+      }
     }
-
-    const newCountryCode = country.cca2;
-    const newCallingCode = country.callingCode[0];
-    
-    setCountryCode(newCountryCode);
-    setCallingCode(newCallingCode);
-    setCountryData(country);
-    setPhoneRaw('');
-    setFormattedPhone('');
-    setIsValid(true);
-    onChangeText?.('');
-    onCountryChange?.(newCountryCode, newCallingCode);
-    setShowPicker(false);
-  }, [onChangeText, onCountryChange]);
+  }, [value, callingCode, countryCode]);
 
   // Format and validate phone number
   useEffect(() => {
     if (!phoneRaw) {
-      setIsValid(true);
+      setIsValid(isOptional);
       setFormattedPhone('');
       onChangeText?.('');
       return;
@@ -72,103 +93,91 @@ const PhoneInputField = ({
       const parsed = parsePhoneNumberFromString(fullNumber);
       const valid = parsed?.isValid() ?? false;
 
-      setIsValid(valid);
+      setIsValid(valid || isOptional);
       onChangeText?.(valid ? fullNumber : '');
     } catch (error) {
       console.warn('Phone number validation error:', error);
-      setIsValid(false);
+      setIsValid(isOptional);
       onChangeText?.('');
     }
-  }, [phoneRaw, callingCode, countryCode, onChangeText]);
-
-  const toggleCountryPicker = useCallback(() => {
-    setShowPicker(prev => !prev);
-  }, []);
+  }, [phoneRaw, callingCode, countryCode, onChangeText, isOptional]);
 
   const handlePhoneChange = useCallback((text) => {
-    // Remove all non-digit characters
+    if (!editable) return;
     const digitsOnly = text.replace(/\D/g, '');
     setPhoneRaw(digitsOnly);
-  }, []);
+
+    const formatter = new AsYouType(countryCode);
+    formatter.input(digitsOnly);
+    setFormattedPhone(formatter.formattedOutput || text);
+  }, [countryCode, editable]);
 
   const containerStyle = useMemo(() => [
     styles.container, 
-    !isValid && showError && styles.errorBorder
-  ], [isValid, showError]);
-
-  const renderFlagButton = useCallback(() => (
-    <View style={styles.roundedFlagWrapper}>
-      {countryCode && (
-        <CountryPicker
-          countryCode={countryCode}
-          withFlag
-          withEmoji
-          withCallingCode={false}
-          onOpen={toggleCountryPicker}
-          containerButtonStyle={styles.flagButton}
-        />
-      )}
-    </View>
-  ), [countryCode, toggleCountryPicker]);
+    !isValid && showError && !isOptional && styles.errorBorder,
+    !editable && styles.nonEditableContainer,
+  ], [isValid, showError, isOptional, editable]);
 
   return (
     <View style={styles.wrapper}>
-      <View style={containerStyle}>
-        <TouchableOpacity
-          style={styles.countrySection}
-          onPress={toggleCountryPicker}
-          activeOpacity={0.7}
-          accessibilityLabel="Select country"
+      {!editable ? (
+        <TouchableOpacity 
+          style={containerStyle}
+          activeOpacity={1}
         >
-          {renderFlagButton()}
-          <Text style={styles.callingCodeText}>+{callingCode}</Text>
-          <Icon 
-            name="arrow-drop-down" 
-            size={scale(20)} 
-            color={colors.textPrimary} 
-            style={styles.dropdownIcon} 
-          />
+          <View style={styles.countrySection}>
+            <View style={styles.roundedFlagWrapper}>
+              {countryCode && (
+                <CountryPicker
+                  countryCode={countryCode}
+                  withFlag
+                  withEmoji
+                  withCallingCode={false}
+                  containerButtonStyle={styles.flagButton}
+                  disabled
+                />
+              )}
+            </View>
+            <Text style={styles.callingCodeText}>+{callingCode}</Text>
+          </View>
+          <Text style={[styles.input, !editable && styles.nonEditableText]}>
+            {formattedPhone || (isOptional ? "Not Provided" : "Phone Number")}
+          </Text>
         </TouchableOpacity>
-        
-        {showPicker && (
-          <CountryPicker
-            withFlag
-            withCallingCode
-            withFilter
-            withEmoji
-            withAlphaFilter
-            withCallingCodeButton
-            countryCode={countryCode}
-            onSelect={handleCountrySelect}
-            onClose={() => setShowPicker(false)}
-            visible={showPicker}
-            preferredCountries={['US', 'GB', 'CA', 'AU', 'IN']}
-            theme={{
-              primaryColor: colors.primary,
-              primaryColorVariant: colors.primaryDark,
-              backgroundColor: colors.backgroundLight,
-              onBackgroundTextColor: colors.textPrimary,
-              filterPlaceholderTextColor: colors.placeholderText,
-              activeOpacity: 0.7,
-            }}
+      ) : (
+        <View style={containerStyle}>
+          <View style={styles.countrySection}>
+            <View style={styles.roundedFlagWrapper}>
+              {countryCode && (
+                <CountryPicker
+                  countryCode={countryCode}
+                  withFlag
+                  withEmoji
+                  withCallingCode={false}
+                  containerButtonStyle={styles.flagButton}
+                  disabled
+                />
+              )}
+            </View>
+            <Text style={styles.callingCodeText}>+{callingCode}</Text>
+          </View>
+          <TextInput
+            placeholder={isOptional ? "Phone Number (Optional)" : "Phone Number"}
+            placeholderTextColor={colors.placeholderText}
+            style={styles.input}
+            keyboardType="phone-pad"
+            value={formattedPhone}
+            onChangeText={handlePhoneChange}
+            autoComplete="tel"
+            textContentType="telephoneNumber"
+            accessibilityLabel="Phone number input"
+            maxLength={20}
+            editable={editable}
           />
-        )}
-        
-        <TextInput
-          placeholder="Phone Number"
-          placeholderTextColor={colors.placeholderText}
-          style={styles.input}
-          keyboardType="phone-pad"
-          value={formattedPhone}
-          onChangeText={handlePhoneChange}
-          autoComplete="tel"
-          textContentType="telephoneNumber"
-          accessibilityLabel="Phone number input"
-          maxLength={20}
-        />
-      </View>
+        </View>
+      )}
       
-      {!isValid && showError && (
+      {!isValid && showError && !isOptional && (
         <Text style={styles.errorText} accessibilityLiveRegion="polite">
           Please enter a valid phone number
         </Text>
@@ -197,12 +206,19 @@ const styles = StyleSheet.create({
   errorBorder: {
     borderColor: colors.error,
   },
+  nonEditableContainer: {
+    backgroundColor: colors.disabledBackground || '#f5f5f5',
+  },
+  nonEditableText: {
+    color: colors.disabledText || '#888',
+  },
   errorText: {
     color: colors.error,
     fontSize: scale(12),
     marginTop: scale(4),
     marginLeft: scale(20),
     alignSelf: 'flex-start',
+    fontFamily: Poppins_Fonts.Poppins_Regular,
   },
   countrySection: {
     flexDirection: 'row',
@@ -225,14 +241,13 @@ const styles = StyleSheet.create({
     marginLeft: scale(6),
     fontSize: scale(14),
     color: colors.textPrimary,
-  },
-  dropdownIcon: {
-    marginLeft: scale(2),
+    fontFamily: Poppins_Fonts.Poppins_Regular,
   },
   input: {
     flex: 1,
     fontSize: scale(14),
-    color: colors.textPrimary,
+    color: colors.comanTextcolor2,
+    fontFamily: Poppins_Fonts.Poppins_Regular,
     paddingVertical: 0,
   },
 });

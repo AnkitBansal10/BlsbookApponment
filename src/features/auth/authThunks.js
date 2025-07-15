@@ -62,7 +62,7 @@ export const loginUser = createAsyncThunk(
 // registerUser
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async ({ first_name, email, mobile, passport }, { rejectWithValue }) => {
+  async ({ first_name, email, mobile, passport,nationality_id,country_id }, { rejectWithValue }) => {
     console.log(mobile)
     try {
       const response = await api.post('applicant_registration', {
@@ -99,7 +99,6 @@ export const fetchNationalities = createAsyncThunk(
         error: error.response?.data || error.message,
         status: error.response?.status,
       });
-      
       return rejectWithValue(
         error.response?.data?.message ||
         error.response?.data?.error ||
@@ -136,7 +135,33 @@ export const ForgetPassword = createAsyncThunk(
     }
   }
 )
-
+// applicant_data
+export const applicantdata = createAsyncThunk(
+  'auth/applicantdata',  // This should be the action type string
+  async ({ email, passport_no }, { rejectWithValue }) => {
+    console.log("Passport:", passport_no);
+    console.log("Email:", email);
+    
+    try {
+      const response = await api.post('applicant_data', {
+        email:"puneet.agrawal88@gmail.com",  // Use the passed email
+        passport_no: "PU123456"  // Use the passed passport_no
+      });
+      console.log("Response:", response?.data?.data
+);
+      return response?.data; 
+    } catch (error) {
+      console.log("❌ applicant_data Error:", error);
+      console.log("❌ Error Response:", error.response?.data);
+      console.log("❌ Error Response:", error.response?.data?.message);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'applicant_data failed'
+      );
+    }
+  }
+);
 // Google Login
 export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',

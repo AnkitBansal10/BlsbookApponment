@@ -30,6 +30,10 @@ const CountryDropdown = () => {
         placeholderStyle: styles.placeholder,
         arrowIconStyle: styles.arrowIcon,
         items: COUNTRIES,
+        listMode: "SCROLLVIEW",
+         scrollViewProps: {
+            nestedScrollEnabled: true // Enable nested scrolling
+        }
     }), []);
 
     // Callback for from dropdown state changes
