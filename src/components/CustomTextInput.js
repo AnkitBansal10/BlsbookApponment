@@ -4,59 +4,79 @@ import { colors } from '../utils/colors';
 import { validators } from '../utils/validation';
 import { Poppins_Fonts } from '../utils/fonts';
 
-const CustomTextInput = ({
+const CustomTextInput = React.memo(({
   placeholder,
   value = '',
   onChangeText,
-  validationType, // 'name', 'email', 'passport' or undefined
+  validationType,
   isOptional = false,
+  externalError,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [internalValue, setInternalValue] = useState(value);
+
+  console.log(value)
+
+  const validateInput = useCallback((text) => {
+    if (validationType && validators[validationType]) {
+      if (isOptional && !text.trim()) {
+        setError(false);
+        setErrorMessage('');
+      } else {
+        const message = validators[validationType].validate(text);
+        setError(!!message);
+        setErrorMessage(message || (text.trim() === '' ? 'This field is required' : ''));
+      }
+    } else if (!isOptional && text.trim() === '') {
+      setError(true);
+      setErrorMessage('This field is required');
+    }
+  }, [validationType, isOptional]);
 
   const handleTextChange = useCallback((newText) => {
-    onChangeText?.(newText);
-
+    setInternalValue(newText);
+    
+    // Special case for passport formatting
     if (validationType === 'passport' && newText.length === 8 && !newText.includes(' ')) {
       const formatted = `${newText.substring(0, 2)} ${newText.substring(2)}`;
+      setInternalValue(formatted);
       onChangeText?.(formatted);
-      newText = formatted;
+      validateInput(formatted);
+      return;
     }
 
-    if (validationType && validators[validationType]) {
-      if (isOptional && !newText.trim()) {
-        setError(false);
-        setErrorMessage('');
-      } else {
-        const message = validators[validationType].validate(newText);
-        setError(!!message);
-        setErrorMessage(message);
-      }
+    // Only validate while not focused to avoid showing errors during typing
+    if (!isFocused) {
+      validateInput(newText);
     }
-  }, [onChangeText, validationType, validators, isOptional]);
+  }, [validationType, onChangeText, isFocused, validateInput]);
 
-  const handleFocus = useCallback(() => setIsFocused(true), []);
+  const handleFocus = useCallback(() => {
+    setIsFocused(true);
+    setError(false);
+    setErrorMessage('');
+  }, []);
+
   const handleBlur = useCallback(() => {
     setIsFocused(false);
-    if (validationType && validators[validationType]) {
-      if (isOptional && !value.trim()) {
-        setError(false);
-        setErrorMessage('');
-      } else {
-        const message = validators[validationType].validate(value);
-        setError(!!message);
-        setErrorMessage(message);
-      }
+    onChangeText?.(internalValue);
+    validateInput(internalValue);
+    
+    // Handle external error if it exists
+    if (externalError) {
+      setError(true);
+      setErrorMessage(externalError);
     }
-  }, [validationType, validators, value, isOptional]);
+  }, [internalValue, onChangeText, validateInput, externalError]);
 
   const inputStyle = useMemo(() => [
     styles.inputWrapper,
     isFocused && styles.inputFocused,
     error && styles.inputError,
-    isOptional && styles.optionalInput, // Add optional style
+    isOptional && styles.optionalInput,
   ], [isFocused, error, isOptional]);
 
   return (
@@ -65,7 +85,7 @@ const CustomTextInput = ({
         <TextInput
           style={styles.input}
           placeholder={isOptional ? `${placeholder} (optional)` : placeholder}
-          value={value}
+          value={internalValue}
           onChangeText={handleTextChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
@@ -80,7 +100,7 @@ const CustomTextInput = ({
       {error && <Text style={styles.errorText}>{errorMessage}</Text>}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -97,7 +117,7 @@ const styles = StyleSheet.create({
     borderColor: colors.borderColorSecondcolor,
   },
   optionalInput: {
-    backgroundColor: colors.optionalBackground || '#f9f9f9', // Light gray background for optional fields
+    backgroundColor: colors.optionalBackground || '#f9f9f9',
   },
   inputFocused: {
     borderColor: colors.primary,

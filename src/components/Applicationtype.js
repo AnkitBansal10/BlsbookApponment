@@ -3,16 +3,24 @@ import { StyleSheet, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
-import { fontScale } from '../utils/responsive';
 
 const data = [
-    { label: 'Mr.', value: 'Mr.' },
-    { label: 'Mrs.', value: 'Mrs.' },
-    { label: 'Ms.', value: 'Mss.' },
-
+    { label: 'Application type', value: 'Application_type' },
+    { label: 'Individual', value: 'Individual', count: 1 },
+    { label: 'Group/Family: 2 members', value: 'Group/Family: 2 members', count: 2 },
+    { label: 'Group/Family: 3 members', value: 'Group/Family: 3 members', count: 3 },
+    { label: 'Group/Family: 4 members', value: 'Group/Family: 4 members', count: 4 },
+    { label: 'Group/Family: 5 members', value: 'Group/Family: 5 members', count: 5 },
 ];
+const Applicationtype = ({ value, setValue }) => {
+    const handleChange = (item) => {
+        setValue({
+            value: item.value,
+            count: item.count
+        });
+    };
+    const dropdownValue = typeof value === 'object' ? value.value : value;
 
-const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" }) => {
     return (
         <View style={styles.container}>
             <Dropdown
@@ -20,18 +28,14 @@ const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" 
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 itemTextStyle={styles.itemText}
-                selectedItemTextStyle={styles.selectedItemText}
                 iconStyle={styles.iconStyle}
                 iconColor={colors.comanTextcolor2}
                 data={data}
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
-                placeholder={placeholder}
-                value={value}
-                onChange={item => {
-                    onChangeValue(item.value);
-                }}
+                value={dropdownValue}
+                onChange={handleChange}
             />
         </View>
     );
@@ -39,28 +43,27 @@ const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" 
 
 const styles = StyleSheet.create({
     container: {
-        width: '90%',
-        marginBottom: 20,
+        marginTop: 20
     },
     dropdown: {
-        height: 54,
+        height: 60,
         borderColor: colors.borderColorSecondcolor,
         borderWidth: 1,
         borderRadius: 8,
-        paddingHorizontal: 12,
+        paddingHorizontal: 8,
     },
     placeholderStyle: {
-        fontSize: fontScale(16),
+        fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
     selectedTextStyle: {
-        fontSize: fontScale(16),
+        fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
     itemText: {
-        fontSize: fontScale(16),
+        fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
@@ -69,4 +72,5 @@ const styles = StyleSheet.create({
         height: 16,
     },
 });
-export default ApplicantLastName;
+
+export default Applicationtype;

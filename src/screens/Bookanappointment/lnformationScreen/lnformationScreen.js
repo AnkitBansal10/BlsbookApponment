@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  Alert,
+  Text,
   StatusBar,
   ScrollView,
   ActivityIndicator
@@ -26,6 +20,7 @@ import CustomButton from "../../../components/CustomButton";
 import CaptchaInput from "../../../components/CaptchaInput";
 import ApplicantLastName from "../../../components/ApplicantLastName";
 import MessagePopup from "../../../components/MessagePopup";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function InformationScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -48,7 +43,7 @@ export default function InformationScreen({ navigation }) {
     type: 'info',
     title: '',
     message: '',
-    onClose: () => { },
+    onClose: () => {},
     duration: null,
     showCloseButton: true
   });
@@ -65,7 +60,8 @@ export default function InformationScreen({ navigation }) {
             email: response.data.email || '',
             mobile_country_code: response.data.mobile_country_code || '+1',
             mobile_number: response.data.mobile_number || '',
-            country: response.data.country || ''
+            country: response.data.country || '',
+            passport_no: response.data.passport_no || ''
           });
         }
       } catch (error) {
@@ -83,11 +79,11 @@ export default function InformationScreen({ navigation }) {
   }, [dispatch]);
 
   const showPopup = (props) => {
-    setPopupProps({
-      ...popupProps,
+    setPopupProps(prev => ({
+      ...prev,
       ...props,
       visible: true
-    });
+    }));
   };
 
   const handleInputChange = (field, value) => {
@@ -107,21 +103,30 @@ export default function InformationScreen({ navigation }) {
       });
       return;
     }
+
     try {
-      const { message } = await dispatch(appointmentform(formData)).unwrap();
+      const result = await dispatch(appointmentform(formData)).unwrap();
+      console.log("API Success Result:", result);
+      
       showPopup({
         type: 'success',
-        title: 'Registration Successful',
-        onClose: () => navigation.navigate("SignIn"),
-        message: message,
-        duration: 2000,
-        showCloseButton: false
+        title: 'Success',
+        message: result?.message || result || 'Registration successful',
+        duration: 3000,
+        onClose: () => {
+          // Optional: Navigate to next screen after successful registration
+          // navigation.navigate('NextScreen');
+        }
       });
     } catch (error) {
+      console.log("API Error Full:", error);
+      console.log("Error Payload:", error.payload);
+      console.log("Error Message:", error.message);
+      
       showPopup({
         type: 'error',
-        title: 'Registration Failed',
-        message: error || 'An error occurred during registration',
+        title: 'Error',
+        message: error,
         duration: 3000
       });
     }
@@ -129,15 +134,13 @@ export default function InformationScreen({ navigation }) {
 
   if (loading) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+  <LoadingSpinner />
     );
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
         <BackgroundGradient
           style={{ position: "absolute", width: '100%', height: '100%' }}
@@ -191,13 +194,14 @@ export default function InformationScreen({ navigation }) {
           <CustomButton label="Continue" onPress={handleLogin} />
         </View>
       </ScrollView>
+      
       <MessagePopup
         visible={popupProps.visible}
         type={popupProps.type}
         title={popupProps.title}
         message={popupProps.message}
         onClose={() => {
-          setPopupProps({ ...popupProps, visible: false });
+          setPopupProps(prev => ({ ...prev, visible: false }));
           popupProps.onClose?.();
         }}
         duration={popupProps.duration}

@@ -12,6 +12,7 @@ import ForgetScreen from '../screens/Auth/ForgetScreen/ForgetScreen';
 import Bookanappointment from '../screens/Bookanappointment/Bookanappointment';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import InfromationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
+import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/ProcessingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,8 +55,9 @@ export default function AuthNavigator() {
     >
       {isAuthenticated ? (
         <>
+                    <Stack.Screen name="InfromationScreen" component={InfromationScreen}/>
+          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen}/>
           {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-            <Stack.Screen name="InfromationScreen" component={InfromationScreen}/>
           <Stack.Screen name="Bookanappointment" component={Bookanappointment}
           />
         </>

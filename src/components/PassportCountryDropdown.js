@@ -27,9 +27,9 @@ const PassportCountryDropdown = ({
     }
   }, [error]);
 
-  // Create both the dropdown items and a lookup map
   const [items, countryMap] = useMemo(() => {
     if (!nationalities?.data) return [[], {}];
+    
     const map = {};
     const dropdownItems = nationalities.data.map(country => {
       map[country.id] = country;
@@ -49,15 +49,14 @@ const PassportCountryDropdown = ({
       return;
     }
     
-    const selectedCountry = nationalities?.data?.find(
-      country => country.id.toString() === selectedValue.toString()
-    );
+    const selectedCountry = countryMap[selectedValue];
     onValueChange?.(selectedCountry || null);
-  }, [onValueChange, nationalities?.data]);
+  }, [onValueChange, countryMap]);
 
   const ArrowDownIcon = useCallback(() => (
     <Icon name="chevron-down" size={24} color="#676767" />
   ), []);
+
   const ArrowUpIcon = useCallback(() => (
     <Icon name="chevron-up" size={24} color="#676767" />
   ), []);
@@ -141,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PassportCountryDropdown);
+export default PassportCountryDropdown;

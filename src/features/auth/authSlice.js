@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNationalities } from '../auth/authThunks';
+import { fetchNationalities, fetchcenter } from '../auth/authThunks';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 
 const initialState = {
   tokens: null,
   user: null,
   nationalities: null,
+  centers: null,
   loading: false,
   error: null,
   isAuthenticated: false,
@@ -49,17 +50,33 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       
+      // Specific handler for fetchcenter
+      .addCase(fetchcenter.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchcenter.fulfilled, (state, action) => {
+        state.loading = false;
+        state.centers = action.payload;
+      })
+      .addCase(fetchcenter.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
       // Generic matchers for other actions
       .addMatcher(
         (action) => action.type.endsWith('/pending') && 
-                  !action.type.includes('fetchNationalities'),
+                  !action.type.includes('fetchNationalities') &&
+                  !action.type.includes('fetchcenter'),
         (state) => {
           state.loading = true;
         }
       )
       .addMatcher(
         (action) => action.type.endsWith('/fulfilled') && 
-                  !action.type.includes('fetchNationalities'),
+                  !action.type.includes('fetchNationalities') &&
+                  !action.type.includes('fetchcenter'),
         (state, action) => {
           state.loading = false;
           if (action.payload?.tokens) {
@@ -71,7 +88,8 @@ const authSlice = createSlice({
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected') && 
-                  !action.type.includes('fetchNationalities'),
+                  !action.type.includes('fetchNationalities') &&
+                  !action.type.includes('fetchcenter'),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

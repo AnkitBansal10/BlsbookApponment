@@ -19,8 +19,6 @@ import AuthFooter from "../../../components/AuthFooter";
 import { BlackLogo } from "../../../utils/Image";
 import ContactCard from "../../../components/ContactCard";
 import { BackgroundGradient } from "../../../utils/Image";
-import CryptoJS from 'crypto-js';
-import { useRoute } from '@react-navigation/native';
 import MessagePopup from "../../../components/MessagePopup";
 
 export default function SignInScreen({ navigation }) {
@@ -47,7 +45,6 @@ const showPopup = (props) => {
   });
 };
 
-  console.log(email)
 
 const handleLogin = async () => {
   try {

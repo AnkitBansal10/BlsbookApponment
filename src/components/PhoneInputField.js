@@ -10,7 +10,7 @@ const PhoneInputField = ({
   value = '', 
   onChangeText, 
   showError = false,
-  defaultCountry = 'US',
+  defaultCountry = 'IN',
   selectedCountry,
   onCountryChange,
   callingCodeCountry,
@@ -18,7 +18,7 @@ const PhoneInputField = ({
   editable = true,
 }) => {
   const [countryCode, setCountryCode] = useState(defaultCountry);
-  const [callingCode, setCallingCode] = useState(callingCodeCountry || '1');
+  const [callingCode, setCallingCode] = useState(callingCodeCountry||"91");
   const [phoneRaw, setPhoneRaw] = useState('');
   const [formattedPhone, setFormattedPhone] = useState('');
   const [isValid, setIsValid] = useState(true);

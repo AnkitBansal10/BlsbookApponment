@@ -62,14 +62,16 @@ export const loginUser = createAsyncThunk(
 // registerUser
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
-  async ({ first_name, email, mobile, passport,nationality_id,country_id }, { rejectWithValue }) => {
+  async ({ first_name, email, mobile, passport, nationality_id, country_id }, { rejectWithValue }) => {
     console.log(mobile)
     try {
       const response = await api.post('applicant_registration', {
-        first_name: first_name.trim(),
-        email: email.trim(),
-        mobile: mobile.trim(),
-        passport: passport.trim(),
+        first_name: first_name,
+        email: email,
+        mobile: mobile,
+        passport: passport,
+        nationality_id:nationality_id,
+        country_apply_from_id:country_id
       });
       const { message } = response.data;
       console.log("✅ Registration Message:", message);
@@ -141,15 +143,14 @@ export const applicantdata = createAsyncThunk(
   async ({ email, passport_no }, { rejectWithValue }) => {
     console.log("Passport:", passport_no);
     console.log("Email:", email);
-    
     try {
       const response = await api.post('applicant_data', {
-        email:"puneet.agrawal88@gmail.com",  // Use the passed email
+        email: "puneet.agrawal88@gmail.com",  // Use the passed email
         passport_no: "PU123456"  // Use the passed passport_no
       });
       console.log("Response:", response?.data?.data
-);
-      return response?.data; 
+      );
+      return response?.data; // Return just the message string
     } catch (error) {
       console.log("❌ applicant_data Error:", error);
       console.log("❌ Error Response:", error.response?.data);
@@ -162,6 +163,54 @@ export const applicantdata = createAsyncThunk(
     }
   }
 );
+// appointment_form
+export const appointmentform = createAsyncThunk(
+  'auth/appointmentform',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await api.post('appointment_form', {
+        uid: formData.uid.trim(),
+        title: formData.title.trim(),
+        first_name: formData.first_name.trim(),
+        last_name: formData.last_name.trim(),
+        email: formData.email.trim(),
+        mobile_country_code: formData.mobile_country_code.trim(),
+        mobile_number: formData.mobile_number.trim(),
+        passport_no: formData.passport_no.trim()
+      });
+      return response.data.message; // Return just the message string
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'appointment_form failed'
+      );
+    }
+  }
+);
+//center
+export const fetchcenter = createAsyncThunk(
+  'auth/fetchcenter',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('center');
+      console.log(response)
+      return response.data; // Return nationality data
+    } catch (error) {
+      console.error('Fetch center Error:', {
+        error: error.response?.data || error.message,
+        status: error.response?.status,
+      });
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        'Failed to fetch center'
+      );
+    }
+  }
+);
+
 // Google Login
 export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',
@@ -263,7 +312,6 @@ export const checkAuthStatus = createAsyncThunk(
       if (!tokens?.access_token) {
         throw new Error('No active session');
       }
-
       // Verify token with backend
       await api.get('/auth/verify');
       return { tokens, user };

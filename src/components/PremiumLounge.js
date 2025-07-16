@@ -3,64 +3,60 @@ import { StyleSheet, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
-import { fontScale } from '../utils/responsive';
 
 const data = [
-    { label: 'Mr.', value: 'Mr.' },
-    { label: 'Mrs.', value: 'Mrs.' },
-    { label: 'Ms.', value: 'Mss.' },
+    { label: 'Premium Lounge', value: 'Premium_Lounge' },
+    { label: 'Yes', value: 'Yes' },
+    { label: 'NO', value: 'NO' },
 
 ];
+const PremiumLounge = () => {
+    const [value, setValue] = useState('Premium_Lounge');
 
-const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" }) => {
     return (
         <View style={styles.container}>
             <Dropdown
                 style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
-                itemTextStyle={styles.itemText}
-                selectedItemTextStyle={styles.selectedItemText}
+                itemTextStyle={styles.itemTextStyleext}
                 iconStyle={styles.iconStyle}
                 iconColor={colors.comanTextcolor2}
                 data={data}
                 maxHeight={300}
                 labelField="label"
+
                 valueField="value"
-                placeholder={placeholder}
                 value={value}
                 onChange={item => {
-                    onChangeValue(item.value);
+                    setValue(item.value);
                 }}
             />
         </View>
     );
 };
-
 const styles = StyleSheet.create({
     container: {
-        width: '90%',
-        marginBottom: 20,
     },
     dropdown: {
-        height: 54,
+        height: 60,
         borderColor: colors.borderColorSecondcolor,
         borderWidth: 1,
         borderRadius: 8,
-        paddingHorizontal: 12,
+        paddingHorizontal: 8,
     },
     placeholderStyle: {
-        fontSize: fontScale(16),
+        fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
     selectedTextStyle: {
-        fontSize: fontScale(16),
+        fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
-    itemText: {
-        fontSize: fontScale(16),
+    itemTextStyleext:{
+   fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
     },
@@ -69,4 +65,5 @@ const styles = StyleSheet.create({
         height: 16,
     },
 });
-export default ApplicantLastName;
+
+export default PremiumLounge;
