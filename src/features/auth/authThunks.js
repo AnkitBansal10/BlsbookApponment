@@ -4,8 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 import { onGoogleButtonPress, onFacebookButtonPress } from './onGoogleButtonPress';
 import api from '../../api/authApi';
-import { Alert } from 'react-native';
-import { use } from 'react';
+
 
 export const checkFirstLaunch = createAsyncThunk(
   'auth/checkFirstLaunch',
@@ -33,7 +32,6 @@ export const loginUser = createAsyncThunk(
       });
       const user = response.data?.data; // ✅ Real user object is in "data"
       if (!user) throw new Error("Invalid user data from server");
-
       // Optionally simulate token since API doesn't return one
       const tokens = {
         access_token: user.email, // Or generate a dummy token
@@ -139,18 +137,18 @@ export const ForgetPassword = createAsyncThunk(
 )
 // applicant_data
 export const applicantdata = createAsyncThunk(
-  'auth/applicantdata',  // This should be the action type string
+  'auth/applicantdata', 
   async ({ email, passport_no }, { rejectWithValue }) => {
     console.log("Passport:", passport_no);
     console.log("Email:", email);
     try {
       const response = await api.post('applicant_data', {
-        email: "puneet.agrawal88@gmail.com",  // Use the passed email
-        passport_no: "PU123456"  // Use the passed passport_no
+        email:email, 
+        passport_no: passport_no
       });
-      console.log("Response:", response?.data?.data
+      console.log("Response:", response?.data
       );
-      return response?.data; // Return just the message string
+      return response?.data?.data; 
     } catch (error) {
       console.log("❌ applicant_data Error:", error);
       console.log("❌ Error Response:", error.response?.data);
@@ -169,14 +167,14 @@ export const appointmentform = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await api.post('appointment_form', {
-        uid: formData.uid.trim(),
-        title: formData.title.trim(),
-        first_name: formData.first_name.trim(),
-        last_name: formData.last_name.trim(),
-        email: formData.email.trim(),
-        mobile_country_code: formData.mobile_country_code.trim(),
-        mobile_number: formData.mobile_number.trim(),
-        passport_no: formData.passport_no.trim()
+        uid: formData.uid,
+        title: formData.title,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        mobile_country_code: formData.mobile_country_code,
+        mobile_number: formData.mobile_number,
+        passport_no: formData.passport_no
       });
       return response.data.message; // Return just the message string
     } catch (error) {

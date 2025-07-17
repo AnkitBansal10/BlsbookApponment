@@ -4,7 +4,7 @@ import {
   Text,
   StatusBar,
   ScrollView,
-  ActivityIndicator
+  Alert
 } from "react-native";
 import { styles } from "./styles";
 import { BackgroundGradient } from "../../../utils/Image";
@@ -13,134 +13,104 @@ import ContactCard from "../../../components/ContactCard";
 import StepIndicatorComponent from "../../../components/StepIndicatorComponent";
 import { scale } from "../../../utils/responsive";
 import { useDispatch, useSelector } from "react-redux";
+import { getStoredAuthData } from "../../../features/auth/authService";
 import { applicantdata, appointmentform } from "../../../features/auth/authThunks";
 import CustomTextInput from "../../../components/CustomTextInput";
 import PhoneInputField from "../../../components/PhoneInputField";
 import CustomButton from "../../../components/CustomButton";
 import CaptchaInput from "../../../components/CaptchaInput";
 import ApplicantLastName from "../../../components/ApplicantLastName";
-import MessagePopup from "../../../components/MessagePopup";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function InformationScreen({ navigation }) {
   const dispatch = useDispatch();
-  const { applicantinfo, loading, error } = useSelector(state => state.auth);
-  
+  const { ApplicationInfo, loading, error } = useSelector(state => state.auth);
+
+  const [input, setInput] = useState("");
   const [formData, setFormData] = useState({
-    uid: '8opI',
-    title: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    mobile_country_code: '+1',
-    mobile_number: '',
-    passport_no: ''
-  });
-  
-  const [input, setInput] = useState('');
-  const [popupProps, setPopupProps] = useState({
-    visible: false,
-    type: 'info',
-    title: '',
-    message: '',
-    onClose: () => {},
-    duration: null,
-    showCloseButton: true
+    uid: "",
+    title: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    mobile_country_code: "",
+    mobile_number: "",
+    passport_no: ""
   });
 
+  // Fetch auth data on mount
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAuthData = async () => {
       try {
-        const response = await dispatch(applicantdata({})).unwrap();
-        console.log("API Response:", response.data);
-        if (response.data) {
-          setFormData({
-            ...formData,
-            first_name: response.data.name || '',
-            email: response.data.email || '',
-            mobile_country_code: response.data.mobile_country_code || '+1',
-            mobile_number: response.data.mobile_number || '',
-            country: response.data.country || '',
-            passport_no: response.data.passport_no || ''
-          });
+        const authData = await getStoredAuthData();
+        if (authData?.user?.email && authData?.user?.passport_no) {
+          await dispatch(applicantdata({
+            email: authData.user.email,
+            passport_no: authData.user.passport_no
+          }));
         }
       } catch (error) {
-        console.log("Error fetching data:", error);
-        showPopup({
-          type: 'error',
-          title: 'Error',
-          message: 'Failed to fetch applicant data',
-          duration: 3000
-        });
+        console.error("Failed to fetch applicant data:", error);
+        Alert.alert('Error', 'Failed to load applicant data');
       }
     };
-    
-    fetchData();
+    fetchAuthData();
   }, [dispatch]);
 
-  const showPopup = (props) => {
-    setPopupProps(prev => ({
-      ...prev,
-      ...props,
-      visible: true
-    }));
-  };
+  // Update formData when ApplicationInfo changes
+  useEffect(() => {
+    if (ApplicationInfo) {
+      setFormData({
+        uid: ApplicationInfo?.uid || "",
+        title: ApplicationInfo?.title || "",
+        first_name: ApplicationInfo?.name || "",
+        last_name: ApplicationInfo?.last_name || "",
+        email: ApplicationInfo?.email || "",
+        mobile_country_code: ApplicationInfo?.mobile_country_code || "",
+        mobile_number: ApplicationInfo?.mobile_number || "",
+        passport_no: ApplicationInfo?.passport_no || ""
+      });
+    }
+  }, [ApplicationInfo]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Error', error);
+    }
+  }, [error]);
 
   const handleInputChange = (field, value) => {
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [field]: value
-    });
+    }));
   };
 
   const handleLogin = async () => {
     if (!input) {
-      showPopup({
-        type: 'error',
-        title: 'Validation Error',
-        message: 'Please complete the captcha',
-        duration: 3000
-      });
+      Alert.alert('Error', 'Please complete the captcha');
       return;
     }
-
     try {
       const result = await dispatch(appointmentform(formData)).unwrap();
       console.log("API Success Result:", result);
-      
-      showPopup({
-        type: 'success',
-        title: 'Success',
-        message: result?.message || result || 'Registration successful',
-        duration: 3000,
-        onClose: () => {
-          // Optional: Navigate to next screen after successful registration
-          // navigation.navigate('NextScreen');
-        }
-      });
+      // Navigate to next screen or show success message
     } catch (error) {
-      console.log("API Error Full:", error);
-      console.log("Error Payload:", error.payload);
-      console.log("Error Message:", error.message);
-      
-      showPopup({
-        type: 'error',
-        title: 'Error',
-        message: error,
-        duration: 3000
-      });
+      console.error("API Error:", error);
+      Alert.alert('Error', error.message || 'Failed to submit form');
     }
   };
 
   if (loading) {
-    return (
-  <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView 
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: scale(20) }}
+        keyboardShouldPersistTaps="handled"
+      >
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent={true} />
         <BackgroundGradient
           style={{ position: "absolute", width: '100%', height: '100%' }}
@@ -150,30 +120,34 @@ export default function InformationScreen({ navigation }) {
         </View>
         <ContactCard />
         <StepIndicatorComponent currentStep={1} />
+        
         <View style={{ justifyContent: "center", alignItems: "center", marginTop: scale(20) }}>
           <Text style={styles.title}>Information</Text>
           <Text style={styles.subtitle}>Appointment Booking Form</Text>
         </View>
+        
         <View style={[styles.inputview, { marginTop: scale(40) }]}>
           <CustomTextInput
             placeholder="Applicant First Name"
-            value={formData.first_name}
+            value={formData?.first_name}
             isOptional={true}
             onChangeText={(text) => handleInputChange('first_name', text)}
           />
           <CustomTextInput
             placeholder="Applicant Last Name"
-            value={formData.last_name}
+            value={formData?.last_name}
             onChangeText={(text) => handleInputChange('last_name', text)}
           />
           <CustomTextInput
             placeholder="Email Address"
             isOptional={true}
-            value={formData.email}
+            value={formData?.email}
             onChangeText={(text) => handleInputChange('email', text)}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
           <ApplicantLastName
-            value={formData.title}
+            value={formData?.title}
             onChangeValue={(value) => handleInputChange('title', value)}
             placeholder="Applicant Title*"
           />
@@ -181,32 +155,24 @@ export default function InformationScreen({ navigation }) {
             <PhoneInputField
               isOptional={true}
               editable={false}
-              value={formData.mobile_number}
+              value={formData?.mobile_number}
               callingCodeCountry={formData.mobile_country_code?.slice(1)}
-              selectedCountry={formData.country}
+              selectedCountry={ApplicationInfo?.country}
             />
           </View>
         </View>
-        <View style={{ marginTop: 6, marginBottom: 30, left: "3%" }}>
+        
+        <View style={{ marginTop: scale(6), marginBottom: scale(30), left: "3%" }}>
           <CaptchaInput value={input} onChange={setInput} />
         </View>
-        <View style={{ marginBottom: 30 }}>
-          <CustomButton label="Continue" onPress={handleLogin} />
+        <View style={{ marginBottom: scale(30) }}>
+          <CustomButton 
+            label="Continue" 
+            onPress={handleLogin} 
+            loading={loading}
+          />
         </View>
       </ScrollView>
-      
-      <MessagePopup
-        visible={popupProps.visible}
-        type={popupProps.type}
-        title={popupProps.title}
-        message={popupProps.message}
-        onClose={() => {
-          setPopupProps(prev => ({ ...prev, visible: false }));
-          popupProps.onClose?.();
-        }}
-        duration={popupProps.duration}
-        showCloseButton={popupProps.showCloseButton}
-      />
     </View>
   );
 }

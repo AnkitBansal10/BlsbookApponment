@@ -86,7 +86,7 @@ export default function BLSHeaderScreen() {
                 </View>
             </ScrollView>
             <View style={{ marginBottom: 10 }}>
-                <CustomButton label='BOOK AN APPOINTMENT' onPress={() => navigation.navigate("VisaTypescreen")} />
+                <CustomButton label='BOOK AN APPOINTMENT' onPress={() => navigation.navigate("InfromationScreen")} />
             </View>
         </View>
     );

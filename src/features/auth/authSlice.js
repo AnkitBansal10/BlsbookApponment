@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNationalities, fetchcenter } from '../auth/authThunks';
+import { fetchNationalities, fetchcenter,applicantdata } from '../auth/authThunks';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 
 const initialState = {
   tokens: null,
   user: null,
   nationalities: null,
+  ApplicationInfo:null,
   centers: null,
   loading: false,
   error: null,
@@ -63,12 +64,25 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+        .addCase(applicantdata.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(applicantdata.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ApplicationInfo = action.payload;
+      })
+      .addCase(applicantdata.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       
       // Generic matchers for other actions
       .addMatcher(
         (action) => action.type.endsWith('/pending') && 
                   !action.type.includes('fetchNationalities') &&
-                  !action.type.includes('fetchcenter'),
+                  !action.type.includes('fetchcenter') &&
+                   !action.type.includes('applicantdata') ,
         (state) => {
           state.loading = true;
         }
@@ -76,7 +90,8 @@ const authSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('/fulfilled') && 
                   !action.type.includes('fetchNationalities') &&
-                  !action.type.includes('fetchcenter'),
+                 !action.type.includes('fetchcenter') &&
+                   !action.type.includes('applicantdata') ,
         (state, action) => {
           state.loading = false;
           if (action.payload?.tokens) {
@@ -89,7 +104,8 @@ const authSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('/rejected') && 
                   !action.type.includes('fetchNationalities') &&
-                  !action.type.includes('fetchcenter'),
+                 !action.type.includes('fetchcenter') &&
+                   !action.type.includes('applicantdata') ,
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

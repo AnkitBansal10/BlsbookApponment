@@ -78,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
                     <CountryDropdown />
                     <GradientButton title="GO" onPress={() => navigation.navigate('Bookanappointment')} />
                 </View>
-                {/* <View style={styles.bestDestinations}>
+                <View style={styles.bestDestinations}>
                     <Text style={styles.sectionTitle}>Best Destination</Text>
                     <TouchableOpacity onPress={toggleView}>
                         <Text style={styles.viewAll}>View all</Text>
@@ -88,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
                     <CardSlider />
                 ) : (
                     <ViewCardSlider />
-                )} */}
+                )}
             </ScrollView>
         </SafeAreaView>
     );

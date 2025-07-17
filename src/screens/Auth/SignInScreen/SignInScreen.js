@@ -53,7 +53,7 @@ const handleLogin = async () => {
       type: 'success',
       title: 'Login Successful',
       message: response.message,
-      // onClose: () => navigation.navigate("BottomTab"),
+       onClose: () => navigation.navigate("BottomTabScreen"),
       duration: 5000,
       showCloseButton: false
     });

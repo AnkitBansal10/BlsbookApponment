@@ -25,7 +25,7 @@ export default function AuthNavigator() {
     const checkAuthSession = async () => {
       try {
         const authData = await getStoredAuthData();
-        
+
         if (authData?.tokens?.access_token) {
           dispatch(initializeAuth(authData));
         }
@@ -43,7 +43,6 @@ export default function AuthNavigator() {
   if (isLoading) {
     return <SplashScreen />;
   }
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -51,23 +50,22 @@ export default function AuthNavigator() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-      initialRouteName={isAuthenticated ? "InfromationScreen" : "SplashScreen"}
+      initialRouteName={isAuthenticated ? "BottomTabScreen" : "SplashScreen"}
     >
       {isAuthenticated ? (
         <>
-                    <Stack.Screen name="InfromationScreen" component={InfromationScreen}/>
-          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen}/>
-          {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
-          <Stack.Screen name="Bookanappointment" component={Bookanappointment}
-          />
+          <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
+          <Stack.Screen name="InfromationScreen" component={InfromationScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
+          <Stack.Screen name="Bookanappointment" component={Bookanappointment}/>
         </>
       ) : (
         <>
-                 
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="GetStarted" component={GetStartedScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
-           <Stack.Screen name="ForgetScreen" component={ForgetScreen} />
+          <Stack.Screen name="ForgetScreen" component={ForgetScreen} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         </>
       )}

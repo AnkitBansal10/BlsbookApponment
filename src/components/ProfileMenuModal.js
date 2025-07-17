@@ -8,7 +8,8 @@ import {
     StyleSheet,
     Platform,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    Alert
 } from 'react-native';
 import {
     BlackLogo,
@@ -21,8 +22,41 @@ import {
 import { scale, verticalScale } from '../utils/responsive';
 import { colors } from '../utils/colors';
 import { Geist_Fonts } from '../utils/fonts';
+import { clearAuthData } from '../features/auth/authService';
+import { useNavigation } from '@react-navigation/native';
+
 const ResponsiveHeader = () => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const navigation = useNavigation();
+
+    const handleLogout = async () => {
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to logout?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                { 
+                    text: "Logout", 
+                    onPress: async () => {
+                        try {
+                            await clearAuthData();
+                            handleCloseMenu();
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'SignIn' }],
+                            });
+                        } catch (error) {
+                            console.error('Logout failed:', error);
+                            Alert.alert('Error', 'Failed to logout');
+                        }
+                    } 
+                }
+            ]
+        );
+    };
 
     const handleProfilePress = () => setIsMenuVisible(!isMenuVisible);
     const handleCloseMenu = () => setIsMenuVisible(false);
@@ -46,7 +80,7 @@ const ResponsiveHeader = () => {
                     style={styles.logo}
                 />
                 <TouchableOpacity
-                    onPress={handleProfilePress} // This now toggles the modal
+                    onPress={handleProfilePress}
                     style={styles.profileButton}
                 >
                     <ProfileIcon width={scale(40)} height={scale(40)} />
@@ -64,9 +98,7 @@ const ResponsiveHeader = () => {
                     activeOpacity={1}
                     onPress={handleCloseMenu}
                 >
-
                     <View style={styles.modalContent}>
-
                         <MenuItem
                             IconComponent={CheckIcon}
                             text="Book Your Appointment"
@@ -95,10 +127,7 @@ const ResponsiveHeader = () => {
                             IconComponent={LogOut}
                             text="Logout"
                             showDivider={false}
-                            onPress={() => {
-                                alert('Logout Pressed');
-                                handleCloseMenu();
-                            }}
+                            onPress={handleLogout}
                         />
                     </View>
                 </TouchableOpacity>
@@ -106,7 +135,9 @@ const ResponsiveHeader = () => {
         </SafeAreaView>
     );
 };
+
 export default ResponsiveHeader;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

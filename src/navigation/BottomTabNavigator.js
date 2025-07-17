@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { scale } from '../utils/responsive';
 import { colors } from '../utils/colors';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen.js/ProfileScreen';
 import {
   Application,
   Chatbot,
@@ -91,7 +92,7 @@ export default function BottomTabs() {
       <Tab.Screen name="Applications" component={HomeScreen} />
       <Tab.Screen name="Documents" component={HomeScreen} />
       <Tab.Screen name="Chatbot" component={HomeScreen} />
-      <Tab.Screen name="Menu" component={HomeScreen} />
+      <Tab.Screen name="Menu" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
