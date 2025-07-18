@@ -209,6 +209,28 @@ export const fetchcenter = createAsyncThunk(
   }
 );
 
+// appointment_form
+export const share_feedback = createAsyncThunk(
+  'auth/share_feedback',
+  async ({name,email, mobile,purpose},{ rejectWithValue }) => {
+    try {
+      const response = await api.post('share_feedback', {
+        name,
+        email,
+        mobile,
+        purpose,
+      });
+      return response.data.message; // Return just the message string
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'share_feedback'
+      );
+    }
+  }
+);
+
 // Google Login
 export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',

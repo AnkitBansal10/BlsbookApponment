@@ -13,6 +13,7 @@ import Bookanappointment from '../screens/Bookanappointment/Bookanappointment';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import InfromationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
 import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/ProcessingScreen';
+import FeedBack from '../screens/FeedBack/FeedBack';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,8 @@ export default function AuthNavigator() {
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
           <Stack.Screen name="Bookanappointment" component={Bookanappointment}/>
+                    <Stack.Screen name="FeedBack" component={FeedBack} />
+
         </>
       ) : (
         <>

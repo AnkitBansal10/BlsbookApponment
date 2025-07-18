@@ -60,100 +60,87 @@ export default function SignUpScreen({ navigation }) {
             visible: true
         });
     };
-const validateForm = () => {
-    const errors = {};
-    let isValid = true;
 
-    if (!first_name.trim()) {
-        errors.first_name = 'This field is required';
-        isValid = false;
-    }
-    if (!email.trim()) {
-        errors.email = 'This field is required';
-        isValid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-        errors.email = 'Please enter a valid email';
-        isValid = false;
-    }
-    if (!passport.trim()) {
-        errors.passport = 'This field is required';
-        isValid = false;
-    }
-    if (!mobile.trim()) {
-        errors.mobile = 'This field is required';
-        isValid = false;
-    }
-    if (!nationality_id) {
-        errors.nationality = 'Please select nationality';
-        isValid = false;
-    }
-    if (!country_id) {
-        errors.country = 'Please select country';
-        isValid = false;
-    }
-    if (!checked) {
-        errors.gdpr = 'You must accept the terms and conditions';
-        isValid = false;
-    }
+    const validateForm = () => {
+        const errors = {};
+        let isValid = true;
 
-    setFormErrors(errors);
-    return isValid;
-};
+        if (!first_name.trim()) {
+            errors.first_name = 'This field is required';
+            isValid = false;
+        }
+        if (!email.trim()) {
+            errors.email = 'This field is required';
+            isValid = false;
+        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+            errors.email = 'Please enter a valid email';
+            isValid = false;
+        }
+        if (!passport.trim()) {
+            errors.passport = 'This field is required';
+            isValid = false;
+        }
+        if (!mobile.trim()) {
+            errors.mobile = 'This field is required';
+            isValid = false;
+        }
+        if (!nationality_id) {
+            errors.nationality = 'Please select nationality';
+            isValid = false;
+        }
+        if (!country_id) {
+            errors.country = 'Please select country';
+            isValid = false;
+        }
+        if (!checked) {
+            errors.gdpr = 'You must accept the terms and conditions';
+            isValid = false;
+        }
+        setFormErrors(errors);
+        return isValid;
+    };
 
-const handleLogin = async () => {
-    if (!validateForm()) {
-        // Show validation errors in popup
-        const errorMessages = Object.values(formErrors).filter(msg => msg);
-        if (errorMessages.length > 0) {
+    const handleLogin = async () => {
+        if (!validateForm()) {
+            return; // Validation errors will be shown in the input fields
+        }
+
+        try {
+            const { message } = await dispatch(registerUser({
+                first_name,
+                email,
+                mobile,
+                passport,
+                nationality_id,
+                country_id
+            })).unwrap();
+
+            showPopup({
+                type: 'success',
+                title: 'Registration Successful',
+                onClose: () => navigation.navigate("SignIn"),
+                message: message,
+                duration: 2000,
+                showCloseButton: false
+            });
+        } catch (error) {
+            let errorMessage = error.message || 'An error occurred during registration';
+
+            // Handle API validation errors
+            if (error.errors) {
+                setFormErrors(error.errors);
+                return; // Show API validation errors in the input fields
+            }
+
+            // Only show non-validation errors in popup
             showPopup({
                 type: 'error',
-                title: 'Validation Error',
-                message: errorMessages.join('\n'),
+                title: 'Registration Failed',
+                message: errorMessage,
                 duration: 3000
             });
         }
-        return;
-    }
-
-    try {
-        const { message } = await dispatch(registerUser({ 
-            first_name, 
-            email, 
-            mobile, 
-            passport, 
-            nationality_id, 
-            country_id 
-        })).unwrap();
-        
-        showPopup({
-            type: 'success',
-            title: 'Registration Successful',
-            onClose: () => navigation.navigate("SignIn"),
-            message: message,
-            duration: 2000,
-            showCloseButton: false
-        });
-    } catch (error) {
-        let errorMessage = error.message || 'An error occurred during registration';
-        
-        // Handle API validation errors
-        if (error.errors) {
-            setFormErrors(error.errors);
-            const apiErrorMessages = Object.values(error.errors).filter(msg => msg);
-            if (apiErrorMessages.length > 0) {
-                errorMessage = apiErrorMessages.join('\n');
-            }
-        }
-        
-        showPopup({
-            type: 'error',
-            title: 'Registration Failed',
-            message: errorMessage,
-            duration: 3000
-        });
-    }
-};
-
+    };
 
     return (
         <View style={styles.container} accessible={true} >
@@ -202,7 +189,7 @@ const handleLogin = async () => {
                         label="Select Nationality"
                         onValueChange={(selected) => {
                             setcountry_id(selected?.id);
-                            setFormErrors({...formErrors, nationality: undefined});
+                            setFormErrors({ ...formErrors, nationality: undefined });
                         }}
                         error={formErrors.nationality}
                     />
@@ -215,7 +202,7 @@ const handleLogin = async () => {
                                 setnationality_id(selected?.id)
                                 setCountry(selected?.iso);
                                 setcallingCodeCountry(selected?.phonecode)
-                                setFormErrors({...formErrors, country: undefined});
+                                setFormErrors({ ...formErrors, country: undefined });
                             }}
                             label="Select County Applying from"
                             error={formErrors.country}
@@ -241,18 +228,18 @@ const handleLogin = async () => {
                         onCountryChange={setCountry}
                     />
                 </View>
-                <GDPRCheckbox 
-                    checked={checked} 
+                <GDPRCheckbox
+                    checked={checked}
                     onToggle={() => {
                         setChecked(!checked);
-                        setFormErrors({...formErrors, gdpr: undefined});
-                    }} 
+                        setFormErrors({ ...formErrors, gdpr: undefined });
+                    }}
                     error={formErrors.gdpr}
                 />
                 <View style={[styles.inputview, { margin: 0 }]}>
-                    <CustomButton label="SIGN UP" onPress={handleLogin} />
+                    <CustomButton label="SIGN UP" onPress={handleLogin}
+                    />
                 </View>
-
                 <View style={styles.singuptextview}>
                     <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
                         <Text style={styles.accountText}>

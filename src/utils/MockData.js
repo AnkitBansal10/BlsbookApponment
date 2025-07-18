@@ -269,3 +269,37 @@ export const boxData = [
     span: 2,
   },
 ];
+
+
+  export const emojiData = [
+    { 
+      id: 'dissatisfied', 
+      icon: 'emoticon-angry-outline',
+      label: 'Dissatisfied',
+      color: '#ff3d00'
+    },
+    { 
+      id: 'sad', 
+      icon: 'emoticon-sad-outline',
+      label: 'Sad',
+      color: '#ff9100'
+    },
+    { 
+      id: 'neutral', 
+      icon: 'emoticon-neutral-outline',
+      label: 'Neutral',
+      color: '#ffc400'
+    },
+    { 
+      id: 'happy', 
+      icon: 'emoticon-happy-outline',
+      label: 'Happy',
+      color: '#64dd17'
+    },
+    { 
+      id: 'satisfied', 
+      icon: 'emoticon-excited-outline',
+      label: 'Satisfied',
+      color: '#00c853'
+    },
+  ];

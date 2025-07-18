@@ -64,24 +64,49 @@ const screenOptions = ({ route }) => ({
       );
     }
 
+    // Determine if we need wider width for focused state
+    const needsWiderWidth = focused && (route.name === "Applications" || route.name === "Documents");
+    const wrapperWidth = needsWiderWidth ? scale(75) : scale(54);
+    
+    // Determine if we need to shift left (for Chatbot or Documents)
+    const needsLeftShift = route.name === "Chatbot" || route.name === "Documents";
+    const leftMargin = needsLeftShift ? scale(12) : 0;
+
     return (
-      <View style={[styles.iconWrapper, focused && styles.activeTabBackground]}>
+      <View style={[
+        styles.iconWrapper, 
+        focused && styles.activeTabBackground,
+        { 
+          width: wrapperWidth,
+          left: leftMargin
+        }
+      ]}>
         <IconComponent
-          width={scale(23.56)}
-          height={scale(21.82)}
+          width={scale(25.56)}
+          height={scale(23.82)}
         />
-        <Text style={[styles.label, focused && styles.activeLabel]} numberOfLines={1}>
+        <Text 
+          style={[
+            styles.label, 
+            focused && styles.activeLabel,
+            { width: needsWiderWidth ? scale(90) : scale(80)}
+          ]} 
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
           {route.name}
         </Text>
       </View>
     );
   },
-  tabBarStyle: styles.tabBar,
+ tabBarStyle: {
+    ...styles.tabBar,
+  },
   tabBarItemStyle: {
-    flex: 1, // Crucial for equal horizontal distribution
+    flex: 1,
+    marginTop:8,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: scale(5),
   },
 });
 
@@ -96,25 +121,24 @@ export default function BottomTabs() {
     </Tab.Navigator>
   );
 }
-
 const styles = StyleSheet.create({
   tabBar: {
     height: scale(78),
-    backgroundColor: colors.text,
     borderTopWidth: 0.5,
     borderTopColor: '#ddd',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    backgroundColor:colors.text,
+    // elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: -2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 2,
     paddingBottom: 0,
     paddingTop: 0,
   },
   iconWrapper: {
-    marginTop:scale(24),
-    width: scale(55), // Increased width to accommodate longer text labels like "Applications"
+    marginTop: scale(24),
     height: scale(60),
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -123,14 +147,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#B99147',
   },
   label: {
-    fontSize: scale(12),
-    fontFamily: Poppins_Fonts.Poppins_Regular,
-    color: '#777',
+    fontSize: scale(11.5),
+    fontFamily: Poppins_Fonts.Poppins_Medium,
+    color:colors.borderColor,
     marginTop: scale(2),
-    flexShrink: 1, // Allows the text to shrink if absolutely necessary
-    flexGrow: 0,   // Prevents the text from growing unnecessarily
-    textAlign: 'center', // Ensures text is centered
-    // No need for overflow: 'hidden' or textBreakStrategy: 'simple' as numberOfLines={1} handles truncation
+    flexShrink: 1,
+    flexGrow: 0,
+    textAlign: 'center',
   },
   activeLabel: {
     color: '#fff',

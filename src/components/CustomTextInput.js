@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { TextInput, View, StyleSheet, Text } from 'react-native';
 import { colors } from '../utils/colors';
 import { validators } from '../utils/validation';
@@ -18,7 +18,21 @@ const CustomTextInput = React.memo(({
   const [errorMessage, setErrorMessage] = useState('');
   const [internalValue, setInternalValue] = useState(value);
 
-  console.log(value)
+  // Sync internal value with external value prop
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
+  // Handle external errors
+  useEffect(() => {
+    if (externalError) {
+      setError(true);
+      setErrorMessage(externalError);
+    } else {
+      setError(false);
+      setErrorMessage('');
+    }
+  }, [externalError]);
 
   const validateInput = useCallback((text) => {
     if (validationType && validators[validationType]) {
@@ -64,13 +78,7 @@ const CustomTextInput = React.memo(({
     setIsFocused(false);
     onChangeText?.(internalValue);
     validateInput(internalValue);
-    
-    // Handle external error if it exists
-    if (externalError) {
-      setError(true);
-      setErrorMessage(externalError);
-    }
-  }, [internalValue, onChangeText, validateInput, externalError]);
+  }, [internalValue, onChangeText, validateInput]);
 
   const inputStyle = useMemo(() => [
     styles.inputWrapper,
