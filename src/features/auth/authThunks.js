@@ -230,6 +230,47 @@ export const share_feedback = createAsyncThunk(
     }
   }
 );
+// appointment_holiday
+export const appointmentholiday = createAsyncThunk(
+  'auth/appointment_holiday',
+  async ({ location_id }, { rejectWithValue }) => {
+    try {
+      const response = await api.post('appointment_holiday?',{
+      location_id})
+      console.log("API Response:", response.data);
+      return response.data?.data;
+    } catch (error) {
+      console.error("API Error:", error);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'Failed to fetch appointment holidays'
+      );
+    }
+  }
+);
+
+// appointment_workplan
+export const appointment_workplan = createAsyncThunk(
+  'auth/appointment_workplan',
+  async ({ location_id }, { rejectWithValue }) => {
+    try {
+      const response = await api.post('appointment_workplan?',{
+      location_id})
+      console.log("API Response:", response.data);
+      return response.data?.data;
+    } catch (error) {
+      console.error("API Error:", error);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'Failed to fetch appointment holidays'
+      );
+    }
+  }
+);
+
+
 
 // Google Login
 export const loginWithGoogle = createAsyncThunk(

@@ -14,6 +14,7 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import InfromationScreen from '../screens/Bookanappointment/lnformationScreen/lnformationScreen'
 import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/ProcessingScreen';
 import FeedBack from '../screens/FeedBack/FeedBack';
+import VoiceoverScreen from '../screens/VoiceoverScreen/VoiceoverScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,17 +52,17 @@ export default function AuthNavigator() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-      initialRouteName={isAuthenticated ? "BottomTabScreen" : "SplashScreen"}
+      initialRouteName={isAuthenticated ? "ProcessingScreen" : "SplashScreen"}
     >
       {isAuthenticated ? (
         <>
+          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
+          <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
           <Stack.Screen name="InfromationScreen" component={InfromationScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
-          <Stack.Screen name="Bookanappointment" component={Bookanappointment}/>
-                    <Stack.Screen name="FeedBack" component={FeedBack} />
-
+          <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
+          <Stack.Screen name="FeedBack" component={FeedBack} />
         </>
       ) : (
         <>

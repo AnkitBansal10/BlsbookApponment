@@ -40,22 +40,26 @@ export default function InformationScreen({ navigation }) {
 
   // Fetch auth data on mount
   useEffect(() => {
-    const fetchAuthData = async () => {
-      try {
-        const authData = await getStoredAuthData();
-        if (authData?.user?.email && authData?.user?.passport_no) {
-          await dispatch(applicantdata({
-            email: authData.user.email,
-            passport_no: authData.user.passport_no
-          }));
-        }
-      } catch (error) {
-        console.error("Failed to fetch applicant data:", error);
-        Alert.alert('Error', 'Failed to load applicant data');
+  const fetchAuthData = async () => {
+    try {
+      const authData = await getStoredAuthData();
+      if (
+        authData?.user?.email &&
+        authData?.user?.passport_no &&
+        !ApplicationInfo // 👈 Only fetch if ApplicationInfo not already available
+      ) {
+        await dispatch(applicantdata({
+          email: authData.user.email,
+          passport_no: authData.user.passport_no
+        }));
       }
-    };
-    fetchAuthData();
-  }, [dispatch]);
+    } catch (error) {
+      console.error("Failed to fetch applicant data:", error);
+      Alert.alert('Error', 'Failed to load applicant data');
+    }
+  };
+  fetchAuthData();
+}, [dispatch]);
 
   // Update formData when ApplicationInfo changes
   useEffect(() => {

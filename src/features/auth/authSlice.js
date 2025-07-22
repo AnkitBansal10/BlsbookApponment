@@ -1,12 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNationalities, fetchcenter,applicantdata } from '../auth/authThunks';
+import { fetchNationalities, fetchcenter, applicantdata, appointmentholiday,appointment_workplan } from '../auth/authThunks';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
+import { Holidays } from '../../utils/Image';
 
 const initialState = {
   tokens: null,
   user: null,
   nationalities: null,
-  ApplicationInfo:null,
+  ApplicationInfo: null,
+  Holidays: null,
+  appointmentworkplans:null,
   centers: null,
   loading: false,
   error: null,
@@ -50,7 +53,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Specific handler for fetchcenter
       .addCase(fetchcenter.pending, (state) => {
         state.loading = true;
@@ -64,7 +67,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-        .addCase(applicantdata.pending, (state) => {
+      .addCase(applicantdata.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -76,22 +79,49 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+      .addCase(appointmentholiday.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(appointmentholiday.fulfilled, (state, action) => {
+        state.loading = false;
+        state.Holidays = action.payload;
+      })
+      .addCase(appointmentholiday.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+       .addCase(appointment_workplan.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(appointment_workplan.fulfilled, (state, action) => {
+        state.loading = false;
+        state.appointmentworkplans = action.payload;
+      })
+      .addCase(appointment_workplan.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // Generic matchers for other actions
       .addMatcher(
-        (action) => action.type.endsWith('/pending') && 
-                  !action.type.includes('fetchNationalities') &&
-                  !action.type.includes('fetchcenter') &&
-                   !action.type.includes('applicantdata') ,
+        (action) => action.type.endsWith('/pending') &&
+          !action.type.includes('fetchNationalities') &&
+          !action.type.includes('fetchcenter') &&
+          !action.type.includes('applicantdata') &&
+          !action.type.includes('appointment_holiday ')&&
+            !action.type.includes('appointment_workplan '),
         (state) => {
           state.loading = true;
         }
       )
       .addMatcher(
-        (action) => action.type.endsWith('/fulfilled') && 
-                  !action.type.includes('fetchNationalities') &&
-                 !action.type.includes('fetchcenter') &&
-                   !action.type.includes('applicantdata') ,
+        (action) => action.type.endsWith('/fulfilled') &&
+          !action.type.includes('fetchNationalities') &&
+          !action.type.includes('fetchcenter') &&
+          !action.type.includes('applicantdata') &&
+           !action.type.includes('appointment_holiday ')&&
+            !action.type.includes('appointment_workplan '),
         (state, action) => {
           state.loading = false;
           if (action.payload?.tokens) {
@@ -102,10 +132,12 @@ const authSlice = createSlice({
         }
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected') && 
-                  !action.type.includes('fetchNationalities') &&
-                 !action.type.includes('fetchcenter') &&
-                   !action.type.includes('applicantdata') ,
+        (action) => action.type.endsWith('/rejected') &&
+          !action.type.includes('fetchNationalities') &&
+          !action.type.includes('fetchcenter') &&
+          !action.type.includes('applicantdata') &&
+         !action.type.includes('appointment_holiday ')&&
+          !action.type.includes('appointment_workplan '),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

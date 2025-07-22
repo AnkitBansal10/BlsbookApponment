@@ -29,13 +29,13 @@ const ContactCard = () => {
         <Text style={styles.text}>info.senegal@blshelpline.com</Text>
       </View>
 
-      <Text style={styles.boldText}>
+      <Text style={styles.boldText} numberOfLines={1}>
         Submission{' '}
         <Text style={styles.lightText}>Monday to Friday 08:30–16:00</Text>
       </Text>
-      <Text style={styles.boldText}>
+      <Text style={styles.boldText} numberOfLines={1}>
         Collection{' '}
-        <Text style={styles.lightText}>Monday to Friday 08:30–16:00</Text>
+        <Text style={styles.lightText} >Monday to Friday 08:30–16:00</Text>
       </Text>
     </View>
   );
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontFamily: Poppins_Fonts.Poppins_SemiBold,
-    fontSize: 16,
+   fontSize:scale(14),
     color: colors.commonTextColor,
     marginTop: 8,
   },
   lightText: {
     fontFamily: Poppins_Fonts.Poppins_Regular,
-    fontSize:scale(16),
+    fontSize:scale(14),
     color: colors.commonTextColor,
   },
 });

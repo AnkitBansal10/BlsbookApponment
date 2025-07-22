@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import { appointmentholiday, appointment_workplan } from '../features/auth/authThunks';
+import { useDispatch, useSelector } from 'react-redux';
 import { scale } from '../utils/responsive';
 import { ClanderIcon } from '../utils/Image';
 import { colors } from '../utils/colors';
@@ -26,62 +28,36 @@ const AppointmentDate = ({
   date,
   setDate,
   placeholder = "Select Date",
-  availableDates = [],
-  unavailableDates = [],
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState('calendar');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const dispatch = useDispatch();
+  const { Holidays, loading, error, appointmentworkplans } = useSelector(state => state.auth);
 
-  // const onDayPress = (day) => {
-  //   console.log("hihhihhiih")
-  //   const selected = day.dateString.trim();
-  //   setDate(selected)
-  //   console.log('Pressed:', selected);
-  //   console.log('Closing modal...');
-  //   setModalVisible(false);
-  //   const isUnavailable = unavailableDates.includes(selected);
-  //   const isAvailable = availableDates.length === 0 || availableDates.includes(selected);
-  //   if (!isAvailable || isUnavailable) {
-  //     console.log('❌ Blocked: Either unavailable or not in availableDates');
-  //     return;
-  //   }
-  //   console.log('✅ Selected:', selected);
-  //   setDate(selected);
-  //   setModalVisible(false);
-  // };
+  useEffect(() => {
+    dispatch(appointmentholiday({ location_id: "1" }));
+    dispatch(appointment_workplan({ location_id: "1" }));
+  }, [dispatch]);
 
- 
-const onDayPress = (day) => {
-  const selected = day.dateString.trim();
-  console.log('Selected date:', selected);
-  
-  // Check if date is unavailable
-  if (unavailableDates.includes(selected)) {
-    Alert.alert(
-      'Not Available',
-      'This date is marked as unavailable',
-      [{ text: 'OK', onPress: () => setModalVisible(false) }]
-    );
-    return;
-  }
-  
-  // Check if date is available (if availableDates is provided)
-  if (availableDates.length > 0 && !availableDates.includes(selected)) {
-    Alert.alert(
-      'Not Available',
-      'Please select from the available dates',
-      [{ text: 'OK', onPress: () => setModalVisible(false) }]
-    );
-    return;
-  }
-  
-  // If all checks pass
-  console.log('✅ Valid selection:', selected);
-  setDate(selected);
-  setModalVisible(false);
-};
+console.log(date)
+  const onDayPress = (day) => {
+    const selected = day.dateString.trim();
+    console.log("day",day?.dateString.trim())
+    if (appointmentworkplans?.onlyWorkingDates && 
+        !appointmentworkplans?.onlyWorkingDates.includes(selected)) {
+      Alert.alert(
+        'Not Available',
+        'This date is not available for appointment',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+    setDate(selected);
+    setModalVisible(false);
+  };
+
   const handleYearSelect = (year) => {
     setSelectedYear(parseInt(year));
     setMode('month');
@@ -92,46 +68,111 @@ const onDayPress = (day) => {
     setMode('calendar');
   };
 
-  const getCurrentMarked = () => {
-    const marked = {};
-
-    // 🔴 Unavailable
-    unavailableDates.forEach((d) => {
-      marked[d] = {
-        disabled: true,
-        disableTouchEvent: true,
-        customStyles: {
-          container: { backgroundColor: '#d9534f', borderRadius: 4 },
-          text: { color: colors.text },
-        },
-      };
-    });
-    // 🟢 Available
-    availableDates.forEach((d) => {
-      if (!marked[d]) {
+const getCurrentMarked = () => {
+  const marked = {};
+  
+  // 1. Mark holidays (yellow)
+  if (Holidays) {
+    Holidays.forEach((d) => {
+      if (d !== date) { // Skip if this is the selected date
         marked[d] = {
+          disabled: true,
+          disableTouchEvent: true,
           customStyles: {
-            container: { backgroundColor: '#4CAF50', borderRadius: 4 },
-            text: { color: colors.text },
+            container: { 
+              backgroundColor: colors.Holiday, 
+              borderRadius: 4 
+            },
+            text: { 
+              color: colors.text 
+            },
           },
         };
       }
     });
+  }
 
-    // ✅ Selected
-    if (date && !unavailableDates.includes(date)) {
-      marked[date] = {
-        selected: true,
-        selectedColor: '#4CAF50',
-        customStyles: {
-          container: { backgroundColor: '#4CAF50', borderRadius: 4 },
-          text: { color: '#fff' },
+  // 2. Mark weekly off (gray)
+  if (appointmentworkplans?.datesWeeklyOff) {
+    appointmentworkplans.datesWeeklyOff.forEach((d) => {
+      if (d !== date) { // Skip if this is the selected date
+        marked[d] = {
+          disabled: true,
+          disableTouchEvent: true,
+          customStyles: {
+            container: { 
+              backgroundColor: colors.WeeklyOffDay, 
+              borderRadius: 4 
+            },
+            text: { 
+              color: colors.text 
+            },
+          },
+        };
+      }
+    });
+  }
+
+  // 3. Mark available dates (blue)
+  if (appointmentworkplans?.onlyWorkingDates) {
+    appointmentworkplans.onlyWorkingDates.forEach((d) => {
+      if (!marked[d] && d !== date) { // Skip if this is the selected date
+        marked[d] = {
+          customStyles: {
+            container: { 
+              backgroundColor: colors.AppointmentAvailable, 
+              borderRadius: 4 
+            },
+            text: { 
+              color: colors.text 
+            },
+          },
+        };
+      }
+    });
+  }
+
+  // 4. Mark slot-full dates
+  if (appointmentworkplans?.datesSlotfull) {
+    appointmentworkplans.datesSlotfull.forEach((d) => {
+      if (!marked[d] && d !== date) { // Skip if this is the selected date
+        marked[d] = {
+          customStyles: {
+            container: { 
+              backgroundColor: colors.AppointmentBooked, 
+              borderRadius: 4 
+            },
+            text: { 
+              color: colors.text 
+            },
+          },
+        };
+      }
+    });
+  }
+
+  // 5. Apply selected date styling (highest priority)
+   if (date) {
+    marked[date] = {
+      selected: true,
+      selectedColor:colors.CurrentlySelectedDay,
+      customStyles: {
+        container: {
+          backgroundColor:colors.CurrentlySelectedDay,
+          borderRadius: 4,
+          elevation: 2,
         },
-      };
-    }
+        text: {
+          color:colors.text,
+          fontWeight: "bold",
+        },
+      },
+    };
+  }
 
-    return marked;
-  };
+  return marked;
+};
+
 
   const getCalendarDate = () => {
     return `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-01`;
@@ -139,11 +180,17 @@ const onDayPress = (day) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.inputBox} onPress={() => setModalVisible(true)}>
+      <TouchableOpacity 
+        style={[
+          styles.inputBox,
+          date && { borderColor: colors.blue } // Highlight border when date is selected
+        ]} 
+        onPress={() => setModalVisible(true)}
+      >
         <Text style={[styles.inputText, !date && { color: '#888' }]}>
           {date || placeholder}
         </Text>
-        <ClanderIcon />
+        <ClanderIcon color={date ? colors.blue : colors.gray} />
       </TouchableOpacity>
 
       <Modal

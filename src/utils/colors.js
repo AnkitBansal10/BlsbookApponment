@@ -23,5 +23,12 @@ export const colors = {
   comanTextcolor2:"#676767",
   indexcolor:"#f8f8f8",
   borderColorSecondcolor:"#ECECEC",
-  Inputfield:"#F9F9F9"
+  Inputfield:"#F9F9F9",
+  AppointmentAvailable:"#5CB85C",
+  AppointmentBooked:"#D9534F",
+  CurrentlySelectedDay:"#337AB7",
+  WeeklyOffDay:"#6C757D",
+  Holiday:"#F0AD4E"
+
+
 };

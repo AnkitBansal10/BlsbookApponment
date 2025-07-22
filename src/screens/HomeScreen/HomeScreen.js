@@ -27,6 +27,8 @@ const HomeScreen = ({ navigation }) => {
 
         // Simulate loading data
         const timer = setTimeout(() => {
+              console.log("hi2")
+              
             setIsLoading(false);
         }, 1500); // 1.5 seconds loading time
 
@@ -37,13 +39,18 @@ const HomeScreen = ({ navigation }) => {
         setViewAll(prevViewAll => !prevViewAll);
     };
 
+      console.time("work")
+    
+
     if (isLoading) {
         return (
           <LoadingSpinner />
         );
     }
     return (
+          console.log("hi2"),
         <SafeAreaView style={styles.safeArea}>
+            
             <ScrollView>
                 <BackgroundGradient
                     style={{ position: "absolute", width: '100%', height: '100%' }}

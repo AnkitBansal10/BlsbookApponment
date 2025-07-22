@@ -20,7 +20,9 @@ const GradientButton = ({
 }) => {
   const [internalLoading, setInternalLoading] = useState(false);
 
+
   const handlePress = useCallback(async () => {
+    console.log("GradientButton")
     if (loading || disabled || internalLoading) return;
     
     try {

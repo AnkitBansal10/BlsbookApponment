@@ -101,9 +101,9 @@ const GDPRCheckbox = ({ checked = false, onToggle, error }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: scale(12),
+    marginTop: scale(14),
     paddingHorizontal: scale(20),
-    marginBottom: scale(8),
+    marginBottom: scale(20),
   },
   touchableContainer: {
     flexDirection: 'row',

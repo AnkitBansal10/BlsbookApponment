@@ -104,7 +104,7 @@ const screenOptions = ({ route }) => ({
   },
   tabBarItemStyle: {
     flex: 1,
-    marginTop:8,
+    marginTop:4,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#B99147',
   },
   label: {
-    fontSize: scale(11.5),
-    fontFamily: Poppins_Fonts.Poppins_Medium,
+    fontSize: scale(12),
+    fontFamily: Poppins_Fonts.Poppins_Regular,
     color:colors.borderColor,
     marginTop: scale(2),
     flexShrink: 1,

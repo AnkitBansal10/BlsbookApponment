@@ -7,12 +7,14 @@ import { colors } from "./src/utils/colors";
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { store } from "./src/store/store";
 import { webClientId } from "./src/api/digestClient";
-
+import 'react-native-reanimated';
+import 'react-native-gesture-handler';
 
 LogBox.ignoreAllLogs();
 
 export default function App() {
   useEffect(() => {
+        console.log("GradientButton")
     GoogleSignin.configure({
       webClientId:webClientId,
       offlineAccess: true,
