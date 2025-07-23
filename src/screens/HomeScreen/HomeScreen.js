@@ -38,10 +38,6 @@ const HomeScreen = ({ navigation }) => {
     const toggleView = () => {
         setViewAll(prevViewAll => !prevViewAll);
     };
-
-      console.time("work")
-    
-
     if (isLoading) {
         return (
           <LoadingSpinner />

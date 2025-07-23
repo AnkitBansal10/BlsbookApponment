@@ -5,7 +5,6 @@ import { BackgroundGradient } from "../../../utils/Image";
 import ProfileMenuModal from "../../../components/ProfileMenuModal";
 import ContactCard from "../../../components/ContactCard";
 import StepIndicatorComponent from "../../../components/StepIndicatorComponent";
-import { scale } from "../../../utils/responsive";
 import ApplicationCenter from "../../../components/ApplicationCenter";
 import Servicetype from "../../../components/Servicetype";
 import Applicationtype from "../../../components/Applicationtype";
@@ -17,60 +16,77 @@ import DateofBirth from "../../../components/DateofBirth";
 import PremiumLounge from "../../../components/PremiumLounge";
 import ServiceDescriptionInput from "../../../components/ServiceDescriptionInput";
 import CustomButton from "../../../components/CustomButton";
-import { colors } from "../../../utils/colors";
+import LabeledInputNationality from "../../../components/LabeledInputNationality";
+import LabeledInputPhone from "../../../components/LabeledInputPhone";
+import AppointmentType from "../../../components/AppointmentType";
+import { useDispatch ,useSelector } from "react-redux";
+import { appointment_schedule } from "../../../features/auth/authThunks";
 
-export default function ProcessingScreen({ navigation }) {
+export default function ProcessingScreen() {
     const [nationality, setNationality] = useState('');
     const [applicationType, setApplicationType] = useState({ label: 'Application_type', value: 'Application_type', count: 1 });
     const [dob, setDob] = useState('');
-    const [BookanappointmentDate,setBookanappointmentDate] =useState()
+    const [BookanappointmentDate, setBookanappointmentDate] = useState()
+    const [selectedTime, setSelectedTime] = useState(null);
+    const [callingCodeCountry, setCallingCodeCountry] = useState("91");
+    const [country, setCountry] = useState("IN");
+    const [formData, setFormData] = useState({
+        uid: "",
+        title: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+        mobile_country_code: "",
+        mobile_number: "",
+        passport_no: ""
+      });
 
-    const availableDates = [
-        '2025-07-17',
-        '2025-07-18',
-        '2025-07-21',
-        '2025-07-22'
-    ];
-    const unavailableDates = [
-        '2025-07-01', '2025-07-02', '2025-07-03', '2025-07-04',
-        '2025-07-07', '2025-07-08', '2025-07-09', '2025-07-10',
-        '2025-07-11', '2025-07-14', '2025-07-15', '2025-07-16'
-    ];
+ const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
-    console.log(BookanappointmentDate)
+  console.log("BookanappointmentDate",BookanappointmentDate)
+
+    const handerDataChange =() =>{
+       
+    }
+    const handleTimeChange = (item) => {
+        setSelectedTime(item.value);
+        console.log("Selected Time:", item.value); // Log the selected value
+    };
 
     const renderApplicantForms = () => {
         const forms = [];
-        // Ensure applicationType.count is a number and greater than 0
         const count = typeof applicationType.count === 'number' && applicationType.count > 0 ? applicationType.count : 1;
-
         for (let i = 0; i < count; i++) {
             forms.push(
-                <View key={`applicant-${i}`} style={{ marginTop: 20 }}>
+                <View key={`applicant-${i}`} style={{ marginTop: 10 }}>
                     <Text style={styles.Applicant}>Applicant - {i + 1} </Text>
-                    {/* <Text style={styles.Applicant}>Applicant - 1 </Text> */}
-                    <TimeSlot />
+                    <TimeSlot
+                        value={selectedTime}
+                        onChange={(test)=>handleInputChange("first",test)}
+                    />
                     <LabeledInput
                         label="Applicant First Name"
                         value={nationality}
-                        onChangeText={setNationality}
-                    // placeholder="Enter your nationality"
+                       onChangeText={(test)=>handleInputChange("first",test)}
                     />
                     <LabeledInput
                         label="Applicant Last Name"
                         value={nationality}
-                        onChangeText={setNationality}
-                    // placeholder="Enter your nationality"
+                        onChangeText={(test)=>handleInputChange("first",test)}
                     />
                     <DateofBirth
                         placeholder="Date of Birth*"
-                        date={dob} setDate={setDob}
+                        date={dob} setDate={(test)=>handleInputChange("first",test)}
                     />
                     <LabeledInput
                         label="Passport No"
                         value={nationality}
-                        onChangeText={setNationality}
-                    // placeholder="Enter your nationality"
+                        onChangeText={(test)=>handleInputChange("first",test)}
                     />
                     <PremiumLounge />
                 </View>
@@ -78,8 +94,6 @@ export default function ProcessingScreen({ navigation }) {
         }
         return forms;
     };
-
-
     return (
         <View style={styles.container} >
             <ScrollView >
@@ -92,7 +106,7 @@ export default function ProcessingScreen({ navigation }) {
                 </View>
                 <ContactCard />
                 <StepIndicatorComponent currentStep={2} />
-                <View style={{ justifyContent: "center", alignItems: "center", marginTop: scale(20) }}>
+                <View style={styles.proccessingText}>
                     <Text style={styles.title}>Processing</Text>
                     <Text style={styles.subtitle}>Appointment Booking</Text>
                 </View>
@@ -109,52 +123,62 @@ export default function ProcessingScreen({ navigation }) {
                     <Servicetype />
                     <Applicationtype
                         value={applicationType}
-                        setValue={setApplicationType}
+                        setValue={(test)=>handleInputChange("first",test)}
                     />
+                    
                     <Text style={styles.AppoinmentDateText}>
                         Appointment Date:
                     </Text>
                     <BoxUIWithFlatList />
                     <AppointmentDate
                         placeholder="Click here for Appointment Date*"
-                        date={BookanappointmentDate} 
+                        date={BookanappointmentDate}
                         setDate={setBookanappointmentDate}
-                        availableDates={availableDates}
-                        unavailableDates={unavailableDates}
                     />
+                      <AppointmentType />
                 </View>
                 <View style={{ flex: 1, padding: 20, alignItems: "center" }}>
                     <Text style={styles.PersonalInformation}>
                         Personal Information
                     </Text>
                     <View style={styles.PersonalInformationContainer}>
-                        <LabeledInput
-                            label="Nationality"
-                            value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
+                        <LabeledInputNationality
+                            isDropdown
+                            dropdownLabel="Nationality"
+                            placeholder="Select your country"
+                            onDropdownValueChange={(selected) => {
+                                console.log(selected)
+                                //   onChange(selected?.id);
+                                setCountry(selected?.iso);
+                                setCallingCodeCountry(selected?.phonecode);
+                            }}
+                        // initialDropdownValue={country}
+                        // onDropdownValueChange={setCountry}
                         />
-                        <LabeledInput
+                        <LabeledInputPhone
                             label="Mobile No"
-                            value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
+                            isPhoneInput
+                            // value={phoneNumber}
+                            // onChangeText={setPhoneNumber}
+                            // defaultCountry="US"
+                            callingCodeCountry={callingCodeCountry}
+                            selectedCountry={country}
+                            onCountryChange={(test)=>handleInputChange("first",test)}
                         />
                         <LabeledInput
                             label="Email address"
                             value={nationality}
-                            onChangeText={setNationality}
-                        // placeholder="Enter your nationality"
+                            onChangeText={(test)=>handleInputChange("first",test)}
                         />
-
                         {renderApplicantForms()}
                         <ServiceDescriptionInput />
                     </View>
                 </View>
-                <View style={{ backgroundColor: colors.text, marginBottom: 20 }}>
+                 <View style={styles.butoonConationer}>
                     <CustomButton label="BOOK" />
                 </View>
             </ScrollView>
+            
         </View>
     );
 }

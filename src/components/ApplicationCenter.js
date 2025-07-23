@@ -24,11 +24,10 @@ const ApplicationCenter = () => {
 
     useEffect(() => {
         if (centers && centers.data) {
-            // Transform the centers data to match the dropdown format
             const formattedData = centers.data.map(center => ({
                 label: `${center.l_name}`,
                 value: center.l_id,
-                originalData: center // Keep original data if needed
+                originalData: center 
             }));
             setDropdownData(formattedData);
         }
@@ -53,7 +52,6 @@ const ApplicationCenter = () => {
                 value={value}
                 onChange={item => {
                     setValue(item.value);
-                    // You can access the full center data with item.originalData if needed
                 }}
             />
         </View>

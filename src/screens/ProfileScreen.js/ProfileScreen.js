@@ -28,26 +28,22 @@ import { BackgroundGradient } from '../../utils/Image';
 import { Poppins_Fonts } from '../../utils/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ProfileScreen = ({ navigation }) => {  // Added navigation prop
+const ProfileScreen = ({ navigation }) => {  
     const handleLogout = () => {
-        // Add your logout logic here
         navigation.reset({
             index: 0,
-            routes: [{ name: 'Login' }], // Replace 'Login' with your actual login screen name
+            routes: [{ name: 'Login' }], 
         });
     };
-
     const handleMenuItemPress = (screenName) => {
         if (screenName === 'Log Out') {
             handleLogout();
         } else if (screenName === 'FeedBack') {
-            navigation.navigate('FeedBack'); // Navigate to Feedback screen
+            navigation.navigate('FeedBack'); 
         } else {
-            // Add navigation for other menu items as needed
             navigation.navigate(screenName);
         }
     };
-
     return (
         <SafeAreaView style={styles.container}>
             <BackgroundGradient
@@ -55,7 +51,6 @@ const ProfileScreen = ({ navigation }) => {  // Added navigation prop
             />
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.card}>
-                    {/* Header */}
                     <View style={styles.header}>
                         <TouchableOpacity
                             style={styles.backButton}
@@ -68,8 +63,6 @@ const ProfileScreen = ({ navigation }) => {  // Added navigation prop
                             <Settings size={24} color="#374151" />
                         </TouchableOpacity>
                     </View>
-
-                    {/* Profile Section */}
                     <View style={styles.profileSection}>
                         <View style={styles.avatarContainer}>
                             <Image
@@ -92,8 +85,6 @@ const ProfileScreen = ({ navigation }) => {  // Added navigation prop
                             </TouchableOpacity>
                         </View>
                     </View>
-
-                    {/* Menu Items */}
                     <View style={styles.menuContainer}>
                         <MenuItem
                             icon={<Heart size={20} />}
@@ -143,8 +134,6 @@ const ProfileScreen = ({ navigation }) => {  // Added navigation prop
                             onPress={() => handleMenuItemPress('Log Out')}
                         />
                     </View>
-
-                    {/* App Version */}
                     <View style={styles.versionContainer}>
                         <Text style={styles.versionText}>App Version 2.3</Text>
                     </View>

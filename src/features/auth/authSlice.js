@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNationalities, fetchcenter, applicantdata, appointmentholiday,appointment_workplan } from '../auth/authThunks';
+import {
+  fetchNationalities, fetchcenter, applicantdata,
+  appointmentholiday, appointment_workplan,
+  availability
+
+} from '../auth/authThunks';
 import { storeAuthData, getStoredAuthData, clearAuthData } from './authService';
 import { Holidays } from '../../utils/Image';
 
@@ -9,7 +14,8 @@ const initialState = {
   nationalities: null,
   ApplicationInfo: null,
   Holidays: null,
-  appointmentworkplans:null,
+  availabilitys:null,
+  appointmentworkplans: null,
   centers: null,
   loading: false,
   error: null,
@@ -91,7 +97,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-       .addCase(appointment_workplan.pending, (state) => {
+      .addCase(appointment_workplan.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -103,14 +109,27 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(availability.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(availability.fulfilled, (state, action) => {
+        state.loading = false;
+        state.availabilitys = action.payload;
+      })
+      .addCase(availability.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // Generic matchers for other actions
       .addMatcher(
         (action) => action.type.endsWith('/pending') &&
           !action.type.includes('fetchNationalities') &&
           !action.type.includes('fetchcenter') &&
           !action.type.includes('applicantdata') &&
-          !action.type.includes('appointment_holiday ')&&
-            !action.type.includes('appointment_workplan '),
+          !action.type.includes('appointment_holiday ') &&
+          !action.type.includes('appointment_workplan ') &&
+          !action.type.includes('availability '),
         (state) => {
           state.loading = true;
         }
@@ -120,8 +139,9 @@ const authSlice = createSlice({
           !action.type.includes('fetchNationalities') &&
           !action.type.includes('fetchcenter') &&
           !action.type.includes('applicantdata') &&
-           !action.type.includes('appointment_holiday ')&&
-            !action.type.includes('appointment_workplan '),
+          !action.type.includes('appointment_holiday ') &&
+          !action.type.includes('appointment_workplan ') &&
+          !action.type.includes('availability '),
         (state, action) => {
           state.loading = false;
           if (action.payload?.tokens) {
@@ -136,8 +156,9 @@ const authSlice = createSlice({
           !action.type.includes('fetchNationalities') &&
           !action.type.includes('fetchcenter') &&
           !action.type.includes('applicantdata') &&
-         !action.type.includes('appointment_holiday ')&&
-          !action.type.includes('appointment_workplan '),
+          !action.type.includes('appointment_holiday ') &&
+          !action.type.includes('appointment_workplan ') &&
+          !action.type.includes('availability '),
         (state, action) => {
           state.loading = false;
           state.error = action.payload;

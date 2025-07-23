@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
+import { availability } from '../features/auth/authThunks';
+import { useDispatch,useSelector } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
 
-const data = [
-  { label: 'Time Slot', value: 'Time_Slot' },
-  { label: '09:00 - 09:30', value: '09:00 - 09:30' },
-  { label: '09:30 - 10:00', value: '09:30 - 10:00' },
-  { label: '10:00 - 10:30', value: '10:00 - 10:30' },
-  { label: '10:30 - 11:00', value: '10:30 - 11:00' },
-  { label: '11:00 - 11:30', value: '11:00 - 11:30' },
-  { label: '11:30 - 12:00', value: '11:30 - 12:00' },
-  { label: '13:00 - 13:30', value: '13:00 - 13:30' },
-  { label: '13:30 - 14:00', value: '13:30 - 14:00' },
-  { label: '14:00 - 14:30', value: '14:00 - 14:30' },
-  { label: '14:30 - 15:00', value: '14:30 - 15:00' },
-  { label: '15:00 - 15:30', value: '15:00 - 15:30' },
-  { label: '15:30 - 16:00', value: '15:30 - 16:00' },
-];
+const TimeSlot = ({value, onChange}) => {
+  const dispatch = useDispatch()
+    const {availabilitys ,error,loading} =useSelector(state => state.auth)
+ 
+    console.log("availability",availabilitys)
 
-const TimeSlot = () => {
-  const [value, setValue] = useState('Time_Slot');
+  useEffect(() => {
+    dispatch(availability({ location_id: "1" ,appointment_date:"2025-07-22",slot_type:"normal_slots"}));
+  }, [dispatch]);
+
+  const timeSlotOptions = availabilitys?.map(slot => ({
+    label: slot.slot_time,
+    value: slot.id,
+  })) || [];
+
+  console.log("timeSlotOptions",timeSlotOptions)
 
   return (
     <View style={styles.container}>
@@ -32,14 +32,13 @@ const TimeSlot = () => {
         itemTextStyle={styles.Text}
         iconStyle={styles.iconStyle}
         iconColor={colors.comanTextcolor2}
-        data={data}
+        data={timeSlotOptions}
         maxHeight={300}
         labelField="label"
         valueField="value"
+        placeholder="Time Slot"
         value={value}
-        onChange={item => {
-          setValue(item.value);
-        }}
+        onChange={onChange}
       />
     </View>
   );

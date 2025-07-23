@@ -264,12 +264,33 @@ export const appointment_workplan = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||
-        'Failed to fetch appointment holidays'
+        'Failed to fetch appointment appointment_workplan'
       );
     }
   }
 );
 
+export const availability = createAsyncThunk(
+  'auth/availability',
+  async ({ location_id ,appointment_date,slot_type}, { rejectWithValue }) => {
+    try {
+      const response = await api.post('availability',{
+      location_id,
+    appointment_date,
+    slot_type
+    })
+      console.log("API Response:", response.data);
+      return response.data?.data;
+    } catch (error) {
+      console.error("API Error:", error);
+      return rejectWithValue(
+        error.response?.data?.message ||
+        error.message ||
+        'Failed to fetch appointment availability'
+      );
+    }
+  }
+);
 
 
 // Google Login

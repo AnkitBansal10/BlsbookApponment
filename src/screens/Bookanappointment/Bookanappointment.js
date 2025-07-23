@@ -74,7 +74,7 @@ export default function BLSHeaderScreen() {
                             BLS International Services Ltd. is a trustworthy partner of the Embassy of Italy in Senegal for managing the administrative and non-judgmental tasks of processing visa applications.
                         </Text>
 
-                        <Text style={styles.bodyText} numberOfLines={1}>
+                        <Text style={styles.bodyText} >
                             Applicants are solely responsible for the application(s) they submit. Any false information or misrepresentation of facts, incomplete or invalid supporting documents will have a direct bearing on the decision carried out by the Embassy of Italy in Senegal.
                         </Text>
                     </View>

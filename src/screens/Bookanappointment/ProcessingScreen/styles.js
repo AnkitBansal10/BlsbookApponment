@@ -99,5 +99,17 @@ export const styles = StyleSheet.create({
     fontSize:16,
     fontFamily:Poppins_Fonts.Poppins_Medium,
     color:colors.commonTextColor
-  }
+  },
+  proccessingText:{
+ justifyContent: "center", 
+ alignItems: "center", 
+ marginTop: scale(20) 
+},
+  butoonConationer:{
+    backgroundColor: colors.text,
+     marginBottom: 20,
+     height:scale(100),
+     justifyContent:"center",
+     alignItems:"center"
+    }
 });

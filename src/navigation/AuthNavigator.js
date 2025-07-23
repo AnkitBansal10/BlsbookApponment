@@ -55,12 +55,14 @@ export default function AuthNavigator() {
       initialRouteName={isAuthenticated ? "ProcessingScreen" : "SplashScreen"}
     >
       {isAuthenticated ? (
-        <>
-          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
+        <> 
+        <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
           <Stack.Screen name="InfromationScreen" component={InfromationScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
+           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
           <Stack.Screen name="FeedBack" component={FeedBack} />
         </>
