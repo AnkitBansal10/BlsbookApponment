@@ -27,19 +27,23 @@ export default function ProcessingScreen() {
     const [applicationType, setApplicationType] = useState({ label: 'Application_type', value: 'Application_type', count: 1 });
     const [dob, setDob] = useState('');
     const [BookanappointmentDate, setBookanappointmentDate] = useState()
-    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedTime, setSelectedTime] = useState("");
     const [callingCodeCountry, setCallingCodeCountry] = useState("91");
     const [country, setCountry] = useState("IN");
-    const [formData, setFormData] = useState({
-        uid: "",
-        title: "",
-        first_name: "",
-        last_name: "",
-        email: "",
-        mobile_country_code: "",
-        mobile_number: "",
-        passport_no: ""
-      });
+   const [formData, setFormData] = useState({
+    uid: "8opI",
+    center_location_id: "1",
+    appointment_date: "",
+    slot_time: "",
+    appointment_type: "normal",
+    title: "",
+    first_name: "Puneet",
+    last_name: "Agrawal",
+    email: "puneet.agrawal88@gmail.com",
+    mobile_country_code: "+92",
+    mobile_number: "",
+    passport_no: "PU123456"
+});
 
  const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -47,15 +51,11 @@ export default function ProcessingScreen() {
       [field]: value
     }));
   };
-
-  console.log("BookanappointmentDate",BookanappointmentDate)
-
     const handerDataChange =() =>{
        
     }
     const handleTimeChange = (item) => {
-        setSelectedTime(item.value);
-        console.log("Selected Time:", item.value); // Log the selected value
+        handleInputChange("slot_time",item.value);
     };
 
     const renderApplicantForms = () => {
@@ -67,17 +67,17 @@ export default function ProcessingScreen() {
                     <Text style={styles.Applicant}>Applicant - {i + 1} </Text>
                     <TimeSlot
                         value={selectedTime}
-                        onChange={(test)=>handleInputChange("first",test)}
+                        onChange={(e)=>handleTimeChange(e)}
                     />
                     <LabeledInput
                         label="Applicant First Name"
-                        value={nationality}
-                       onChangeText={(test)=>handleInputChange("first",test)}
+                        value={formData.first_name}
+                       onChangeText={(test)=>handleInputChange("first_name",test)}
                     />
                     <LabeledInput
                         label="Applicant Last Name"
-                        value={nationality}
-                        onChangeText={(test)=>handleInputChange("first",test)}
+                        value={formData.last_name}
+                        onChangeText={(test)=>handleInputChange("last_name",test)}
                     />
                     <DateofBirth
                         placeholder="Date of Birth*"
@@ -85,10 +85,9 @@ export default function ProcessingScreen() {
                     />
                     <LabeledInput
                         label="Passport No"
-                        value={nationality}
-                        onChangeText={(test)=>handleInputChange("first",test)}
+                        value={formData.passport_no}
+                        onChangeText={(test)=>handleInputChange("passport_no",test)}
                     />
-                    <PremiumLounge />
                 </View>
             );
         }
@@ -125,7 +124,6 @@ export default function ProcessingScreen() {
                         value={applicationType}
                         setValue={(test)=>handleInputChange("first",test)}
                     />
-                    
                     <Text style={styles.AppoinmentDateText}>
                         Appointment Date:
                     </Text>
@@ -158,8 +156,8 @@ export default function ProcessingScreen() {
                         <LabeledInputPhone
                             label="Mobile No"
                             isPhoneInput
-                            // value={phoneNumber}
-                            // onChangeText={setPhoneNumber}
+                            value={formData.mobile_number}
+                            onChangeText={(test) =>handerDataChange("mobile_number",test)}
                             // defaultCountry="US"
                             callingCodeCountry={callingCodeCountry}
                             selectedCountry={country}
@@ -167,8 +165,8 @@ export default function ProcessingScreen() {
                         />
                         <LabeledInput
                             label="Email address"
-                            value={nationality}
-                            onChangeText={(test)=>handleInputChange("first",test)}
+                            value={formData.email}
+                            onChangeText={(test)=>handleInputChange("email",test)}
                         />
                         {renderApplicantForms()}
                         <ServiceDescriptionInput />

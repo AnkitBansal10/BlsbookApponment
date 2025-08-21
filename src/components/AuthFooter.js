@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SvgUri from 'react-native-svg-uri';
 import { scale, verticalScale } from '../utils/responsive';
 import { Geist_Fonts, Poppins_Fonts } from '../utils/fonts';
 import { colors } from '../utils/colors';

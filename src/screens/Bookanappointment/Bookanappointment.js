@@ -16,7 +16,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // For CLI
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
-import SvgUri from 'react-native-svg-uri';
 import CustomButton from '../../components/CustomButton';
 import EmbassyServiceCard from './components/EmbassyServiceCard';
 import InsuranceNoticeCard from './components/InsuranceNoticeCard';

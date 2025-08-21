@@ -1,6 +1,6 @@
 // App.js or HomeScreen.js
 
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -21,17 +21,12 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 const HomeScreen = ({ navigation }) => {
     console.log("hi")
     const [viewAll, setViewAll] = useState(false);
-   const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
-            console.log("hi2")
-
-        // Simulate loading data
         const timer = setTimeout(() => {
-              console.log("hi2")
-              
             setIsLoading(false);
-        }, 1500); // 1.5 seconds loading time
-
+        }, 1500); 
         return () => clearTimeout(timer);
     }, []);
 
@@ -40,13 +35,12 @@ const HomeScreen = ({ navigation }) => {
     };
     if (isLoading) {
         return (
-          <LoadingSpinner />
+            <LoadingSpinner />
         );
     }
     return (
-          console.log("hi2"),
+        console.log("hi2"),
         <SafeAreaView style={styles.safeArea}>
-            
             <ScrollView>
                 <BackgroundGradient
                     style={{ position: "absolute", width: '100%', height: '100%' }}

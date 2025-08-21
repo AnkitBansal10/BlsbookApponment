@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
 import { styles } from './styling';
 import { scale, moderateScale, verticalScale } from '../../utils/responsive';
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +13,7 @@ export default function SplashScreen() {
     }, 3000);
     return () => clearTimeout(timeout);
   }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoWrapper}>

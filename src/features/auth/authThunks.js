@@ -294,53 +294,53 @@ export const availability = createAsyncThunk(
 
 
 // Google Login
-export const loginWithGoogle = createAsyncThunk(
-  'auth/loginWithGoogle',
-  async (_, { rejectWithValue }) => {
-    try {
-      const credential = await onGoogleButtonPress();
-      const idToken = credential?.user?.stsTokenManager?.accessToken;
+// export const loginWithGoogle = createAsyncThunk(
+//   'auth/loginWithGoogle',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const credential = await onGoogleButtonPress();
+//       const idToken = credential?.user?.stsTokenManager?.accessToken;
 
-      if (!idToken) throw new Error('Google authentication failed');
+//       if (!idToken) throw new Error('Google authentication failed');
 
-      const response = await api.post('/auth/google', { token: idToken });
-      const { tokens, user } = response.data;
+//       const response = await api.post('/auth/google', { token: idToken });
+//       const { tokens, user } = response.data;
 
-      await storeAuthData({ tokens, user });
-      return { tokens, user };
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-        error.message ||
-        'Google login failed'
-      );
-    }
-  }
-);
+//       await storeAuthData({ tokens, user });
+//       return { tokens, user };
+//     } catch (error) {
+//       return rejectWithValue(
+//         error.response?.data?.message ||
+//         error.message ||
+//         'Google login failed'
+//       );
+//     }
+//   }
+// );
 // Facebook Login
-export const loginWithFacebook = createAsyncThunk(
-  'auth/loginWithFacebook',
-  async (_, { rejectWithValue }) => {
-    try {
-      const credential = await onFacebookButtonPress();
-      const accessToken = credential?.accessToken;
+// export const loginWithFacebook = createAsyncThunk(
+//   'auth/loginWithFacebook',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const credential = await onFacebookButtonPress();
+//       const accessToken = credential?.accessToken;
 
-      if (!accessToken) throw new Error('Facebook authentication failed');
+//       if (!accessToken) throw new Error('Facebook authentication failed');
 
-      const response = await api.post('/auth/facebook', { token: accessToken });
-      const { tokens, user } = response.data;
+//       const response = await api.post('/auth/facebook', { token: accessToken });
+//       const { tokens, user } = response.data;
 
-      await storeAuthData({ tokens, user });
-      return { tokens, user };
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-        error.message ||
-        'Facebook login failed'
-      );
-    }
-  }
-);
+//       await storeAuthData({ tokens, user });
+//       return { tokens, user };
+//     } catch (error) {
+//       return rejectWithValue(
+//         error.response?.data?.message ||
+//         error.message ||
+//         'Facebook login failed'
+//       );
+//     }
+//   }
+// );
 
 // Load existing session
 export const loadUser = createAsyncThunk(

@@ -34,7 +34,6 @@ const VoiceoverScreen = () => {
       Tts.speak(text);
     }
   };
-
   return (
     <View style={styles.container}>
           {/* <BackgroundGradient
@@ -55,7 +54,6 @@ const VoiceoverScreen = () => {
           {voiceoverEnabled ? 'ON' : 'OFF'}
         </Text>
       </TouchableOpacity>
-      
       <Text style={styles.description}>
         Toggle to enable or disable voiceover
       </Text>

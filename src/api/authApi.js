@@ -1,19 +1,13 @@
-// "https://development.blsinternational.com/Italy_pakistan_appmnt/api/example/applicant_login"
-// "https://development.blsinternational.com/Italy_pakistan_appmnt/api/example/applicant_registration"
 
 import axios from 'axios';
-import { API_KEY } from './digestClient';
-
-const BASE_URL = 'https://development.blsinternational.com/Italy_pakistan_appmnt/api/example/';
-const USERNAME = 'ITALY';
-const PASSWORD = '=pQy2JFN';
+import { BASE_URL,USERNAME,PASSWORD,API_KEY } from './digestClient';
 
 const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   headers: {
     'X-API-Key': API_KEY,
-     'Content-Type': 'multipart/form-data', // Add this
+     'Content-Type': 'multipart/form-data',
     'Accept': 'application/json'
   },
 });

@@ -52,12 +52,12 @@ export default function AuthNavigator() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-      initialRouteName={isAuthenticated ? "ProcessingScreen" : "SplashScreen"}
+      initialRouteName={isAuthenticated ? "HomeScreen" : "SplashScreen"}
     >
       {isAuthenticated ? (
         <> 
-        <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
           <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
           <Stack.Screen name="InfromationScreen" component={InfromationScreen} />
