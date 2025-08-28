@@ -4,6 +4,9 @@ import AuthNavigator from './src/navigation/AuthNavigator';
 import { Provider } from 'react-redux';
 import { StatusBar, LogBox ,Linking} from 'react-native';
 import { colors } from "./src/utils/colors";
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
+
 // import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { store } from "./src/store/store";
 // import { webClientId } from "./src/api/digestClient";

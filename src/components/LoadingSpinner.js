@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  backgroundColor: 'rgba(0,0,0,0.6)', },
+   backgroundColor: 'rgba(0,0,0,0.6)',
+},
   logoContainer: {
     marginBottom: scale(20),
   },
   loadingText: {
     color:colors.primary,
-    fontSize: scale(18),
     fontWeight: '500',
   },
   dots: {

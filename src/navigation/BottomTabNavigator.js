@@ -67,16 +67,16 @@ const screenOptions = ({ route }) => ({
     // Determine if we need wider width for focused state
     const needsWiderWidth = focused && (route.name === "Applications" || route.name === "Documents");
     const wrapperWidth = needsWiderWidth ? scale(75) : scale(54);
-    
+
     // Determine if we need to shift left (for Chatbot or Documents)
     const needsLeftShift = route.name === "Chatbot" || route.name === "Documents";
     const leftMargin = needsLeftShift ? scale(12) : 0;
 
     return (
       <View style={[
-        styles.iconWrapper, 
+        styles.iconWrapper,
         focused && styles.activeTabBackground,
-        { 
+        {
           width: wrapperWidth,
           left: leftMargin
         }
@@ -85,12 +85,12 @@ const screenOptions = ({ route }) => ({
           width={scale(25.56)}
           height={scale(23.82)}
         />
-        <Text 
+        <Text
           style={[
-            styles.label, 
+            styles.label,
             focused && styles.activeLabel,
-            { width: needsWiderWidth ? scale(90) : scale(80)}
-          ]} 
+            { width: needsWiderWidth ? scale(90) : scale(80) }
+          ]}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -99,12 +99,12 @@ const screenOptions = ({ route }) => ({
       </View>
     );
   },
- tabBarStyle: {
+  tabBarStyle: {
     ...styles.tabBar,
   },
   tabBarItemStyle: {
     flex: 1,
-    marginTop:4,
+    marginTop: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     height: scale(78),
     borderTopWidth: 0.5,
     borderTopColor: '#ddd',
-    backgroundColor:colors.text,
+    backgroundColor: colors.text,
     paddingBottom: 0,
     paddingTop: 0,
   },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: scale(12),
     fontFamily: Poppins_Fonts.Poppins_Regular,
-    color:colors.borderColor,
+    color: colors.borderColor,
     marginTop: scale(2),
     flexShrink: 1,
     flexGrow: 0,
