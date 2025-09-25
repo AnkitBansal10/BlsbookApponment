@@ -9,11 +9,9 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-
 import { styles } from "./styles";
 import { scale } from "../../../utils/responsive";
 import { registerUser } from "../../../features/auth/authThunks";
-
 import CustomTextInput from "../../../components/CustomTextInput";
 import CustomButton from "../../../components/CustomButton";
 import PhoneInputField from "../../../components/PhoneInputField";
@@ -143,7 +141,6 @@ export default function SignUpScreen({ navigation }) {
             )}
           />
         </View>
-
         <View style={styles.inputview}>
           <Controller
             control={control}

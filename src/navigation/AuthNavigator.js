@@ -15,7 +15,8 @@ import InfromationScreen from '../screens/Bookanappointment/lnformationScreen/ln
 import ProcessingScreen from '../screens/Bookanappointment/ProcessingScreen/ProcessingScreen';
 import FeedBack from '../screens/FeedBack/FeedBack';
 import VoiceoverScreen from '../screens/VoiceoverScreen/VoiceoverScreen';
-
+import Uploadyourpassport from '../screens/Bookanappointment/Uploadyourpassport/Uploadyourpassport';
+import UploadSelfiescreen from '../screens/Bookanappointment/UploadSelfiescreen/UploadSelfiescreen';
 const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator() {
@@ -27,7 +28,6 @@ export default function AuthNavigator() {
     const checkAuthSession = async () => {
       try {
         const authData = await getStoredAuthData();
-
         if (authData?.tokens?.access_token) {
           dispatch(initializeAuth(authData));
         }
@@ -38,10 +38,8 @@ export default function AuthNavigator() {
         setIsLoading(false);
       }
     };
-
     checkAuthSession();
   }, [dispatch]);
-
   if (isLoading) {
     return <SplashScreen />;
   }
@@ -52,22 +50,24 @@ export default function AuthNavigator() {
         gestureEnabled: true,
         gestureDirection: 'horizontal',
       }}
-      initialRouteName={isAuthenticated ? "HomeScreen" : "SplashScreen"}
-    >
+      initialRouteName={isAuthenticated ? "Uploadyourpassport" : "SplashScreen"}>
       {isAuthenticated ? (
-        <> 
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
-          <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
+        <>
+         <Stack.Screen name="Uploadyourpassport" component={Uploadyourpassport} />
+         <Stack.Screen name="UploadSelfiescreen" component={UploadSelfiescreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="ProcessingScreen" component={ProcessingScreen} />
           <Stack.Screen name="BottomTabScreen" component={BottomTabScreen} />
+          <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
           <Stack.Screen name="InfromationScreen" component={InfromationScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />
-           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="Bookanappointment" component={Bookanappointment} />
           <Stack.Screen name="FeedBack" component={FeedBack} />
         </>
       ) : (
         <>
+          <Stack.Screen name="VoiceoverScreen" component={VoiceoverScreen} />
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="GetStarted" component={GetStartedScreen} />
           <Stack.Screen name="SignIn" component={SignInScreen} />

@@ -28,7 +28,6 @@ export async function onGoogleButtonPress(navigation) {
   await storeUser(firebaseUserCredential.user);
   return firebaseUserCredential;
 }
-
 export async function onFacebookButtonPress(navigation) {
      navigation.navigate('BottomTab');
 

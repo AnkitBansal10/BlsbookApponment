@@ -114,7 +114,6 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: '#676767',
-        lineHeight: 22,
         marginBottom: 10,
     },
 

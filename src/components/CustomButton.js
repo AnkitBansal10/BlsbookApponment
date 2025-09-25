@@ -7,9 +7,9 @@ import { Geist_Fonts } from '../utils/fonts';
 const GRADIENT_COLORS = ['#9C6100', '#D9A546'];
 
 
-const CustomButton = ({ 
-  onPress, 
-  label = "SIGN IN", 
+const CustomButton = ({
+  onPress,
+  label = "SIGN IN",
   loading = false,
   disabled = false,
   loadingIndicatorColor = '#FFFFFF',
@@ -25,23 +25,23 @@ const CustomButton = ({
   }, [onPress, isDisabled]);
 
   return (
-    <TouchableOpacity 
-      onPress={handlePress} 
+    <TouchableOpacity
+      onPress={handlePress}
       activeOpacity={isDisabled ? 1 : 0.85}
       style={[styles.touchable, isDisabled && styles.disabledTouchable]}
       disabled={isDisabled}
     >
       <LinearGradient
-        colors={ GRADIENT_COLORS}
+        colors={GRADIENT_COLORS}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={[styles.gradient, isDisabled && styles.disabledGradient]}
       >
         {loading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator 
-              size={loadingIndicatorSize} 
-              color={loadingIndicatorColor} 
+            <ActivityIndicator
+              size={loadingIndicatorSize}
+              color={loadingIndicatorColor}
               style={styles.indicator}
             />
             {loadingText ? (

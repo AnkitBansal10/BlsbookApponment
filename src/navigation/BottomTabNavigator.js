@@ -67,11 +67,9 @@ const screenOptions = ({ route }) => ({
     // Determine if we need wider width for focused state
     const needsWiderWidth = focused && (route.name === "Applications" || route.name === "Documents");
     const wrapperWidth = needsWiderWidth ? scale(75) : scale(54);
-
     // Determine if we need to shift left (for Chatbot or Documents)
     const needsLeftShift = route.name === "Chatbot" || route.name === "Documents";
     const leftMargin = needsLeftShift ? scale(12) : 0;
-
     return (
       <View style={[
         styles.iconWrapper,

@@ -70,11 +70,11 @@ export default function BLSHeaderScreen() {
                         <Text style={styles.heading}>Welcome to BLS Italy {"\n"}Visa Centre</Text>
 
                         <Text style={styles.bodyText}>
-                            BLS International Services Ltd. is a trustworthy partner of the Embassy of Italy in Senegal for managing the administrative and non-judgmental tasks of processing visa applications.
+                            BLS International Services Ltd. is a trustworthy partner of the Embassy of {"\n"}Italy in Senegal for managing the{"\n"} administrative and non-judgmental tasks of processing visa applications.
                         </Text>
 
                         <Text style={styles.bodyText} >
-                            Applicants are solely responsible for the application(s) they submit. Any false information or misrepresentation of facts, incomplete or invalid supporting documents will have a direct bearing on the decision carried out by the Embassy of Italy in Senegal.
+                            Applicants are solely responsible for the pplication(s) they submit. Any false information or misrepresentation of facts, incomplete or invalid supporting documents will have a direct bearing on the decision carried out by the Embassy of Italy in Senegal.
                         </Text>
                     </View>
                     <EmbassyServiceCard />

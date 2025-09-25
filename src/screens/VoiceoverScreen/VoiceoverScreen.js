@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Tts from 'react-native-tts';
-import { BlackLogo } from '../../utils/Image';
+import { BlackLogo, Logo } from '../../utils/Image';
 import { BackgroundGradient } from '../../utils/Image';
 // import { BlackLogo } from '../../utils/Image';
 // import { scale } from '../../utils/responsive';
@@ -36,9 +36,9 @@ const VoiceoverScreen = () => {
   };
   return (
     <View style={styles.container}>
-          {/* <BackgroundGradient
-                style={{ position: "absolute", width: '100%', height: '100%' }}
-              /> */}
+      <View style={{height:300}}>
+         <BlackLogo width={100} height={100} top={-100}/>
+         </View>
       <Text style={styles.title}>Voiceover Settings</Text>
       <TouchableOpacity 
         style={[

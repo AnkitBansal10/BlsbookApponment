@@ -27,57 +27,46 @@ export default function SignInScreen({ navigation }) {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
   const [popupVisible, setPopupVisible] = useState(false);
-const [popupProps, setPopupProps] = useState({
-  visible: false,
-  type: 'info',
-  title: '',
-  message: '',
-  onClose: () => {},
-  duration: null,
-  showCloseButton: true
-});
-
-const showPopup = (props) => {
-  setPopupProps({
-    ...popupProps,
-    ...props,
-    visible: true
+  const [popupProps, setPopupProps] = useState({
+    visible: false,
+    type: 'info',
+    title: '',
+    message: '',
+    onClose: () => { },
+    duration: null,
+    showCloseButton: true
   });
-};
 
-
-const handleLogin = async () => {
-  try {
-    const response = await dispatch(loginUser({ email, password })).unwrap(); 
-    showPopup({
-      type: 'success',
-      title: 'Login Successful',
-      message: response.message,
-       onClose: () => navigation.navigate("BottomTabScreen"),
-      duration: 5000,
-      showCloseButton: false
+  const showPopup = (props) => {
+    setPopupProps({
+      ...popupProps,
+      ...props,
+      visible: true
     });
-  } catch (error) {
-    showPopup({
-      type: 'error',
-      title: 'Login Failed',
-      message:error|| 'An error occurred during login',
-      duration: 3000
-    });
-  }
-};
+  };
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await dispatch(loginUser({ email, password })).unwrap();
-  //     console.log("✅ Login Success:", response.message);
-  //     Alert.alert(response.message)
-  //     navigation.navigate("BottomTab");
-  //   } catch (error) {
-  //     Alert.alert(error)
-  //     console.log(error) // Error is already handled by the thunk
-  //   }
-  // };
+
+  const handleLogin = async () => {
+    try {
+      const response = await dispatch(loginUser({ email, password })).unwrap();
+      showPopup({
+        type: 'success',
+        title: 'Login Successful',
+        message: response.message,
+        onClose: () => navigation.navigate("BottomTabScreen"),
+        duration: 5000,
+        showCloseButton: false
+      });
+    } catch (error) {
+      showPopup({
+        type: 'error',
+        title: 'Login Failed',
+        message: error || 'An error occurred during login',
+        duration: 3000
+      });
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}>
@@ -134,18 +123,18 @@ const handleLogin = async () => {
           onFacebook={() => console.log('Facebook')}
           onApple={() => console.log('Apple')}
         />
-      <MessagePopup
-  visible={popupProps.visible}
-  type={popupProps.type}
-  title={popupProps.title}
-  message={popupProps.message}
-  onClose={() => {
-    setPopupProps({...popupProps, visible: false});
-    popupProps.onClose?.();
-  }}
-  duration={popupProps.duration}
-  showCloseButton={popupProps.showCloseButton}
-/>
+        <MessagePopup
+          visible={popupProps.visible}
+          type={popupProps.type}
+          title={popupProps.title}
+          message={popupProps.message}
+          onClose={() => {
+            setPopupProps({ ...popupProps, visible: false });
+            popupProps.onClose?.();
+          }}
+          duration={popupProps.duration}
+          showCloseButton={popupProps.showCloseButton}
+        />
 
       </View>
     </KeyboardAvoidingView>

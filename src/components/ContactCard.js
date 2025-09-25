@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; 
 import { Italyflag ,Location ,CellPhone,Mail,World} from '../utils/Image';
 import { Geist_Fonts, Poppins_Fonts } from '../utils/fonts';
 import { colors } from '../utils/colors';
-import { scale } from '../utils/responsive';
 
 const ContactCard = () => {
   return (
