@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Tts from 'react-native-tts';
 import { BlackLogo, Logo } from '../../utils/Image';
-import { BackgroundGradient } from '../../utils/Image';
-// import { BlackLogo } from '../../utils/Image';
-// import { scale } from '../../utils/responsive';
 const VoiceoverScreen = () => {
   const [voiceoverEnabled, setVoiceoverEnabled] = useState(false);
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchcenter } from '../features/auth/authThunks';
+import { scale } from '../utils/responsive';
 
-const ApplicationCenter = () => {
-    const [value, setValue] = useState(null);
+const ApplicationCenter = ({ value, onValueChange, hasError, errorMessage }) => {
     const [dropdownData, setDropdownData] = useState([]);
     const dispatch = useDispatch();
     const { centers, loading, error } = useSelector(state => state.auth);
@@ -36,11 +36,11 @@ const ApplicationCenter = () => {
     return (
         <View style={styles.container}>
             <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
+                style={[styles.dropdown, hasError && styles.dropdownError]}
+                placeholderStyle={[styles.placeholderStyle, hasError && styles.errorPlaceholder]}
                 selectedTextStyle={styles.selectedTextStyle}
                 iconStyle={styles.iconStyle}
-                iconColor={colors.comanTextcolor2}
+                iconColor={hasError ? colors.error : colors.comanTextcolor2}
                 textStyle={styles.text}
                 itemTextStyle={styles.itemText}
                 selectedItemTextStyle={styles.selectedItemText}
@@ -51,9 +51,10 @@ const ApplicationCenter = () => {
                 placeholder="Select application center"
                 value={value}
                 onChange={item => {
-                    setValue(item.value);
+                    onValueChange && onValueChange(item.value);
                 }}
             />
+            {hasError && <Text style={styles.errorText}>{errorMessage}</Text>}
         </View>
     );
 };
@@ -69,10 +70,16 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 8,
     },
+    dropdownError: {
+        borderColor: colors.error,
+    },
     placeholderStyle: {
         fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.comanTextcolor2
+    },
+    errorPlaceholder: {
+        color: colors.error,
     },
     selectedTextStyle: {
         fontSize: 16,
@@ -97,6 +104,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: Poppins_Fonts.Poppins_Regular,
         color: colors.commonTextColor,
+    },
+    errorText: {
+        color: colors.error,
+        fontSize: scale(12),
+        marginTop: 4,
+        marginLeft: 8,
+        fontFamily: Poppins_Fonts.Poppins_Regular,
     },
 });
 

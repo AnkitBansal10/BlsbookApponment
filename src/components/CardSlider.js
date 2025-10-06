@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -17,38 +17,84 @@ import { Avtar, BookMark, Location } from '../utils/Image';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.58;
+const SNAP_INTERVAL = CARD_WIDTH + 20;
 
-const CardSlider = () => {
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card}>
-      <Image source={item.image} style={styles.image} />
-       <TouchableOpacity style={styles.bookmarkIconContainer}>
-          <BookMark width={34} height={34}/>
-        </TouchableOpacity>
+// Memoized card item component
+const CardItem = React.memo(({ item }) => {
+  const locationIconDimensions = useMemo(() => ({
+    width: scale(16),
+    height: scale(16)
+  }), []);
+
+  const avatarDimensions = useMemo(() => ({
+    width: scale(54),
+    height: scale(24)
+  }), []);
+
+  const bottomRowStyle = useMemo(() => ({
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center"
+  }), []);
+
+  return (
+    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+      <Image 
+        source={item.image} 
+        style={styles.image}
+        resizeMode="cover"
+        fadeDuration={200}
+      />
+      <TouchableOpacity style={styles.bookmarkIconContainer} activeOpacity={0.7}>
+        <BookMark width={34} height={34} />
+      </TouchableOpacity>
       <View style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.title} numberOfLines={1}>{item.name}</Text>
           <View style={styles.ratingRow}>
             <Icon name="star" size={16} color="#F7B801" />
             <Text style={styles.rating}>{item.rating}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row",width:"100%",alignItems:"center"}}>
-           <View style={styles.containerLocation}>
-      <Location width={scale(16)} height={scale(16)} /> 
-      <Text style={styles.location}>
-       {item.location}
-      </Text>
+        <View style={bottomRowStyle}>
+          <View style={styles.containerLocation}>
+            <Location 
+              width={locationIconDimensions.width} 
+              height={locationIconDimensions.height} 
+            />
+            <Text style={styles.location} numberOfLines={1}>
+              {item.location}
+            </Text>
           </View>
-
-        <View style={styles.avatars}>
-        <Avtar  width={scale(54)} height={scale(24)}/>
+          <View style={styles.avatars}>
+            <Avtar 
+              width={avatarDimensions.width} 
+              height={avatarDimensions.height} 
+            />
           </View>
-        
         </View>
       </View>
     </TouchableOpacity>
   );
+});
+
+CardItem.displayName = 'CardItem';
+
+const CardSlider = React.memo(() => {
+  // Memoized render function
+  const renderItem = useCallback(({ item }) => (
+    <CardItem item={item} />
+  ), []);
+
+  // Memoized key extractor
+  const keyExtractor = useCallback((item) => item.id, []);
+
+  // Memoized getItemLayout for performance
+  const getItemLayout = useCallback((data, index) => ({
+    length: SNAP_INTERVAL,
+    offset: SNAP_INTERVAL * index,
+    index,
+  }), []);
 
   return (
     <FlatList
@@ -56,13 +102,22 @@ const CardSlider = () => {
       renderItem={renderItem}
       horizontal
       showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
+      keyExtractor={keyExtractor}
       contentContainerStyle={styles.list}
-      snapToInterval={CARD_WIDTH + 20}
+      snapToInterval={SNAP_INTERVAL}
       decelerationRate="fast"
+      getItemLayout={getItemLayout}
+      removeClippedSubviews={true}
+      maxToRenderPerBatch={3}
+      windowSize={5}
+      initialNumToRender={2}
+      scrollEventThrottle={16}
+      bounces={false}
     />
   );
-};
+});
+
+CardSlider.displayName = 'CardSlider';
 
 const styles = StyleSheet.create({
   list: {

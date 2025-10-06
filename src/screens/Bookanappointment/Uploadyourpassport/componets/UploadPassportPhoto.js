@@ -29,12 +29,14 @@ import { s3 } from '../../../../api/aws-config';
 
 const screenWidth = Dimensions.get('window').width;
 
-const UploadPassportPhoto = ({ onImageSelected, onPassportConfirmed }) => {
+const UploadPassportPhoto = React.memo(({ onImageSelected, onPassportConfirmed, onProcessingStage }) => {
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [extractedData, setExtractedData] = useState(null);
+  const [processingStage, setProcessingStage] = useState('');
+  const [showExtractedDetails, setShowExtractedDetails] = useState(false);
   const scanAnim = useRef(new Animated.Value(0)).current;
   const verifyAnim = useRef(new Animated.Value(0)).current;
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -426,8 +428,7 @@ const UploadPassportPhoto = ({ onImageSelected, onPassportConfirmed }) => {
         </View>
       )}
     </TouchableOpacity>
-  );
-};
+  )})
 
 const styles = StyleSheet.create({
   container: {
@@ -593,15 +594,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 200, 255, 0.9)',
     top: 0,
     left: 0,
-    loadingOverlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000,
-    },
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
   },
 });
 
 export default UploadPassportPhoto;
-

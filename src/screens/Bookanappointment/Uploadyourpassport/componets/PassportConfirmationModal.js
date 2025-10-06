@@ -6,7 +6,7 @@ import { colors } from '../../../../utils/colors';
 import { Cancelicon } from '../../../../utils/Image';
 import { scale } from '../../../../utils/responsive';
 
-const PassportConfirmationModal = ({ visible, data, onConfirm, onEdit, isLoading }) => {
+const PassportConfirmationModal = ({ visible, data, onConfirm, onEdit, onClose, isLoading }) => {
   return (
     <Modal
       animationType="slide"

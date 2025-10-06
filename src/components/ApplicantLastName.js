@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { colors } from '../utils/colors';
 import { Poppins_Fonts } from '../utils/fonts';
@@ -12,17 +12,17 @@ const data = [
 
 ];
 
-const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" }) => {
+const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type", error, errorMessage }) => {
     return (
         <View style={styles.container}>
             <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
+                style={[styles.dropdown, error && styles.dropdownError]}
+                placeholderStyle={[styles.placeholderStyle, error && styles.errorPlaceholder]}
                 selectedTextStyle={styles.selectedTextStyle}
                 itemTextStyle={styles.itemText}
                 selectedItemTextStyle={styles.selectedItemText}
                 iconStyle={styles.iconStyle}
-                iconColor={colors.comanTextcolor2}
+                iconColor={error ? colors.error : colors.comanTextcolor2}
                 data={data}
                 maxHeight={300}
                 labelField="label"
@@ -33,6 +33,7 @@ const ApplicantLastName = ({ value, onChangeValue, placeholder = "Service type" 
                     onChangeValue(item.value);
                 }}
             />
+            {error && <Text style={styles.errorText}>{errorMessage}</Text>}
         </View>
     );
 };
@@ -67,6 +68,19 @@ const styles = StyleSheet.create({
     iconStyle: {
         width: 32,
         height: 16,
+    },
+    dropdownError: {
+        borderColor: colors.error,
+    },
+    errorPlaceholder: {
+        color: colors.error,
+    },
+    errorText: {
+        color: colors.error,
+        fontSize: fontScale(12),
+        marginTop: 4,
+        marginLeft: 12,
+        fontFamily: Poppins_Fonts.Poppins_Regular,
     },
 });
 export default ApplicantLastName;

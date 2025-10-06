@@ -26,10 +26,18 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post('applicant_login', {
-        email: email,
-        password: password
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+
+      const response = await api.post('applicant_login', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000,
       });
+      
       const user = response.data?.data; // ✅ Real user object is in "data"
       if (!user) throw new Error("Invalid user data from server");
       // Optionally simulate token since API doesn't return one
@@ -47,6 +55,16 @@ export const loginUser = createAsyncThunk(
     } catch (error) {
       console.log("❌ Axios Error:", error);
       console.log("❌ Error Response:", error.response?.data);
+      
+      // Handle network errors
+      if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+        return rejectWithValue('Network connection failed. Please check your internet connection and try again.');
+      }
+      
+      if (error.code === 'ECONNABORTED') {
+        return rejectWithValue('Request timed out. Please try again.');
+      }
+      
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||
@@ -63,22 +81,39 @@ export const registerUser = createAsyncThunk(
   async ({ first_name, email, mobile, passport, nationality_id, country_id }, { rejectWithValue }) => {
     console.log(mobile)
     try {
-      const response = await api.post('applicant_registration', {
-        first_name: first_name,
-        email: email,
-        mobile: mobile,
-        passport: passport,
-        nationality_id:nationality_id,
-        country_apply_from_id:country_id
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      formData.append('first_name', first_name);
+      formData.append('email', email);
+      formData.append('mobile', mobile);
+      formData.append('passport', passport);
+      formData.append('nationality_id', nationality_id);
+      formData.append('country_apply_from_id', country_id);
+
+      const response = await api.post('applicant_registration', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000,
       });
+      
       const { message } = response.data;
       console.log("✅ Registration Message:", message);
-      //  await storeAuthData({  user });
       return { message };
     } catch (error) {
       console.log("❌ Registration Error:", error);
       console.log("❌ Error Response:", error.response?.data);
       console.log("❌ Error Response:", error.response?.data?.message);
+      
+      // Handle network errors
+      if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+        return rejectWithValue('Network connection failed. Please check your internet connection and try again.');
+      }
+      
+      if (error.code === 'ECONNABORTED') {
+        return rejectWithValue('Request timed out. Please try again.');
+      }
+      
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||
@@ -115,18 +150,35 @@ export const ForgetPassword = createAsyncThunk(
     console.log(password)
     console.log(email)
     try {
-      const response = await api.post('applicant_forgot', {
-        email: email.trim(),
-        password: password.trim(),
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      formData.append('email', email.trim());
+      formData.append('password', password.trim());
+
+      const response = await api.post('applicant_forgot', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000,
       });
+      
       const { message } = response.data;
       console.log("✅ ForgetPassword Message:", message);
-      //  await storeAuthData({  user });
       return { message };
     } catch (error) {
       console.log("❌ ForgetPassword Error:", error);
       console.log("❌ Error Response:", error.response?.data);
       console.log("❌ Error Response:", error.response?.data?.message);
+      
+      // Handle network errors
+      if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+        return rejectWithValue('Network connection failed. Please check your internet connection and try again.');
+      }
+      
+      if (error.code === 'ECONNABORTED') {
+        return rejectWithValue('Request timed out. Please try again.');
+      }
+      
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||
@@ -142,21 +194,49 @@ export const applicantdata = createAsyncThunk(
     console.log("Passport:", passport_no);
     console.log("Email:", email);
     try {
-      const response = await api.post('applicant_data', {
-        email:email, 
-        passport_no: passport_no
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('passport_no', passport_no);
+
+      const response = await api.post('applicant_data', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000, // Increase timeout for this specific request
       });
-      console.log("Response:", response?.data
-      );
+      
+      console.log("✅ applicant_data Response:", response?.data);
       return response?.data?.data; 
     } catch (error) {
       console.log("❌ applicant_data Error:", error);
-      console.log("❌ Error Response:", error.response?.data);
-      console.log("❌ Error Response:", error.response?.data?.message);
+      
+      // Handle different types of network errors
+      if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+        console.log("❌ Network connectivity issue");
+        return rejectWithValue('Network connection failed. Please check your internet connection and try again.');
+      }
+      
+      if (error.code === 'ECONNABORTED') {
+        console.log("❌ Request timeout");
+        return rejectWithValue('Request timed out. Please try again.');
+      }
+      
+      if (error.response) {
+        console.log("❌ Error Response Status:", error.response.status);
+        console.log("❌ Error Response Data:", error.response.data);
+        console.log("❌ Error Response Headers:", error.response.headers);
+        
+        return rejectWithValue(
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          `Server error: ${error.response.status}`
+        );
+      }
+      
       return rejectWithValue(
-        error.response?.data?.message ||
         error.message ||
-        'applicant_data failed'
+        'Failed to fetch applicant data. Please try again.'
       );
     }
   }
@@ -166,18 +246,35 @@ export const appointmentform = createAsyncThunk(
   'auth/appointmentform',
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await api.post('appointment_form', {
-        uid: formData.uid,
-        title: formData.title,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        email: formData.email,
-        mobile_country_code: formData.mobile_country_code,
-        mobile_number: formData.mobile_number,
-        passport_no: formData.passport_no
+      // Create FormData for multipart/form-data request
+      const form = new FormData();
+      form.append('uid', formData.uid);
+      form.append('title', formData.title);
+      form.append('first_name', formData.first_name);
+      form.append('last_name', formData.last_name);
+      form.append('email', formData.email);
+      form.append('mobile_country_code', formData.mobile_country_code);
+      form.append('mobile_number', formData.mobile_number);
+      form.append('passport_no', formData.passport_no);
+
+      const response = await api.post('appointment_form', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 15000,
       });
+      
       return response.data.message; // Return just the message string
     } catch (error) {
+      // Handle network errors
+      if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+        return rejectWithValue('Network connection failed. Please check your internet connection and try again.');
+      }
+      
+      if (error.code === 'ECONNABORTED') {
+        return rejectWithValue('Request timed out. Please try again.');
+      }
+      
       return rejectWithValue(
         error.response?.data?.message ||
         error.message ||

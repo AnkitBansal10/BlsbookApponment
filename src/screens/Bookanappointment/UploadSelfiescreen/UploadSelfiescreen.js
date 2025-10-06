@@ -16,9 +16,8 @@ import StepProgress from "./componets/StepIndicator";
 import UploadPassportPhoto from "./componets/UploadPassportPhoto";
 import CustomButton from "../../../components/CustomButton";
 
-export default function UploadSelfiescreen({ currentStep = 1, totalSteps = 2 }) {
+export default function UploadSelfiescreen({ currentStep = 1, totalSteps = 2, navigation }) {
     const [passportImageUri, setPassportImageUri] = useState(null);
-
     const handleImageSelected = (uri) => {
         console.log(uri)
         setPassportImageUri(uri);
@@ -38,17 +37,14 @@ export default function UploadSelfiescreen({ currentStep = 1, totalSteps = 2 }) 
             <View style={styles.logo}>
                 <ProfileMenuModal />
             </View>
-            
             <View style={styles.inputview}>
                 <ContactCard />
                 <StepProgress currentPosition={0} />
-                
                 <View style={styles.uploadContainer}>
-                    <UploadPassportPhoto onImageSelected={(uri)=>handleImageSelected(uri)} />
+                    <UploadPassportPhoto onImageSelected={(uri) => handleImageSelected(uri)} />
                 </View>
-                
                 {passportImageUri && (
-                   <CustomButton label="Continue" onPress={console.log(";;")}/> 
+                    <CustomButton label="Continue" onPress={navigation.navigate("ProcessingScreen")} />
                 )}
             </View>
         </View>

@@ -29,6 +29,8 @@ const AppointmentDate = ({
   date,  
   setDate,
   placeholder = "Select Date",
+  hasError,
+  errorMessage,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState('calendar');
@@ -36,7 +38,7 @@ const AppointmentDate = ({
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const dispatch = useDispatch();
   const [getdate,setGetdata] =useState("")
-  const { Holidays, loading, error, appointmentworkplans } = useSelector(state => state.auth);
+  const { Holidays, loading, error: reduxError, appointmentworkplans } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(appointmentholiday({ location_id: "1" }));
@@ -201,15 +203,17 @@ const AppointmentDate = ({
       <TouchableOpacity
         style={[
           styles.inputBox,
-          date && { borderColor: colors.blue }
+          date && { borderColor: colors.blue },
+          hasError && styles.inputBoxError
         ]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={[styles.inputText, !date && { color: '#888' }]}>
+        <Text style={[styles.inputText, !date && { color: hasError ? colors.error : '#888' }]}>
           {date || placeholder}
         </Text>
-        <ClanderIcon color={date ? colors.blue : colors.gray} />
+        <ClanderIcon color={date ? colors.blue : (hasError ? colors.error : colors.gray)} />
       </TouchableOpacity>
+      {hasError && <Text style={styles.errorText}>{errorMessage}</Text>}
 
       <Modal
         transparent
@@ -289,7 +293,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 5,
+  },
+  inputBoxError: {
+    borderColor: colors.error,
+  },
+  errorText: {
+    color: colors.error,
+    fontSize: scale(12),
+    marginTop: 4,
+    marginBottom: 10,
+    marginLeft: 16,
+    fontFamily: Poppins_Fonts.Poppins_Regular,
   },
   inputText: {
     fontSize: 16,

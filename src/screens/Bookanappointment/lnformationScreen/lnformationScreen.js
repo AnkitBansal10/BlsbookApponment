@@ -20,7 +20,6 @@ import PhoneInputField from "../../../components/PhoneInputField";
 import CustomButton from "../../../components/CustomButton";
 import CaptchaInput from "../../../components/CaptchaInput";
 import ApplicantLastName from "../../../components/ApplicantLastName";
-import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function InformationScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -36,6 +35,11 @@ export default function InformationScreen({ navigation }) {
     mobile_country_code: "",
     mobile_number: "",
     passport_no: ""
+  });
+  const [errors, setErrors] = useState({
+    title: false,
+    last_name: false,
+    captcha: false
   });
 
   // Fetch auth data on mount
@@ -88,16 +92,51 @@ export default function InformationScreen({ navigation }) {
       ...prev,
       [field]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: false
+      }));
+    }
+  };
+
+  const handleCaptchaChange = (value) => {
+    setInput(value);
+    
+    // Clear captcha error when user starts typing
+    if (errors.captcha) {
+      setErrors(prev => ({
+        ...prev,
+        captcha: false
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      title: !formData.title || formData.title.trim() === "",
+      last_name: !formData.last_name || formData.last_name.trim() === "",
+      captcha: !input || input.trim() === ""
+    };
+
+    setErrors(newErrors);
+    
+    // Return true if no errors
+    return !Object.values(newErrors).some(error => error);
   };
 
   const handleLogin = async () => {
-    if (!input) {
-      Alert.alert('Error', 'Please complete the captcha');
+    // Validate form before submission
+    if (!validateForm()) {
       return;
     }
+
     try {
       const result = await dispatch(appointmentform(formData)).unwrap();
       console.log("API Success Result:", result);
+      navigation.navigate("Uploadyourpassport")
       // Navigate to next screen or show success message
     } catch (error) {
       console.error("API Error:", error);
@@ -105,9 +144,6 @@ export default function InformationScreen({ navigation }) {
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <View style={styles.container}>
@@ -141,6 +177,7 @@ export default function InformationScreen({ navigation }) {
             placeholder="Applicant Last Name"
             value={formData?.last_name}
             onChangeText={(text) => handleInputChange('last_name', text)}
+            externalError={errors.last_name ? "Applicant Last Name is required" : null}
           />
           <CustomTextInput
             placeholder="Email Address"
@@ -154,6 +191,8 @@ export default function InformationScreen({ navigation }) {
             value={formData?.title}
             onChangeValue={(value) => handleInputChange('title', value)}
             placeholder="Applicant Title*"
+            error={errors.title}
+            errorMessage="Applicant Title please select"
           />
           <View style={{ right: "6%" }}>
             <PhoneInputField
@@ -167,7 +206,12 @@ export default function InformationScreen({ navigation }) {
         </View>
         
         <View style={{ marginTop: scale(6), marginBottom: scale(30), left: "3%" }}>
-          <CaptchaInput value={input} onChange={setInput} />
+          <CaptchaInput 
+            value={input} 
+            onChange={handleCaptchaChange}
+            error={errors.captcha}
+            errorMessage="Captcha is required"
+          />
         </View>
         <View style={{ marginBottom: scale(30) }}>
           <CustomButton 

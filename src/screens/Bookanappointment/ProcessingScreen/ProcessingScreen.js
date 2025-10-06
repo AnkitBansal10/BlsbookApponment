@@ -30,6 +30,22 @@ export default function ProcessingScreen() {
     const [selectedTime, setSelectedTime] = useState("");
     const [callingCodeCountry, setCallingCodeCountry] = useState("91");
     const [country, setCountry] = useState("IN");
+    
+    // New state variables for additional fields
+    const [applicationCenter, setApplicationCenter] = useState(null);
+    const [serviceType, setServiceType] = useState('Service_type');
+    const [appointmentType, setAppointmentType] = useState('Appointment Type');
+    
+    const [errors, setErrors] = useState({
+        dob: false,
+        appointmentDate: false,
+        applicationCenter: false,
+        serviceType: false,
+        applicationType: false,
+        appointmentType: false,
+        timeSlot: false
+    });
+
    const [formData, setFormData] = useState({
     uid: "8opI",
     center_location_id: "1",
@@ -51,11 +67,118 @@ export default function ProcessingScreen() {
       [field]: value
     }));
   };
+
     const handerDataChange =() =>{
        
     }
+
     const handleTimeChange = (item) => {
+        setSelectedTime(item.value);
         handleInputChange("slot_time",item.value);
+        // Clear error when user selects a time slot
+        if (errors.timeSlot) {
+            setErrors(prev => ({
+                ...prev,
+                timeSlot: false
+            }));
+        }
+    };
+
+    const handleDobChange = (date) => {
+        setDob(date);
+        // Clear error when user selects a date
+        if (errors.dob) {
+            setErrors(prev => ({
+                ...prev,
+                dob: false
+            }));
+        }
+    };
+
+    const handleAppointmentDateChange = (date) => {
+        setBookanappointmentDate(date);
+        handleInputChange("appointment_date", date);
+        // Clear error when user selects a date
+        if (errors.appointmentDate) {
+            setErrors(prev => ({
+                ...prev,
+                appointmentDate: false
+            }));
+        }
+    };
+
+    const handleApplicationCenterChange = (value) => {
+        setApplicationCenter(value);
+        handleInputChange("center_location_id", value);
+        // Clear error when user selects application center
+        if (errors.applicationCenter) {
+            setErrors(prev => ({
+                ...prev,
+                applicationCenter: false
+            }));
+        }
+    };
+
+    const handleServiceTypeChange = (value) => {
+        setServiceType(value);
+        // Clear error when user selects service type
+        if (errors.serviceType) {
+            setErrors(prev => ({
+                ...prev,
+                serviceType: false
+            }));
+        }
+    };
+
+    const handleApplicationTypeChange = (value) => {
+        setApplicationType(value);
+        // Clear error when user selects application type
+        if (errors.applicationType) {
+            setErrors(prev => ({
+                ...prev,
+                applicationType: false
+            }));
+        }
+    };
+
+    const handleAppointmentTypeChange = (value) => {
+        setAppointmentType(value);
+        handleInputChange("appointment_type", value === 'Normal Time' ? 'normal' : value);
+        // Clear error when user selects appointment type
+        if (errors.appointmentType) {
+            setErrors(prev => ({
+                ...prev,
+                appointmentType: false
+            }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {
+            dob: !dob || dob.trim() === "",
+            appointmentDate: !BookanappointmentDate || BookanappointmentDate.toString().trim() === "",
+            applicationCenter: !applicationCenter,
+            serviceType: !serviceType || serviceType === 'Service_type',
+            applicationType: !applicationType || !applicationType.value || applicationType.value === 'Application_type',
+            appointmentType: !appointmentType || appointmentType === 'Appointment Type',
+            timeSlot: !selectedTime || selectedTime === ""
+        };
+
+        setErrors(newErrors);
+        
+        // Return true if no errors
+        return !Object.values(newErrors).some(error => error);
+    };
+
+    const handleBookAppointment = () => {
+        // Validate form before submission
+        if (!validateForm()) {
+            return;
+        }
+
+        // Proceed with booking logic
+        console.log("Form is valid, proceeding with booking...");
+        // Add your booking logic here
     };
 
     const renderApplicantForms = () => {
@@ -68,6 +191,8 @@ export default function ProcessingScreen() {
                     <TimeSlot
                         value={selectedTime}
                         onChange={(e)=>handleTimeChange(e)}
+                        hasError={errors.timeSlot}
+                        errorMessage="Time Slot is required"
                     />
                     <LabeledInput
                         label="Applicant First Name"
@@ -81,7 +206,10 @@ export default function ProcessingScreen() {
                     />
                     <DateofBirth
                         placeholder="Date of Birth*"
-                        date={dob} setDate={(test)=>handleInputChange("first",test)}
+                        date={dob} 
+                        setDate={handleDobChange}
+                        error={errors.dob}
+                        errorMessage="Date of Birth is required"
                     />
                     <LabeledInput
                         label="Passport No"
@@ -93,6 +221,7 @@ export default function ProcessingScreen() {
         }
         return forms;
     };
+
     return (
         <View style={styles.container} >
             <ScrollView >
@@ -118,11 +247,23 @@ export default function ProcessingScreen() {
                     <Text style={styles.AppoinmentText}>
                         Appointment Schedule
                     </Text>
-                    <ApplicationCenter />
-                    <Servicetype />
+                    <ApplicationCenter 
+                        value={applicationCenter}
+                        onValueChange={handleApplicationCenterChange}
+                        hasError={errors.applicationCenter}
+                        errorMessage="Application Center is required"
+                    />
+                    <Servicetype 
+                        value={serviceType}
+                        onValueChange={handleServiceTypeChange}
+                        hasError={errors.serviceType}
+                        errorMessage="Service Type is required"
+                    />
                     <Applicationtype
                         value={applicationType}
-                        setValue={(test)=>handleInputChange("first",test)}
+                        setValue={handleApplicationTypeChange}
+                        hasError={errors.applicationType}
+                        errorMessage="Application Type is required"
                     />
                     <Text style={styles.AppoinmentDateText}>
                         Appointment Date:
@@ -131,9 +272,16 @@ export default function ProcessingScreen() {
                     <AppointmentDate
                         placeholder="Click here for Appointment Date*"
                         date={BookanappointmentDate}
-                        setDate={setBookanappointmentDate}
+                        setDate={handleAppointmentDateChange}
+                        hasError={errors.appointmentDate}
+                        errorMessage="Appointment Date is required"
                     />
-                      <AppointmentType />
+                    <AppointmentType 
+                        value={appointmentType}
+                        onValueChange={handleAppointmentTypeChange}
+                        hasError={errors.appointmentType}
+                        errorMessage="Appointment Type is required"
+                    />
                 </View>
                 <View style={{ flex: 1, padding: 20, alignItems: "center" }}>
                     <Text style={styles.PersonalInformation}>
@@ -173,7 +321,10 @@ export default function ProcessingScreen() {
                     </View>
                 </View>
                  <View style={styles.butoonConationer}>
-                    <CustomButton label="BOOK" />
+                    <CustomButton 
+                        label="BOOK" 
+                        onPress={handleBookAppointment}
+                    />
                 </View>
             </ScrollView>
             

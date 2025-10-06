@@ -11,6 +11,7 @@ import { Calendar } from 'react-native-calendars';
 import { scale } from '../utils/responsive';
 import { ClanderIcon } from '../utils/Image';
 import { colors } from '../utils/colors';
+import { Poppins_Fonts } from '../utils/fonts';
 
 const generateYears = (start = 1950, end = new Date().getFullYear()) => {
   return Array.from({ length: end - start + 1 }, (_, i) => `${start + i}`).reverse();
@@ -21,7 +22,7 @@ const months = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-const DateofBirth = ({ date, setDate, placeholder = "Select DOB" }) => {
+const DateofBirth = ({ date, setDate, placeholder = "Select DOB", error, errorMessage }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mode, setMode] = useState('calendar'); // calendar | year | month
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -57,12 +58,16 @@ const DateofBirth = ({ date, setDate, placeholder = "Select DOB" }) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.inputBox} onPress={() => setModalVisible(true)}>
-        <Text style={[styles.inputText, !date && { color: '#888' }]}>
+      <TouchableOpacity 
+        style={[styles.inputBox, error && styles.inputBoxError]} 
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={[styles.inputText, !date && { color: error ? colors.error : '#888' }]}>
           {date || placeholder}
         </Text>
         <ClanderIcon />
       </TouchableOpacity>
+      {error && <Text style={styles.errorText}>{errorMessage}</Text>}
 
       <Modal
         transparent
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
     height: 54,
     width: '100%',
     borderRadius: 10,
-    marginBottom:20,
+    marginBottom: 5,
     paddingHorizontal: 16,
     backgroundColor: '#fff',
     borderWidth: 1,
@@ -144,6 +149,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  inputBoxError: {
+    borderColor: colors.error,
+  },
+  errorText: {
+    color: colors.error,
+    fontSize: scale(12),
+    marginTop: 4,
+    marginBottom: 15,
+    marginLeft: 16,
+    fontFamily: Poppins_Fonts.Poppins_Regular,
   },
   inputText: {
     fontSize: scale(14),

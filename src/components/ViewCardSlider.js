@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -19,48 +19,90 @@ import { Avtar, BookMark, Location } from '../utils/Image';
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.42;
 
-const ViewCardSlider = () => {
-  const [loadingMore, setLoadingMore] = useState(false);
+// Memoized grid item component
+const GridItem = memo(({ item }) => {
+  const locationIconDimensions = useMemo(() => ({
+    width: scale(16),
+    height: scale(16)
+  }), []);
 
-  const renderItem = useCallback(({ item }) => (
-    <TouchableOpacity style={styles.card}>
-      <Image source={item.image} style={styles.image} />
-      <TouchableOpacity style={styles.bookmarkIconContainer}>
+  const avatarDimensions = useMemo(() => ({
+    width: scale(44),
+    height: scale(24)
+  }), []);
+
+  const bottomRowStyle = useMemo(() => ({
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center"
+  }), []);
+
+  return (
+    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+      <Image 
+        source={item.image} 
+        style={styles.image}
+        resizeMode="cover"
+        fadeDuration={200}
+      />
+      <TouchableOpacity style={styles.bookmarkIconContainer} activeOpacity={0.7}>
         <BookMark width={34} height={34} />
       </TouchableOpacity>
       <View style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.title} numberOfLines={1}>{item.name}</Text>
           <View style={styles.ratingRow}>
             <Icon name="star" size={16} color="#F7B801" />
             <Text style={styles.rating}>{item.rating}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: "row", width: "100%", alignItems: "center" }}>
+        <View style={bottomRowStyle}>
           <View style={styles.containerLocation}>
-            <Location width={scale(16)} height={scale(16)} />
-            <Text style={styles.location}>
+            <Location 
+              width={locationIconDimensions.width} 
+              height={locationIconDimensions.height} 
+            />
+            <Text style={styles.location} numberOfLines={1}>
               {item.location}
             </Text>
           </View>
           <View style={styles.avatars}>
-            <Avtar width={scale(44)} height={scale(24)} />
+            <Avtar 
+              width={avatarDimensions.width} 
+              height={avatarDimensions.height} 
+            />
           </View>
         </View>
       </View>
     </TouchableOpacity>
+  );
+});
+
+GridItem.displayName = 'GridItem';
+
+const ViewCardSlider = () => {
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  // Memoized render function
+  const renderItem = useCallback(({ item }) => (
+    <GridItem item={item} />
   ), []);
 
-  const renderFooter = () => {
+  // Memoized key extractor
+  const keyExtractor = useCallback((item) => item.id, []);
+
+  // Memoized footer component
+  const renderFooter = useCallback(() => {
     if (!loadingMore) return null;
     return (
       <View style={styles.footerLoader}>
         <ActivityIndicator size="small" color={colors.primary} />
       </View>
     );
-  };
+  }, [loadingMore]);
 
-  const handleLoadMore = () => {
+  // Optimized load more handler
+  const handleLoadMore = useCallback(() => {
     if (!loadingMore) {
       setLoadingMore(true);
       // Simulate loading more data
@@ -69,20 +111,36 @@ const ViewCardSlider = () => {
         // Here you would typically fetch more data and update your state
       }, 1500);
     }
-  };
+  }, [loadingMore]);
+
+  // Memoized getItemLayout for performance
+  const getItemLayout = useCallback((data, index) => {
+    const itemHeight = scale(180) + moderateScale(10) + 60; // image height + margins + content
+    return {
+      length: itemHeight,
+      offset: itemHeight * Math.floor(index / 2),
+      index,
+    };
+  }, []);
 
   return (
     <FlatList
       data={destinationData}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={keyExtractor}
       numColumns={2}
       contentContainerStyle={styles.list}
-      snapToInterval={CARD_WIDTH + 20}
       decelerationRate="fast"
       ListFooterComponent={renderFooter}
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.5}
+      getItemLayout={getItemLayout}
+      removeClippedSubviews={true}
+      maxToRenderPerBatch={6}
+      windowSize={10}
+      initialNumToRender={4}
+      scrollEventThrottle={16}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

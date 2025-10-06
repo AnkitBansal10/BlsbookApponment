@@ -4,10 +4,13 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
+    Text,
 } from 'react-native';
 import Svg, { Text as SvgText, Line } from 'react-native-svg';
 import { scale } from '../utils/responsive'; // Optional, can replace with direct numbers
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { colors } from '../utils/colors';
+import { Poppins_Fonts } from '../utils/fonts';
 
 const generateCaptcha = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -18,7 +21,7 @@ const generateCaptcha = () => {
     return result;
 };
 
-const CaptchaInput = ({ value, onChange }) => {
+const CaptchaInput = ({ value, onChange, error, errorMessage }) => {
     const [captcha, setCaptcha] = useState(generateCaptcha());
 
     const refreshCaptcha = () => {
@@ -27,56 +30,61 @@ const CaptchaInput = ({ value, onChange }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.svgContainer}>
-                <Svg height={scale(40)} width={scale(120)}>
-                    {/* Draw random lines as noise */}
-                    {Array.from({ length: 6 }).map((_, index) => (
-                        <Line
-                            key={index}
-                            x1={Math.random() * 100}
-                            y1={Math.random() * 40}
-                            x2={Math.random() * 100}
-                            y2={Math.random() * 40}
-                            stroke="red"
-                            strokeWidth="1"
-                        />
-                    ))}
-                    {/* Draw captcha text */}
-                    {captcha.split('').map((char, i) => (
-                        <SvgText
-                            key={i}
-                            fill="black"
-                            fontSize="20"
-                            fontWeight="bold"
-                            x={10 + i * 15}
-                            y={30 - Math.random() * 10}
-                        >
-                            {char}
-                        </SvgText>
-                    ))}
-                </Svg>
-                <TouchableOpacity onPress={refreshCaptcha} style={styles.refresh}>
-                    <Icon name="refresh" size={18} color="#333" />
-                </TouchableOpacity>
+        <View style={styles.mainContainer}>
+            <View style={styles.container}>
+                <View style={styles.svgContainer}>
+                    <Svg height={scale(40)} width={scale(120)}>
+                        {/* Draw random lines as noise */}
+                        {Array.from({ length: 6 }).map((_, index) => (
+                            <Line
+                                key={index}
+                                x1={Math.random() * 100}
+                                y1={Math.random() * 40}
+                                x2={Math.random() * 100}
+                                y2={Math.random() * 40}
+                                stroke="red"
+                                strokeWidth="1"
+                            />
+                        ))}
+                        {/* Draw captcha text */}
+                        {captcha.split('').map((char, i) => (
+                            <SvgText
+                                key={i}
+                                fill="black"
+                                fontSize="20"
+                                fontWeight="bold"
+                                x={10 + i * 15}
+                                y={30 - Math.random() * 10}
+                            >
+                                {char}
+                            </SvgText>
+                        ))}
+                    </Svg>
+                    <TouchableOpacity onPress={refreshCaptcha} style={styles.refresh}>
+                        <Icon name="refresh" size={18} color="#333" />
+                    </TouchableOpacity>
+                </View>
+                <TextInput
+                    style={[styles.input, error && styles.inputError]}
+                    placeholder="Captcha"
+                    placeholderTextColor={error ? colors.error : '#ccc'}
+                    value={value}
+                    onChangeText={onChange}
+                    autoCapitalize="characters"
+                />
             </View>
-            <TextInput
-                style={styles.input}
-                placeholder="Captcha"
-                value={value}
-                onChangeText={onChange}
-                autoCapitalize="characters"
-            />
+            {error && <Text style={styles.errorText}>{errorMessage}</Text>}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        margin: scale(10),
+    },
     container: {
-        // marginTop: scale(20),
         flexDirection: 'row',
         alignItems: 'center',
-        margin: scale(10),
     },
     svgContainer: {
         marginTop: scale(10),
@@ -106,6 +114,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: scale(10),
         borderRadius: 4,
         fontSize: scale(14),
+    },
+    inputError: {
+        borderColor: colors.error,
+    },
+    errorText: {
+        color: colors.error,
+        fontSize: scale(12),
+        marginTop: 4,
+        marginLeft: scale(10),
+        fontFamily: Poppins_Fonts.Poppins_Regular,
     },
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   AccessibilityInfo
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styles } from "./styles";
 import { scale } from "../../../utils/responsive";
 import { registerUser } from "../../../features/auth/authThunks";
@@ -21,8 +21,10 @@ import MessagePopup from "../../../components/MessagePopup";
 import ContactCard from "../../../components/ContactCard";
 import { BlackLogo, BackgroundGradient } from "../../../utils/Image";
 
-export default function SignUpScreen({ navigation }) {
+const SignUpScreen = React.memo(({ navigation }) => {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+  
   const [popupProps, setPopupProps] = useState({
     visible: false,
     type: 'info',
@@ -35,13 +37,13 @@ export default function SignUpScreen({ navigation }) {
 
   const [callingCodeCountry, setCallingCodeCountry] = useState("91");
   const [country, setCountry] = useState("IN");
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   const {
     control,
     handleSubmit,
     setError,
-    setValue,
-    watch,
+    clearErrors,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -55,59 +57,120 @@ export default function SignUpScreen({ navigation }) {
     }
   });
 
-  const showPopup = (props) => {
+  // Memoized popup show function
+  const showPopup = useCallback((props) => {
     setPopupProps(prev => ({
       ...prev,
       ...props,
       visible: true
     }));
-  };
-
-  useEffect(() => {
-    AccessibilityInfo.announceForAccessibility("New content has loaded");
   }, []);
 
-  const onSubmit = async (data) => {
-  try {
-    const { message } = await dispatch(registerUser(data)).unwrap();
-    showPopup({
-      type: 'success',
-      title: 'Registration Successful',
-      onClose: () => navigation.navigate("SignIn"),
-      message: message,
-      duration: 2000,
-      showCloseButton: false
-    });
-  } catch (error) {
-    // Handle specific field errors
-    if (error.errors) {
-      for (let key in error.errors) {
-        setError(key, { type: "manual", message: error.errors[key] });
-      }
-      return;
-    }
+  // Memoized close popup handler
+  const handleClosePopup = useCallback(() => {
+    setPopupProps(prev => ({ ...prev, visible: false }));
+    popupProps.onClose?.();
+  }, [popupProps.onClose]);
 
-    // Handle common case: email already exists
-    if (
-      error.message &&
-      error.message.toLowerCase().includes("email already exists")
-    ) {
-      setError("email", {
-        type: "manual",
-        message: "Email already exists"
+  useEffect(() => {
+    AccessibilityInfo.announceForAccessibility("Registration form loaded");
+  }, []);
+
+  // Enhanced submit handler with better error handling
+  const onSubmit = useCallback(async (data) => {
+    setHasAttemptedSubmit(true);
+    
+    try {
+      const response = await dispatch(registerUser(data)).unwrap();
+      
+      // Clear any previous errors on success
+      clearErrors();
+      setHasAttemptedSubmit(false);
+      
+      showPopup({
+        type: 'success',
+        title: 'Registration Successful',
+        message: response.message || 'Account created successfully! Please sign in.',
+        onClose: () => navigation.navigate("SignIn"),
+        duration: 3000,
+        showCloseButton: false
       });
-      return;
-    }
+    } catch (error) {
+      // Handle specific field errors from server
+      if (error.errors && typeof error.errors === 'object') {
+        let hasFieldErrors = false;
+        for (let key in error.errors) {
+          if (error.errors[key]) {
+            setError(key, { 
+              type: "server", 
+              message: Array.isArray(error.errors[key]) 
+                ? error.errors[key][0] 
+                : error.errors[key] 
+            });
+            hasFieldErrors = true;
+          }
+        }
+        
+        if (hasFieldErrors) {
+          showPopup({
+            type: "error",
+            title: "Validation Error",
+            message: "Please fix the errors below and try again.",
+            duration: 3000
+          });
+          return;
+        }
+      }
 
-    // Fallback popup
-    showPopup({
-      type: "error",
-      title: "Registration Failed",
-      message: error.message || "An error occurred during registration",
-      duration: 3000
-    });
-  }
-};
+      // Handle common server errors
+      let errorMessage = 'An error occurred during registration';
+      
+      if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+
+      // Handle specific error cases
+      if (errorMessage.toLowerCase().includes("email already exists") ||
+          errorMessage.toLowerCase().includes("email is already taken")) {
+        setError("email", {
+          type: "server",
+          message: "This email is already registered. Please use a different email or sign in."
+        });
+        showPopup({
+          type: "error",
+          title: "Email Already Exists",
+          message: "This email is already registered. Please use a different email or sign in.",
+          duration: 4000
+        });
+        return;
+      }
+
+      if (errorMessage.toLowerCase().includes("passport") && 
+          errorMessage.toLowerCase().includes("already")) {
+        setError("passport", {
+          type: "server",
+          message: "This passport number is already registered."
+        });
+      }
+
+      // Fallback popup for general errors
+      showPopup({
+        type: "error",
+        title: "Registration Failed",
+        message: errorMessage,
+        duration: 4000
+      });
+    }
+  }, [dispatch, navigation, showPopup, setError, clearErrors]);
+
+  // Memoized background gradient style
+  const backgroundGradientStyle = useMemo(() => ({
+    position: "absolute", 
+    width: "100%", 
+    height: "100%"
+  }), []);
 
   return (
     <View style={styles.container} accessible={true}>
@@ -260,11 +323,12 @@ export default function SignUpScreen({ navigation }) {
 
       <MessagePopup
         {...popupProps}
-        onClose={() => {
-          setPopupProps(prev => ({ ...prev, visible: false }));
-          popupProps.onClose?.();
-        }}
+        onClose={handleClosePopup}
       />
     </View>
   );
-}
+});
+
+SignUpScreen.displayName = 'SignUpScreen';
+
+export default SignUpScreen;
